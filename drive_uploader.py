@@ -1,36 +1,27 @@
 import io
+import json
 import os
-from google.oauth2.credentials import Credentials
-from google.auth.transport.requests import Request
-from google_auth_oauthlib.flow import InstalledAppFlow
+
+from google.oauth2 import service_account
 from googleapiclient.discovery import build
 from googleapiclient.http import MediaIoBaseUpload
 from dotenv import load_dotenv
 
 load_dotenv()
 
-CREDENTIALS_FILE = os.getenv("GMAIL_CREDENTIALS_FILE", "credentials.json")
 DRIVE_ROOT_FOLDER_ID = os.getenv("DRIVE_ROOT_FOLDER_ID", "")
 
-TOKEN_FILE = "token.json"
-SCOPES = [
-    "https://www.googleapis.com/auth/gmail.modify",
-    "https://www.googleapis.com/auth/drive",
-]
+SCOPES = ["https://www.googleapis.com/auth/drive"]
 
 
 def _get_drive_service():
-    creds = None
-    if os.path.exists(TOKEN_FILE):
-        creds = Credentials.from_authorized_user_file(TOKEN_FILE, SCOPES)
-    if not creds or not creds.valid:
-        if creds and creds.expired and creds.refresh_token:
-            creds.refresh(Request())
-        else:
-            flow = InstalledAppFlow.from_client_secrets_file(CREDENTIALS_FILE, SCOPES)
-            creds = flow.run_local_server(port=0)
-        with open(TOKEN_FILE, "w") as f:
-            f.write(creds.to_json())
+    sa_json = os.getenv("SERVICE_ACCOUNT_JSON")
+    if sa_json:
+        # Cloud Run: JSON content from Secret Manager
+        creds = service_account.Credentials.from_service_account_info(json.loads(sa_json), scopes=SCOPES)
+    else:
+        # Local: reads file path from SERVICE_ACCOUNT_FILE in .env
+        creds = service_account.Credentials.from_service_account_file(os.getenv("SERVICE_ACCOUNT_FILE", "service_account.json"), scopes=SCOPES)
     return build("drive", "v3", credentials=creds)
 
 
@@ -42,7 +33,7 @@ def _get_or_create_subfolder(service, parent_folder_id: str, subfolder_name: str
         f"mimeType = 'application/vnd.google-apps.folder' and "
         f"trashed = false"
     )
-    response = service.files().list(q=query, fields="files(id, name)").execute()
+    response = service.files().list(q=query, fields="files(id, name)", supportsAllDrives=True, includeItemsFromAllDrives=True).execute()
     files = response.get("files", [])
     if files:
         return files[0]["id"]
@@ -51,7 +42,7 @@ def _get_or_create_subfolder(service, parent_folder_id: str, subfolder_name: str
         "mimeType": "application/vnd.google-apps.folder",
         "parents": [parent_folder_id],
     }
-    folder = service.files().create(body=metadata, fields="id").execute()
+    folder = service.files().create(body=metadata, fields="id", supportsAllDrives=True).execute()
     return folder["id"]
 
 
@@ -62,7 +53,7 @@ def _next_versioned_filename(service, folder_id: str, filename: str) -> str:
     def exists(fname):
         safe = fname.replace("'", "\\'")
         q = f"'{folder_id}' in parents and name = '{safe}' and trashed = false"
-        return bool(service.files().list(q=q, fields="files(id)").execute().get("files"))
+        return bool(service.files().list(q=q, fields="files(id)", supportsAllDrives=True, includeItemsFromAllDrives=True).execute().get("files"))
 
     if not exists(filename):
         return filename
@@ -82,5 +73,5 @@ def upload_vendor_attachment(vendor_name: str, filename: str, file_bytes: bytes)
     action = "versioned" if final_name != filename else "created"
     media = MediaIoBaseUpload(io.BytesIO(file_bytes), mimetype="application/octet-stream", resumable=True)
     metadata = {"name": final_name, "parents": [vendor_folder_id]}
-    new_file = service.files().create(body=metadata, media_body=media, fields="id").execute()
+    new_file = service.files().create(body=metadata, media_body=media, fields="id", supportsAllDrives=True).execute()
     return {"action": action, "file_id": new_file["id"], "filename": final_name}

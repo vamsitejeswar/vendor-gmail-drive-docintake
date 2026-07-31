@@ -1,27 +1,15 @@
-"""
-main.py
-
-Vendor Document Intake - orchestrator
-
-Flow:
-    1. Check the shared inbox for new (unread) emails with attachments
-    2. For each email, use the sender's name/domain as the "vendor" folder name
-    3. Upload each attachment to Drive:
-         - existing file with same name -> new version (Drive version history)
-         - no match -> create new file
-    4. Print a summary (this is where you'd log / notify Slack / etc. later)
-
-Run manually for testing:
-    python main.py
-"""
-
+import os
 import re
+from fastapi import FastAPI
+from fastapi.responses import JSONResponse
+import uvicorn
 from gmail_reader import fetch_new_vendor_emails
 from drive_uploader import upload_vendor_attachment
 
+app = FastAPI()
+
 
 def vendor_name_from_email(from_address: str) -> str:
-    """Extracts the full email address to use as the vendor folder name."""
     match = re.search(r"[\w.+-]+@[\w.-]+", from_address)
     return match.group(0) if match else "unknown-vendor"
 
@@ -30,25 +18,29 @@ def run():
     emails = fetch_new_vendor_emails()
 
     if not emails:
-        print("No new vendor emails with attachments found.")
-        return
+        return {"status": "ok", "message": "No new vendor emails with attachments found.", "processed": 0}
 
-    print(f"Processing {len(emails)} email(s)...\n")
-
+    results = []
     for e in emails:
         vendor = vendor_name_from_email(e["from"])
-        print(f"From: {e['from']}  (vendor folder: {vendor})")
-        print(f"Subject: {e['subject']}")
-
         for filename, file_bytes in e["attachments"]:
             result = upload_vendor_attachment(vendor, filename, file_bytes)
-            if result["action"] == "versioned":
-                print(f"  -> File exists, saved as: {result['filename']}")
-            else:
-                print(f"  -> Created new file: {result['filename']}")
+            results.append({"vendor": vendor, "filename": result["filename"], "action": result["action"]})
 
-        print("-" * 40)
+    return {"status": "ok", "processed": len(emails), "uploads": results}
+
+
+@app.post("/run")
+def trigger():
+    result = run()
+    return JSONResponse(content=result, status_code=200)
+
+
+@app.get("/health")
+def health():
+    return JSONResponse(content={"status": "ok"}, status_code=200)
 
 
 if __name__ == "__main__":
-    run()
+    port = int(os.environ.get("PORT", 8080))
+    uvicorn.run(app, host="0.0.0.0", port=port)
