@@ -10,17 +10,14 @@ from dotenv import load_dotenv
 load_dotenv()
 
 DRIVE_ROOT_FOLDER_ID = os.getenv("DRIVE_ROOT_FOLDER_ID", "")
-
 SCOPES = ["https://www.googleapis.com/auth/drive"]
 
 
 def _get_drive_service():
     sa_json = os.getenv("SERVICE_ACCOUNT_JSON")
     if sa_json:
-        # Cloud Run: JSON content from Secret Manager
         creds = service_account.Credentials.from_service_account_info(json.loads(sa_json), scopes=SCOPES)
     else:
-        # Local: reads file path from SERVICE_ACCOUNT_FILE in .env
         creds = service_account.Credentials.from_service_account_file(os.getenv("SERVICE_ACCOUNT_FILE", "service_account.json"), scopes=SCOPES)
     return build("drive", "v3", credentials=creds)
 
@@ -47,7 +44,6 @@ def _get_or_create_subfolder(service, parent_folder_id: str, subfolder_name: str
 
 
 def _next_versioned_filename(service, folder_id: str, filename: str) -> str:
-    """Returns the next available filename: file.docx -> file_v2.docx -> file_v3.docx ..."""
     name, ext = os.path.splitext(filename)
 
     def exists(fname):

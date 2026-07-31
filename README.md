@@ -161,7 +161,7 @@ See [DEPLOYMENT.md](DEPLOYMENT.md) for full Cloud Run + Cloud Scheduler setup.
   "processed": 1,
   "uploads": [
     {
-      "vendor": "praveen.kumar@wohlig.com",
+      "vendor": "vamsitejeswar@gmail.com",
       "filename": "Contract_Q3.pdf",
       "action": "created"
     }

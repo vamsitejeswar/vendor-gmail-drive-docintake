@@ -6,33 +6,24 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-GMAIL_ADDRESS = os.getenv("GMAIL_ADDRESS")
-GMAIL_APP_PASSWORD = os.getenv("GMAIL_APP_PASSWORD")
-VENDOR_SENDER_WHITELIST = [
-    s.strip().lower()
-    for s in os.getenv("VENDOR_SENDER_WHITELIST", "").split(",")
-    if s.strip()
-]
+GMAIL_ADDRESS = os.getenv("GMAIL_ADDRESS", "")
+GMAIL_APP_PASSWORD = os.getenv("GMAIL_APP_PASSWORD", "")
+PROCESSED_LABEL = "contractsexplorer-processed-doc"
 
 
-def _is_allowed_sender(from_address: str) -> bool:
-    if not VENDOR_SENDER_WHITELIST:
-        return True
-    return any(vendor in from_address.lower() for vendor in VENDOR_SENDER_WHITELIST)
+def _get_labels(mail, num):
+    _, label_data = mail.fetch(num, "(X-GM-LABELS)")
+    if label_data and label_data[0]:
+        return str(label_data[0]).lower()
+    return ""
 
 
 def fetch_new_vendor_emails():
-    """
-    Connects to Gmail via IMAP using email + app password.
-    Fetches UNREAD emails with attachments.
-    Returns: [{subject, from, attachments: [(filename, bytes)]}]
-    Marks each processed email as read.
-    """
     mail = imaplib.IMAP4_SSL("imap.gmail.com", 993)
-    mail.login(GMAIL_ADDRESS or "", GMAIL_APP_PASSWORD or "")
+    mail.login(GMAIL_ADDRESS, GMAIL_APP_PASSWORD)
     mail.select("INBOX")
 
-    _, message_numbers = mail.search(None, "UNSEEN")
+    _, message_numbers = mail.search(None, "ALL")
 
     results = []
     nums = message_numbers[0].split()
@@ -41,6 +32,10 @@ def fetch_new_vendor_emails():
         return results
 
     for num in nums:
+        labels = _get_labels(mail, num)
+        if PROCESSED_LABEL in labels:
+            continue
+
         _, msg_data = mail.fetch(num, "(RFC822)")
         raw = msg_data[0]
         if not isinstance(raw, tuple):
@@ -49,9 +44,6 @@ def fetch_new_vendor_emails():
 
         from_address = msg.get("From", "")
         subject = msg.get("Subject", "")
-
-        if not _is_allowed_sender(from_address):
-            continue
 
         attachments = []
         for part in msg.walk():
@@ -66,11 +58,16 @@ def fetch_new_vendor_emails():
                 "subject": subject,
                 "from": from_address,
                 "attachments": attachments,
+                "num": num,
+                "mail": mail,
             })
-            mail.store(num, "+FLAGS", "\\Seen")
 
-    mail.logout()
     return results
+
+
+def mark_as_processed(mail, num):
+    mail.store(num, "+X-GM-LABELS", PROCESSED_LABEL)
+    mail.store(num, "-FLAGS", "\\Seen")
 
 
 if __name__ == "__main__":

@@ -3,7 +3,7 @@ import re
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse
 import uvicorn
-from gmail_reader import fetch_new_vendor_emails
+from gmail_reader import fetch_new_vendor_emails, mark_as_processed
 from drive_uploader import upload_vendor_attachment
 
 app = FastAPI()
@@ -26,6 +26,7 @@ def run():
         for filename, file_bytes in e["attachments"]:
             result = upload_vendor_attachment(vendor, filename, file_bytes)
             results.append({"vendor": vendor, "filename": result["filename"], "action": result["action"]})
+        mark_as_processed(e["mail"], e["num"])
 
     return {"status": "ok", "processed": len(emails), "uploads": results}
 
