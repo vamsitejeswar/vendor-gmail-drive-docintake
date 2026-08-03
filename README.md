@@ -1,23 +1,26 @@
 # Vendor Document Intake
 
-Watches a Gmail inbox for vendor emails with attachments and automatically uploads them to Google Drive. Runs every 15 minutes via Cloud Scheduler → Cloud Run Service. If the same filename is received again, it saves it as `_v2`, `_v3`, etc. — keeping a clear version trail per vendor.
+Watches a Gmail inbox for emails with attachments and automatically uploads them to Google Drive. Runs every 12 hours via Cloud Scheduler → Cloud Run Service. Each sender gets their own folder. If the same filename is received again, it saves it as `_v2`, `_v3`, etc. — keeping a clear version trail per sender.
 
 ## How it works
 
-1. Cloud Scheduler triggers `POST /run` every 15 minutes
-2. `main.py` checks the inbox for unread emails with attachments (filtered by sender whitelist)
-3. Each sender gets their own subfolder in Drive named after their full email address (e.g. `praveen.kumar@wohlig.com`)
-4. Attachments are uploaded to that folder — if the filename already exists, it's saved as `_v2`, `_v3`, and so on
-5. Processed emails are marked as read so they aren't picked up again
+1. Cloud Scheduler triggers `POST /run` every 12 hours
+2. Script reads **all emails** in the inbox (read + unread)
+3. Skips emails already labelled `contractsexplorer-processed-doc`
+4. For new emails with attachments — each sender gets their own subfolder in Drive (e.g. `praveen.kumar@wohlig.com`)
+5. Attachments are uploaded — if filename already exists, saved as `_v2`, `_v3`, and so on
+6. After upload — adds `contractsexplorer-processed-doc` label and marks email as **unread**
 
 ## Architecture
 
 ```
-Cloud Scheduler (*/15 * * * *)
+Cloud Scheduler (0 */12 * * *)
     → POST /run
         → Cloud Run Service (vendor-doc-intake)
-            → Gmail IMAP (temp_wohlig.praveen@verse.in)
-            → Google Drive Shared Drive (service account)
+            → Gmail IMAP — reads ALL emails, skips labelled ones
+            → Google Drive Shared Drive — uploads by sender folder
+            → Labels processed emails "contractsexplorer-processed-doc"
+            → Marks processed emails as unread
 ```
 
 ## Files
@@ -123,8 +126,6 @@ GMAIL_APP_PASSWORD=<16-char app password from Step 3>
 
 DRIVE_ROOT_FOLDER_ID=<Shared Drive folder ID from Step 4>
 
-VENDOR_SENDER_WHITELIST=vendor@example.com,another@example.com
-
 SERVICE_ACCOUNT_FILE=service_account.json
 ```
 
@@ -144,7 +145,7 @@ curl -X POST http://localhost:8080/run
 
 | Endpoint | Method | Description |
 |----------|--------|-------------|
-| `/run` | POST | Process unread vendor emails |
+| `/run` | POST | Process all emails with attachments (skips already labelled) |
 | `/health` | GET | Health check |
 
 ## Deployment

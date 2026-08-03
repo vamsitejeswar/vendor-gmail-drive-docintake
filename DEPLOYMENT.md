@@ -9,7 +9,7 @@
 | Cloud Run Service | `vendor-doc-intake` |
 | Service URL | `https://vendor-doc-intake-852267154002.asia-south1.run.app` |
 | Cloud Scheduler Job | `vendor-doc-intake-scheduler` |
-| Scheduler Frequency | Every 15 minutes (`*/15 * * * *`) |
+| Scheduler Frequency | Every 12 hours (`0 */12 * * *`) |
 | Gmail Account | `temp_wohlig.praveen@verse.in` (IMAP + App Password) |
 | Drive Folder ID | `0AGnLnp0RVgZhUk9PVA` (Shared Drive) |
 | Drive Service Account | `vamsitest-vendor-gmail-drive-i@wohlig.iam.gserviceaccount.com` |
@@ -31,7 +31,6 @@
 |---|---|
 | `GMAIL_ADDRESS` | `temp_wohlig.praveen@verse.in` |
 | `DRIVE_ROOT_FOLDER_ID` | `0AGnLnp0RVgZhUk9PVA` |
-| `VENDOR_SENDER_WHITELIST` | `vamsi.padmaraju@wohlig.com` |
 | `GMAIL_APP_PASSWORD` | From Secret Manager → `gmail-app-password` |
 | `SERVICE_ACCOUNT_JSON` | From Secret Manager → `drive-service-account-json` |
 
@@ -59,13 +58,14 @@ gcloud run deploy vendor-doc-intake \
 ## How It Works
 
 ```
-Every 15 minutes
+Every 12 hours
   Cloud Scheduler (vendor-doc-intake-scheduler)
     → POST https://vendor-doc-intake-852267154002.asia-south1.run.app/run
-        → Cloud Run Service reads Gmail inbox via IMAP
-        → finds unread emails with attachments from whitelisted senders
-        → uploads attachments to Shared Drive (organized by vendor folder)
-        → marks emails as read
+        → Cloud Run Service reads ALL emails in Gmail inbox via IMAP
+        → skips emails already labelled "contractsexplorer-processed-doc"
+        → for new emails with attachments → uploads to Shared Drive (organized by sender folder)
+        → adds label "contractsexplorer-processed-doc" to processed emails
+        → marks processed emails as unread
         → returns JSON response
 ```
 
