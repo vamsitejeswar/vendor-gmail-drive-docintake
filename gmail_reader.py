@@ -11,6 +11,13 @@ GMAIL_APP_PASSWORD = os.getenv("GMAIL_APP_PASSWORD", "")
 PROCESSED_LABEL = "contractsexplorer-processed-doc"
 
 
+def _ensure_label_exists(mail):
+    try:
+        mail.create(PROCESSED_LABEL)
+    except Exception:
+        pass  # label already exists
+
+
 def _get_labels(mail, num):
     _, label_data = mail.fetch(num, "(X-GM-LABELS)")
     if label_data and label_data[0]:
@@ -22,6 +29,7 @@ def fetch_new_vendor_emails():
     mail = imaplib.IMAP4_SSL("imap.gmail.com", 993)
     mail.login(GMAIL_ADDRESS, GMAIL_APP_PASSWORD)
     mail.select("INBOX")
+    _ensure_label_exists(mail)
 
     _, message_numbers = mail.search(None, "ALL")
 
