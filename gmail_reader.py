@@ -9,13 +9,29 @@ load_dotenv()
 GMAIL_ADDRESS = os.getenv("GMAIL_ADDRESS", "")
 GMAIL_APP_PASSWORD = os.getenv("GMAIL_APP_PASSWORD", "")
 PROCESSED_LABEL = "contractsexplorer-processed-doc"
+VALID_VENDOR_LABEL = "valid-vendor"
+REVIEW_VENDOR_LABEL = "review-vendor"
 
 
 def _ensure_label_exists(mail):
     try:
         mail.create(PROCESSED_LABEL)
     except Exception:
-        pass  # label already exists
+        pass
+
+
+def _ensure_valid_vendor_label(mail):
+    try:
+        mail.create(VALID_VENDOR_LABEL)
+    except Exception:
+        pass
+
+
+def _ensure_review_vendor_label(mail):
+    try:
+        mail.create(REVIEW_VENDOR_LABEL)
+    except Exception:
+        pass
 
 
 def _get_labels(mail, num):
@@ -53,11 +69,15 @@ def fetch_new_vendor_emails():
         from_address = msg.get("From", "")
         subject = msg.get("Subject", "")
 
+        EXCLUDED_EXTENSIONS = {".ics"}
         attachments = []
         for part in msg.walk():
             if part.get_content_disposition() == "attachment":
                 filename = part.get_filename()
                 if filename:
+                    ext = os.path.splitext(filename)[1].lower()
+                    if ext in EXCLUDED_EXTENSIONS:
+                        continue
                     file_bytes = part.get_payload(decode=True)
                     attachments.append((filename, file_bytes))
 
@@ -76,6 +96,48 @@ def fetch_new_vendor_emails():
 def mark_as_processed(mail, num):
     mail.store(num, "+X-GM-LABELS", PROCESSED_LABEL)
     mail.store(num, "-FLAGS", "\\Seen")
+
+
+def mark_as_valid_vendor(mail, num):
+    _ensure_valid_vendor_label(mail)
+    mail.store(num, "+X-GM-LABELS", VALID_VENDOR_LABEL)
+
+
+def mark_as_review_vendor(mail, num):
+    _ensure_review_vendor_label(mail)
+    mail.store(num, "+X-GM-LABELS", REVIEW_VENDOR_LABEL)
+
+
+def fetch_valid_vendor_email_threads() -> list:
+    mail = imaplib.IMAP4_SSL("imap.gmail.com", 993)
+    mail.login(GMAIL_ADDRESS, GMAIL_APP_PASSWORD)
+    mail.select("INBOX")
+
+    _, message_numbers = mail.search(None, f'X-GM-LABELS "{VALID_VENDOR_LABEL}"')
+    threads = []
+    nums = message_numbers[0].split()
+    for num in nums:
+        try:
+            _, msg_data = mail.fetch(num, "(RFC822)")
+            raw = msg_data[0]
+            if not isinstance(raw, tuple):
+                continue
+            msg = email.message_from_bytes(raw[1])
+            from_addr = msg.get("From", "")
+            subject = msg.get("Subject", "")
+            body = ""
+            for part in msg.walk():
+                if part.get_content_type() == "text/plain" and part.get_content_disposition() != "attachment":
+                    raw_body = part.get_payload(decode=True)
+                    body = raw_body.decode("utf-8", errors="ignore") if isinstance(raw_body, bytes) else ""
+                    break
+            if body:
+                threads.append(f"From: {from_addr}\nSubject: {subject}\n\n{body}")
+        except Exception:
+            pass
+
+    mail.logout()
+    return threads
 
 
 if __name__ == "__main__":

@@ -9,7 +9,9 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-DRIVE_ROOT_FOLDER_ID = os.getenv("DRIVE_ROOT_FOLDER_ID", "")
+DRIVE_INCOMING_FOLDER_ID = os.getenv("DRIVE_INCOMING_FOLDER_ID", "")
+DRIVE_VALIDATED_FOLDER_ID = os.getenv("DRIVE_VALIDATED_FOLDER_ID", "")
+DRIVE_RUNBOOK_FOLDER_ID = os.getenv("DRIVE_RUNBOOK_FOLDER_ID", "")
 SCOPES = ["https://www.googleapis.com/auth/drive"]
 
 
@@ -62,9 +64,32 @@ def _next_versioned_filename(service, folder_id: str, filename: str) -> str:
         version += 1
 
 
+def upload_to_validated(vendor_name: str, filename: str, file_bytes: bytes) -> dict:
+    service = _get_drive_service()
+    vendor_folder_id = _get_or_create_subfolder(service, DRIVE_VALIDATED_FOLDER_ID, vendor_name)
+    final_name = _next_versioned_filename(service, vendor_folder_id, filename)
+    media = MediaIoBaseUpload(io.BytesIO(file_bytes), mimetype="application/octet-stream", resumable=True)
+    metadata = {"name": final_name, "parents": [vendor_folder_id]}
+    new_file = service.files().create(body=metadata, media_body=media, fields="id", supportsAllDrives=True).execute()
+    return {"file_id": new_file["id"], "filename": final_name}
+
+
+def upload_analysis_txt(vendor_name: str, doc_filename: str, analysis_text: str, dest_folder_id: str = None) -> dict:
+    service = _get_drive_service()
+    folder_id = dest_folder_id if dest_folder_id else DRIVE_INCOMING_FOLDER_ID
+    vendor_folder_id = _get_or_create_subfolder(service, folder_id, vendor_name)
+    name = os.path.splitext(doc_filename)[0]
+    txt_filename = _next_versioned_filename(service, vendor_folder_id, f"{name}_analysis.txt")
+    content_bytes = analysis_text.encode("utf-8")
+    media = MediaIoBaseUpload(io.BytesIO(content_bytes), mimetype="text/plain", resumable=True)
+    metadata = {"name": txt_filename, "parents": [vendor_folder_id]}
+    new_file = service.files().create(body=metadata, media_body=media, fields="id", supportsAllDrives=True).execute()
+    return {"file_id": new_file["id"], "filename": txt_filename}
+
+
 def upload_vendor_attachment(vendor_name: str, filename: str, file_bytes: bytes) -> dict:
     service = _get_drive_service()
-    vendor_folder_id = _get_or_create_subfolder(service, DRIVE_ROOT_FOLDER_ID, vendor_name)
+    vendor_folder_id = _get_or_create_subfolder(service, DRIVE_INCOMING_FOLDER_ID, vendor_name)
     final_name = _next_versioned_filename(service, vendor_folder_id, filename)
     action = "versioned" if final_name != filename else "created"
     media = MediaIoBaseUpload(io.BytesIO(file_bytes), mimetype="application/octet-stream", resumable=True)

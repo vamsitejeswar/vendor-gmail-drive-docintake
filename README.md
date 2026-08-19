@@ -1,10 +1,10 @@
 # Vendor Document Intake
 
-Watches a Gmail inbox for emails with attachments and automatically uploads them to Google Drive. Runs every 12 hours via Cloud Scheduler → Cloud Run Service. Each sender gets their own folder. If the same filename is received again, it saves it as `_v2`, `_v3`, etc. — keeping a clear version trail per sender.
+Watches a Gmail inbox for emails with attachments and automatically uploads them to Google Drive. Runs every day at 9 AM IST via Cloud Scheduler → Cloud Run Service. Each sender gets their own folder. If the same filename is received again, it saves it as `_v2`, `_v3`, etc. — keeping a clear version trail per sender.
 
 ## How it works
 
-1. Cloud Scheduler triggers `POST /run` every 12 hours
+1. Cloud Scheduler triggers `POST /run` every day at 9 AM IST
 2. Script reads **all emails** in the inbox (read + unread)
 3. Skips emails already labelled `contractsexplorer-processed-doc`
 4. For new emails with attachments — each sender gets their own subfolder in Drive (e.g. `praveen.kumar@wohlig.com`)
@@ -14,7 +14,7 @@ Watches a Gmail inbox for emails with attachments and automatically uploads them
 ## Architecture
 
 ```
-Cloud Scheduler (0 */12 * * *)
+Cloud Scheduler (0 9 * * * — daily 9 AM IST)
     → POST /run
         → Cloud Run Service (vendor-doc-intake)
             → Gmail IMAP — reads ALL emails, skips labelled ones
@@ -104,7 +104,7 @@ To let team members view/edit the uploaded files:
 The service account needs access to upload files to the Shared Drive.
 
 1. Go to **GCP Console** → **IAM & Admin** → **Service Accounts**
-2. Find your service account → copy its email (e.g. `vamsitest-vendor-gmail-drive-i@wohlig.iam.gserviceaccount.com`)
+2. Find your service account → copy its email (e.g. `vendor-email-drive-doc@gemini-project-n1.iam.gserviceaccount.com`)
 3. Open **Google Drive** → open the Shared Drive → click **▾** → **Manage members**
 4. Click **Add members** → paste the service account email
 5. Set role to **Contributor**
@@ -121,7 +121,7 @@ pip install -r requirements.txt
 
 ### 2. Configure `.env`
 ```
-GMAIL_ADDRESS=temp_wohlig.praveen@verse.in
+GMAIL_ADDRESS=legal-watcher@verse.in
 GMAIL_APP_PASSWORD=<16-char app password from Step 3>
 
 DRIVE_ROOT_FOLDER_ID=<Shared Drive folder ID from Step 4>
