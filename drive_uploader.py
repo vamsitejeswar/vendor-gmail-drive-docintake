@@ -64,6 +64,7 @@ def _next_versioned_filename(service, folder_id: str, filename: str) -> str:
         version += 1
 
 
+
 def upload_to_validated(vendor_name: str, filename: str, file_bytes: bytes) -> dict:
     service = _get_drive_service()
     vendor_folder_id = _get_or_create_subfolder(service, DRIVE_VALIDATED_FOLDER_ID, vendor_name)
@@ -78,11 +79,12 @@ def upload_analysis_txt(vendor_name: str, doc_filename: str, analysis_text: str,
     service = _get_drive_service()
     folder_id = dest_folder_id if dest_folder_id else DRIVE_INCOMING_FOLDER_ID
     vendor_folder_id = _get_or_create_subfolder(service, folder_id, vendor_name)
+    analysis_folder_id = _get_or_create_subfolder(service, vendor_folder_id, "analysis")
     name = os.path.splitext(doc_filename)[0]
-    txt_filename = _next_versioned_filename(service, vendor_folder_id, f"{name}_analysis.txt")
+    txt_filename = _next_versioned_filename(service, analysis_folder_id, f"{name}_analysis.txt")
     content_bytes = analysis_text.encode("utf-8")
     media = MediaIoBaseUpload(io.BytesIO(content_bytes), mimetype="text/plain", resumable=True)
-    metadata = {"name": txt_filename, "parents": [vendor_folder_id]}
+    metadata = {"name": txt_filename, "parents": [analysis_folder_id]}
     new_file = service.files().create(body=metadata, media_body=media, fields="id", supportsAllDrives=True).execute()
     return {"file_id": new_file["id"], "filename": txt_filename}
 

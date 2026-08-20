@@ -1,14 +1,17 @@
 import os
 import re
-from fastapi import FastAPI
+import threading
+from fastapi import FastAPI, Query
 from fastapi.responses import JSONResponse
 import uvicorn
-from gmail_reader import fetch_new_vendor_emails, mark_as_processed, mark_as_valid_vendor, mark_as_review_vendor
+from gmail_reader import fetch_new_vendor_emails, mark_email
 from drive_uploader import upload_vendor_attachment, upload_to_validated, upload_analysis_txt, DRIVE_VALIDATED_FOLDER_ID
 from agent_validator import validate_document
-from runbook_generator import generate_runbook, fetch_runbook
+from runbook_generator import generate_runbook, fetch_runbook, update_runbook
 
 app = FastAPI()
+
+_run_lock = threading.Lock()
 
 
 def vendor_name_from_email(from_address: str) -> str:
@@ -16,50 +19,52 @@ def vendor_name_from_email(from_address: str) -> str:
     return match.group(0) if match else "unknown-vendor"
 
 
-def run():
-    emails = fetch_new_vendor_emails()
+def run(sender: str = None):
+    emails = fetch_new_vendor_emails(sender_filter=sender)
     if not emails:
-        return {"status": "ok", "message": "No new vendor emails with attachments found.", "processed": 0}
+        return
 
     runbook_text = fetch_runbook()
+    new_valid_docs_list = []
 
-    results = []
     for e in emails:
         vendor = vendor_name_from_email(e["from"])
+        any_valid = False
         for filename, file_bytes in e["attachments"]:
-            result = upload_vendor_attachment(vendor, filename, file_bytes)
-
             if runbook_text:
                 validation = validate_document(filename, file_bytes, runbook_text)
             else:
                 validation = {"status": "REVIEW NEEDED", "details": "No runbook found. Run /generate-runbook first."}
 
-            upload_analysis_txt(vendor, filename, validation["details"])
-
-            if validation["status"] == "VALID":
-                mark_as_valid_vendor(e["mail"], e["num"])
+            is_valid = validation["status"] == "VALID"
+            if is_valid:
+                any_valid = True
                 upload_to_validated(vendor, filename, file_bytes)
                 upload_analysis_txt(vendor, filename, validation["details"], DRIVE_VALIDATED_FOLDER_ID)
+                new_valid_docs_list.append((filename, file_bytes))
             else:
-                mark_as_review_vendor(e["mail"], e["num"])
+                upload_vendor_attachment(vendor, filename, file_bytes)
+                upload_analysis_txt(vendor, filename, validation["details"])
 
-            results.append({
-                "vendor": vendor,
-                "filename": result["filename"],
-                "action": result["action"],
-                "validation": validation["status"],
-                "validation_details": validation["details"],
-            })
+        mark_email(e["num"], any_valid)
 
-        mark_as_processed(e["mail"], e["num"])
-
-    return {"status": "ok", "processed": len(emails), "uploads": results}
+    if new_valid_docs_list:
+        update_runbook(new_valid_docs_list)
 
 
 @app.post("/run")
-def trigger():
-    result = run()
-    return JSONResponse(content=result, status_code=200)
+def trigger(sender: str = Query(default=None)):
+    if not _run_lock.acquire(blocking=False):
+        return JSONResponse(content={"status": "ok", "message": "Run already in progress"}, status_code=200)
+
+    def background():
+        try:
+            run(sender=sender)
+        finally:
+            _run_lock.release()
+
+    threading.Thread(target=background, daemon=False).start()
+    return JSONResponse(content={"status": "ok", "message": "Processing started"}, status_code=202)
 
 
 @app.post("/generate-runbook")

@@ -10,10 +10,23 @@
 | Service URL | `https://vendor-doc-intake-852267154002.asia-south1.run.app` |
 | Cloud Scheduler Job | `vendor-doc-intake-scheduler` |
 | Scheduler Frequency | Every day at 9 AM IST (`0 9 * * *`) |
-| Scheduler Timeout | 600s (10 minutes) |
-| Gmail Account | `legal-watcher@verse.in` (IMAP + App Password) |
-| Drive Folder ID | `0ADa82r0wcOhiUk9PVA` (Shared Drive — Verse Legal Contracts) |
+| Scheduler Timeout | 60s (returns 202 immediately, processes in background) |
+| Gmail Account | `legal-watcher@verse.in` |
+| Drive | Verse Legal Contracts Explorer (Shared Drive) |
+| Drive Root ID | `0ABX-6SqT0zlrUk9PVA` |
 | Drive Service Account | `vendor-email-drive-doc@gemini-project-n1.iam.gserviceaccount.com` |
+| Gemini Model | `gemini-2.5-flash` (Vertex AI, `us-central1`) |
+
+---
+
+## Drive Folder IDs
+
+| Folder | ID |
+|---|---|
+| Root (Shared Drive) | `0ABX-6SqT0zlrUk9PVA` |
+| `under-review-docs` | `1vy6VIDz_HWmdTESbm-ve_rf8Y7iBW7X7` |
+| `valid-docs` | `1y6WmPhTZxVkWlaS_4Je0NHOwlmWbFkuP` |
+| `runbook` | `1W1KZT7AF2vj-_2wc9Aj7I0uKd7q66Qv6` |
 
 ---
 
@@ -21,8 +34,8 @@
 
 | Secret Name | Description |
 |---|---|
-| `gmail-app-password` | 16-char Gmail App Password for `legal-watcher@verse.in` |
-| `drive-service-account-json` | Contents of `service_account.json` for Drive access |
+| `gmail-app-password` | Gmail App Password for `legal-watcher@verse.in` |
+| `drive-service-account-json` | Contents of `service_account.json` |
 
 ---
 
@@ -31,15 +44,18 @@
 | Variable | Value |
 |---|---|
 | `GMAIL_ADDRESS` | `legal-watcher@verse.in` |
-| `DRIVE_ROOT_FOLDER_ID` | `0ADa82r0wcOhiUk9PVA` |
 | `GMAIL_APP_PASSWORD` | From Secret Manager → `gmail-app-password` |
+| `DRIVE_ROOT_FOLDER_ID` | `0ABX-6SqT0zlrUk9PVA` |
+| `DRIVE_INCOMING_FOLDER_ID` | `1vy6VIDz_HWmdTESbm-ve_rf8Y7iBW7X7` |
+| `DRIVE_VALIDATED_FOLDER_ID` | `1y6WmPhTZxVkWlaS_4Je0NHOwlmWbFkuP` |
+| `DRIVE_RUNBOOK_FOLDER_ID` | `1W1KZT7AF2vj-_2wc9Aj7I0uKd7q66Qv6` |
+| `GCP_PROJECT` | `gemini-project-n1` |
+| `GCP_LOCATION` | `us-central1` |
 | `SERVICE_ACCOUNT_JSON` | From Secret Manager → `drive-service-account-json` |
 
 ---
 
 ## Redeployment (when code changes)
-
-Run from the project directory:
 
 ```bash
 gcloud config set project gemini-project-n1
@@ -60,25 +76,20 @@ gcloud run deploy vendor-doc-intake \
 
 ```
 Every day at 9 AM IST
-  Cloud Scheduler (vendor-doc-intake-scheduler)
-    → POST https://vendor-doc-intake-852267154002.asia-south1.run.app/run
-        → Cloud Run Service reads ALL emails in Gmail inbox via IMAP
-        → skips emails already labelled "contractsexplorer-processed-doc"
-        → for new emails with attachments → uploads to Shared Drive (organized by sender folder)
-        → adds label "contractsexplorer-processed-doc" to processed emails
-        → marks processed emails as unread
-        → returns JSON response
+  Cloud Scheduler → POST /run → Cloud Run
+      → Gmail IMAP: fetch all unprocessed emails with attachments
+      → Gemini 2.5 Flash: validate each doc against validation_runbook.txt
+      → VALID → upload to valid-docs/<vendor>/ + analysis subfolder
+      → REVIEW NEEDED → upload to under-review-docs/<vendor>/ + analysis subfolder
+      → Gmail: label uploaded-to-drive + valid-vendor / review-vendor
+      → If any new valid docs: incrementally update runbook
 ```
 
 ---
 
 ## Manual Trigger
 
-To run immediately without waiting for the scheduler:
-
 ```bash
-# Via Cloud Scheduler UI → Force run
-# Or via curl (requires auth):
 gcloud auth print-identity-token | xargs -I{} curl -X POST \
   -H "Authorization: Bearer {}" \
   https://vendor-doc-intake-852267154002.asia-south1.run.app/run
@@ -90,9 +101,9 @@ gcloud auth print-identity-token | xargs -I{} curl -X POST \
 
 | Service | Cost |
 |---|---|
-| Cloud Run Service | ~free (scales to zero, billed per request) |
-| Cloud Scheduler | Free (first 3 jobs/month free) |
-| Container storage | ~free for low usage |
+| Cloud Run | ~free (scales to zero, billed per request) |
+| Cloud Scheduler | Free (first 3 jobs/month) |
+| Vertex AI (Gemini) | ~$0.075 per 1M input tokens (Flash) |
 | Secret Manager | Free for low usage |
-| Gmail API (IMAP) | Free |
+| Gmail IMAP | Free |
 | Drive API | Free |

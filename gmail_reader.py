@@ -8,9 +8,17 @@ load_dotenv()
 
 GMAIL_ADDRESS = os.getenv("GMAIL_ADDRESS", "")
 GMAIL_APP_PASSWORD = os.getenv("GMAIL_APP_PASSWORD", "")
-PROCESSED_LABEL = "contractsexplorer-processed-doc"
+PROCESSED_LABEL = "uploaded-to-drive"
 VALID_VENDOR_LABEL = "valid-vendor"
 REVIEW_VENDOR_LABEL = "review-vendor"
+EXCLUDED_EXTENSIONS = {".ics"}
+
+
+def _connect():
+    mail = imaplib.IMAP4_SSL("imap.gmail.com", 993)
+    mail.login(GMAIL_ADDRESS, GMAIL_APP_PASSWORD)
+    mail.select("INBOX")
+    return mail
 
 
 def _ensure_label_exists(mail):
@@ -41,13 +49,14 @@ def _get_labels(mail, num):
     return ""
 
 
-def fetch_new_vendor_emails():
-    mail = imaplib.IMAP4_SSL("imap.gmail.com", 993)
-    mail.login(GMAIL_ADDRESS, GMAIL_APP_PASSWORD)
-    mail.select("INBOX")
+def fetch_new_vendor_emails(sender_filter: str = None):
+    mail = _connect()
     _ensure_label_exists(mail)
 
-    _, message_numbers = mail.search(None, "ALL")
+    if sender_filter:
+        _, message_numbers = mail.search(None, f'FROM "{sender_filter}"')
+    else:
+        _, message_numbers = mail.search(None, "ALL")
 
     results = []
     nums = message_numbers[0].split()
@@ -69,7 +78,6 @@ def fetch_new_vendor_emails():
         from_address = msg.get("From", "")
         subject = msg.get("Subject", "")
 
-        EXCLUDED_EXTENSIONS = {".ics"}
         attachments = []
         for part in msg.walk():
             if part.get_content_disposition() == "attachment":
@@ -87,32 +95,31 @@ def fetch_new_vendor_emails():
                 "from": from_address,
                 "attachments": attachments,
                 "num": num,
-                "mail": mail,
             })
 
+    mail.logout()
     return results
 
 
-def mark_as_processed(mail, num):
-    mail.store(num, "+X-GM-LABELS", PROCESSED_LABEL)
-    mail.store(num, "-FLAGS", "\\Seen")
-
-
-def mark_as_valid_vendor(mail, num):
-    _ensure_valid_vendor_label(mail)
-    mail.store(num, "+X-GM-LABELS", VALID_VENDOR_LABEL)
-
-
-def mark_as_review_vendor(mail, num):
-    _ensure_review_vendor_label(mail)
-    mail.store(num, "+X-GM-LABELS", REVIEW_VENDOR_LABEL)
+def mark_email(num, is_valid: bool):
+    """Open one IMAP connection, set all labels for this email, then close."""
+    mail = _connect()
+    try:
+        _ensure_label_exists(mail)
+        if is_valid:
+            _ensure_valid_vendor_label(mail)
+            mail.store(num, "+X-GM-LABELS", VALID_VENDOR_LABEL)
+        else:
+            _ensure_review_vendor_label(mail)
+            mail.store(num, "+X-GM-LABELS", REVIEW_VENDOR_LABEL)
+        mail.store(num, "+X-GM-LABELS", PROCESSED_LABEL)
+        mail.store(num, "-FLAGS", "\\Seen")
+    finally:
+        mail.logout()
 
 
 def fetch_valid_vendor_email_threads() -> list:
-    mail = imaplib.IMAP4_SSL("imap.gmail.com", 993)
-    mail.login(GMAIL_ADDRESS, GMAIL_APP_PASSWORD)
-    mail.select("INBOX")
-
+    mail = _connect()
     _, message_numbers = mail.search(None, f'X-GM-LABELS "{VALID_VENDOR_LABEL}"')
     threads = []
     nums = message_numbers[0].split()
@@ -126,25 +133,28 @@ def fetch_valid_vendor_email_threads() -> list:
             from_addr = msg.get("From", "")
             subject = msg.get("Subject", "")
             body = ""
+            attachments = []
             for part in msg.walk():
-                if part.get_content_type() == "text/plain" and part.get_content_disposition() != "attachment":
+                content_type = part.get_content_type()
+                disposition = part.get_content_disposition()
+                if content_type == "text/plain" and disposition != "attachment":
                     raw_body = part.get_payload(decode=True)
-                    body = raw_body.decode("utf-8", errors="ignore") if isinstance(raw_body, bytes) else ""
-                    break
-            if body:
-                threads.append(f"From: {from_addr}\nSubject: {subject}\n\n{body}")
+                    if not body and isinstance(raw_body, bytes):
+                        body = raw_body.decode("utf-8", errors="ignore")
+                elif disposition == "attachment":
+                    filename = part.get_filename()
+                    if filename:
+                        ext = os.path.splitext(filename)[1].lower()
+                        if ext not in EXCLUDED_EXTENSIONS:
+                            file_bytes = part.get_payload(decode=True)
+                            if file_bytes:
+                                attachments.append((filename, file_bytes))
+            threads.append({
+                "text": f"From: {from_addr}\nSubject: {subject}\n\n{body}",
+                "attachments": attachments,
+            })
         except Exception:
             pass
 
     mail.logout()
     return threads
-
-
-if __name__ == "__main__":
-    emails = fetch_new_vendor_emails()
-    print(f"Found {len(emails)} email(s) with attachments:\n")
-    for e in emails:
-        print(f"From: {e['from']}")
-        print(f"Subject: {e['subject']}")
-        print(f"Attachments: {[name for name, _ in e['attachments']]}")
-        print("-" * 40)
