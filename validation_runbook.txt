@@ -1,0 +1,486 @@
+# Validation Policy Runbook for Verse Innovation Private Ltd.
+
+**Purpose:** This runbook guides AI-assisted validation of all incoming vendor documents. It defines what clauses Verse expects, what is acceptable, what should be flagged as a suggestion, and what is a genuine red flag requiring legal review.
+
+**KEY PRINCIPLE — Validate Proportionately:**
+- Not every clause applies to every document type. A Purchase Order does not need a confidentiality clause. An NDA does not need payment terms. A Declaration does not need termination rights. Always validate based on what is RELEVANT to the specific document type — do not penalize a document for missing clauses that simply do not apply to that type.
+- If a clause is missing but irrelevant to the document type → IGNORE IT.
+- If a clause is missing but would normally apply → add to SUGGESTIONS only (unless it is a critical red flag listed in Section 4).
+- If a document type is unknown or unusual → validate only what is present; flag nothing as REVIEW NEEDED solely because of missing optional clauses.
+
+**OVERRIDING RULE — VALID vs REVIEW NEEDED:**
+- Mark VALID if the core legal substance is present and appropriate for the document type, even if many optional or compliance clauses are missing.
+- Mark REVIEW NEEDED ONLY IF: governing law is not Indian law, vendor explicitly retains IP for deliverables created for Verse, a critical legal placeholder is blank (e.g., party name is [blank], jurisdiction is [blank]), or a truly critical clause for that document type is missing (e.g., no scope of services in a service agreement, no payment terms in a commercial agreement).
+- Missing optional clauses (anti-bribery, non-solicitation, AI prohibition, data security specifics, audit rights, arbitration) → SUGGESTIONS ONLY, NEVER REVIEW NEEDED.
+
+---
+
+## 1. ACCEPTED DOCUMENT TYPES
+
+The following document types are recognized and routinely processed in Verse's vendor engagements:
+
+**A. Core Transactional Agreements:**
+1.  **Master Service Agreement (MSA) / General Service Agreement / Agreement for the Provision of Services / Full Platform Agreement:** Overarching agreements governing the general terms of a long-term relationship or ongoing service provision.
+2.  **Service Agreement (SA) / Commercial Agreement / Letter Agreement / Letter of Engagement:** Broad category for agreements detailing specific services, often used when an MSA is not applicable or for simpler engagements.
+3.  **Software as a Service (SaaS) Agreement:** Specific to cloud-based software services.
+4.  **Consultancy Agreement / Consultant Agreement:** For engaging individual consultants or consulting firms for specific services.
+5.  **Partnership Agreement / Collaboration Agreement / Referral and Service Partnership Agreement:** For formal collaborations, strategic alliances, or revenue-share models.
+6.  **Digital Marketing Agreement:** Specific to marketing and customer acquisition services.
+7.  **Production Agreement / Master Content Production Agreement (MCPA):** For the creation of creative content, including audio-visual programs and promotional materials.
+8.  **Data License Agreement (DLA):** For licensing of data (e.g., anonymized data for AI model training).
+9.  **Publisher SSP Agreement / Ads Platform Publisher SSP Agreement:** Specific to relationships involving advertising inventory and publisher platforms.
+
+**B. Supplementary / Specific Agreements:**
+10. **Statement of Work (SOW) / Service Order Form (SOF) / Purchase Order (PO) / Insertion Order (IO) / Release Order (RO):** These are typically supplementary documents that detail the specifics of a project or engagement under a broader agreement (MSA, SA, etc.).
+11. **Addendum / Lease Amendment / Annexure / Exhibit:** Documents that modify, clarify, or supplement an existing agreement.
+12. **Non-Disclosure Agreement (NDA) / Mutual Non-Disclosure Agreement (MNDA) / Confidentiality Agreement:** For the protection of confidential information during discussions or partnerships.
+13. **Memorandum of Understanding (MOU) / MOU & NDA:** Non-binding or partially binding agreements outlining a common line of action or intent for future collaborations, often combined with confidentiality provisions.
+14. **Leave and License Agreement (LLA) / Rent Agreement (RA) / Lease Agreement:** For the occupation and use of property or office space on a license/rental basis.
+
+**C. Pre-Contractual / Supporting Documents:**
+15. **Letter of Intent (LOI):** Non-binding documents outlining the intent to enter into a formal agreement.
+16. **Declaration / Certification Letter / Acceptance Form / Supporting Declarations:** (e.g., Declaration of Residency, Declaration on Shareholding Dilution, Declaration Regarding Convictions, Compliance Letters, Non-Blacklisting by Bidder, IT Systems Security Certification). These are generally attached as evidence or for compliance purposes.
+17. **Authorization Letter / Corporate Resolution Excerpt:** (e.g., Letter granting signatory powers).
+18. **Other / Unknown Document Type:** Any document that does not clearly match the above types. Validate only what is present. Do not mark REVIEW NEEDED because clauses for standard document types are missing. Identify the document's apparent purpose, flag anything that looks like a genuine red flag (non-Indian law, vendor retaining IP), and put everything else in SUGGESTIONS.
+
+---
+
+## 2. REQUIRED CLAUSES (by document type)
+
+This section lists essential clauses for various document types, highlighting Verse's preferences and acceptable variations.
+
+**APPLICABILITY GUIDE — which clauses apply to which document types:**
+- **Full clause set (Section A + relevant Section B)**: MSA, Service Agreement, SaaS, Consultancy, Partnership, Digital Marketing, Production, DLA
+- **Lightweight validation** (only scope, payment, parties, governing law): SOW, PO, IO, SOF, RO, Addendum, Annexure — these reference a master agreement so standalone clauses like confidentiality, termination, IP assignment are typically not repeated
+- **Confidentiality focus only**: NDA, MNDA, MOU — do NOT expect payment terms, IP assignment for deliverables, or termination-for-convenience clauses
+- **Document-specific content only**: Declaration, Certification Letter, Authorization Letter, LOI — validate only the document's stated purpose; missing standard contract clauses are irrelevant
+- **Property-specific**: LLA, Rent Agreement — use Section B8 only; do not apply general commercial clause requirements
+
+### A. General Clauses (Applicable to most Contractual Agreements)
+
+The following clauses should be present in most transactional agreements (MSA, SA, SaaS, Consultancy, Partnership, Digital Marketing, Production, DLA, LLA/RA):
+
+*   **Parties Identification**: Full legal names, registered addresses, CIN/PAN/GSTIN (if applicable). Clear definition of roles (e.g., "Company" for Verse, "Vendor" or "Service Provider" for the other party). Verse Innovation Private Ltd. (or its relevant affiliate/subsidiary, e.g., Greynium Information Technologies Private Limited, BValue Services Private Limited, BuddyLoans, VerSe) must be correctly named.
+*   **Effective Date & Term**: Clear Commencement Date and duration of the agreement.
+    *   **Term Variations**: Fixed term (e.g., 1 year), evergreen with notice period for termination, or renewal options (mutual agreement). Must explicitly state "No Automatic Renewal" or similar language to prevent unintended auto-extension, unless auto-renewal is specifically intended and managed (e.g., SaaS).
+    *   **Recitals/Preamble**: Statement of purpose and background.
+*   **Definitions**: A comprehensive list of key terms used throughout the agreement (e.g., `Affiliate`, `Applicable Law`, `Business Day`, `Confidential Information`, `Deliverables`, `Intellectual Property`, `Personal Data`, `SaaS Offering`, `Software`, `Users`).
+*   **Scope of Services/Work/Deliverables**: Detailed description of the goods/services provided, usually referencing an SOW, SOF, or Annexure. Verse expects specificity regarding outputs, quality, and standards.
+*   **Payment Terms / Consideration**: Clear fees, pricing structure, invoicing requirements, and payment due dates.
+    *   **Verse Expectation**: When Verse is the paying party, ideally Net 30 days. When Verse is a revenue recipient (e.g., consultant commission), payment to vendor should be **post-collection** from the end-client. Currency typically **INR**.
+    *   **Invoicing**: Requirements for invoice frequency, details (e.g., GST-compliant), and dispute resolution timeline (e.g., 5 Business Days).
+    *   **Penalties for Late Payments**: Accepted (e.g., 1.5% p.m. or 18% p.a., or fixed daily amount like INR 500/day, subject to proportionality).
+*   **Taxes**: Clear allocation of GST, TDS, and other tax responsibilities.
+    *   **Verse Expectation**: Vendor/Service Provider responsible for their own tax compliance (GST, TDS deduction for Verse if applicable). Clause allowing Verse to set off/recover taxes, interest, penalties in case of vendor non-compliance (e.g., GST credit denial). All payments are exclusive of taxes.
+*   **Confidentiality**: Broad definition of Confidential Information, strict non-disclosure and non-use obligations, exceptions (e.g., legally compelled disclosure with prior notice, public domain, independently developed).
+    *   **Verse Expectation**: Survival period of at least **one (1) year after termination** (or 3-5 years, perpetually for trade secrets/personal data). Includes return/destruction of CI.
+*   **Intellectual Property Rights (IPR)**: Clear statement of ownership.
+    *   **Verse Expectation**: IP in all deliverables, work product, data, designs, and content created under the agreement for Verse **must vest with Verse** (as "work made for hire" or via full assignment). Vendor/Service Provider warrants non-infringement of third-party IP. Prohibits unauthorized use of Verse's IP, name, trademarks. Each party retains ownership of its pre-existing IP.
+*   **Representations & Warranties**: Standard legal capacity, authority to enter agreement, compliance with all applicable laws, professional performance, non-infringement of third-party rights, ethical conduct, BCP/DRP. Vendor warranties include necessary skills, licenses, no blacklisting.
+*   **Indemnification**: Vendor/Service Provider must fully indemnify Verse against losses, damages, liabilities, and costs arising from their breach of contract, negligence, IP infringement, data breaches, non-compliance with laws, or third-party claims. Mutual indemnification for specific items (e.g., data/content provided by client).
+*   **Limitation of Liability (LoL)**: Exclusion of indirect, incidental, consequential, special, or punitive damages (including lost profits, revenue, goodwill, business opportunity). Clear cap on direct damages.
+    *   **Verse Expectation (as Client)**: Vendor's liability for direct damages should be substantial. **Liability for IP infringement, confidentiality breaches, fraud, gross negligence, and willful misconduct should be UNCAPPED for the Vendor/Service Provider.**
+    *   **Verse Expectation (as liable party)**: Verse's liability for direct damages capped at a low value (e.g., **one (1) month's fees** paid under the agreement, or "yearly financial transaction" or "total consideration earned by the Company" as an acceptable higher cap if negotiated).
+*   **Termination**:
+    *   **Without Cause (for Verse)**: Verse must have the right to terminate for convenience with a reasonable notice period (e.g., **15-30 days**).
+    *   **For Cause**: Either party can terminate for material breach, with a clear cure period (e.g., **15-30 days notice to cure within 15-30 days**).
+    *   Immediate termination rights for insolvency, bankruptcy, fraud, willful misconduct, gross negligence, severe breaches (confidentiality, IP, data security), or if required by regulatory authorities/change in law.
+*   **Effects of Termination**: Obligations for return of Verse's property, confidential information, and deletion of data. Payment for services rendered up to the termination date. Survival of critical clauses (IP, Confidentiality, Indemnification, Governing Law). Transition/Disengagement assistance.
+*   **Relationship of Parties**: Explicitly states an independent contractor relationship, disclaiming any agency, employment, joint venture, or partnership.
+*   **Governing Law & Jurisdiction**:
+    *   **Verse Expectation**: **Indian Law** as governing law and **exclusive jurisdiction of courts in Bangalore, Karnataka** (when Verse is the Company/Client). Acceptable variations include Mumbai, New Delhi, Hyderabad, Vapi for Indian jurisdiction.
+*   **Dispute Resolution**: Amicable settlement phase, followed by binding arbitration (under Arbitration and Conciliation Act, 1996, with the seat of arbitration in **Bangalore**, English language, single arbitrator) or exclusive court jurisdiction. Clause explicitly excluding conflicting online T&Cs.
+*   **Force Majeure**: Standard clause, including acts of God, terrorism, civil commotion, epidemics/pandemics (e.g., COVID-19 related restrictions), and provision for resuming performance or termination if prolonged. Clarifies that payment obligations for accrued services are not suspended.
+*   **Assignment**: Vendor/Service Provider generally cannot assign rights/obligations without Verse's prior written consent. Verse retains broader assignment rights (e.g., upon merger, change in management, to affiliates).
+*   **Notices**: Specifies method (e.g., written, email, courier, registered post) and correct contact details for official communications for both parties (e.g., legal@verse.in for Verse).
+*   **Entire Agreement**: Clause stating the document constitutes the entire agreement and supersedes prior communications.
+*   **Amendment**: Must be in writing and signed by both parties.
+*   **Severability & Waiver**: Standard legal boilerplate clauses.
+*   **Compliance (e.g., AML, Anti-Bribery, Export Control)**: Comprehensive clauses requiring compliance from the Vendor and their Associated Parties.
+*   **Audit & Inspection Rights**: Right for Verse (and/or its auditors/regulators like RBI/SEBI) to audit vendor's records, operations, and security practices with reasonable notice.
+*   **Non-Solicitation**: Mutual or unilateral restrictions on soliciting employees (often with exceptions for public advertisements) or clients (for consultants). Minimum 6 months post-termination.
+*   **Publicity**: Vendor cannot use Verse's name, trademarks, or refer to the agreement without Verse's prior written consent.
+
+### B. Specific Clauses (by Document Type/Group)
+
+#### B1. SaaS Agreement
+*   **Definitions**: Must include `SaaS Offering`, `Software`, `Users`, `Affiliate`.
+*   **Term and Subscription Term**: Clearly define `Effective Date`, `Subscription Term`, and conditions for `Renewal`.
+*   **SaaS Offering Scope**: Must specify non-exclusive, non-transferable license, internal use only, and user count limits.
+*   **Consideration & Fees**: Fee structure (e.g., user-based, module-based), mechanism for `Increment` (e.g., mutual agreement), and `Additional Fees` for increased usage/customization.
+*   **Customer Restrictions & Responsibilities**: Prohibiting reverse engineering, unauthorized use, outlining customer's responsibility for equipment, user accounts, and content input.
+*   **Vendor Obligations & Warranties**: Compliance with `Applicable Laws`, data protection, `SaaS` availability/quality, and non-infringement of IP.
+*   **Service Levels (SLA)**: Commitment to uptime, response/resolution times for support, and service credits for failures.
+*   **Data Security and Privacy (Annexure type)**: Must detail technical/organizational safeguards, data protection legislation compliance (DPDP Act 2023, IT Act, RBI/TRAI regulations), breach notification procedures (e.g., 4-48 hours), data residency (e.g., India), and **crucially, AI data usage restrictions (prohibiting use of Verse's data for model training, zero retention from AI sub-processors, prior consent for any AI processing of PII/SPI/PCI/CI)**.
+*   **Affiliate Protection**: Must explicitly extend rights, protections, and indemnities to Verse's `Affiliates/Subsidiaries`.
+
+#### B2. Consultancy Agreement (Specifics when Verse is the Company)
+*   **Engagement**: Non-exclusive (for Verse), services strictly per SOW, **no subcontracting by Consultant without Verse's prior written consent**.
+*   **Expenses**: Consultant typically bears their own expenses unless explicitly stated otherwise in SOW.
+*   **Conflict of Interest**: Consultant represents no current conflict and agrees to avoid future conflicts. Obligation to notify Verse.
+*   **Point of Contact**: Designated project manager for Verse, specific email IDs for communication.
+*   **Timely Performance & Quality**: Time is of the essence. Services performed professionally, competently, and according to industry best practices.
+*   **Obligations of Consultant**: Comply with Verse's instructions/policies, return equipment, provide monthly progress reports, responsible for data handling/loss.
+*   **Non-Solicitation & Non-Compete**: **Minimum 6 months post-termination**, restricting solicitation of Verse's employees, clients, or competing for business opportunities with Verse's clients. Clear penalty clause (e.g., equal to fees received/receivable).
+*   **Exclusivity (of Consultant's services)**: Verse can appoint other consultants. Consultant typically cannot provide services to third parties for similar scope during the term without Verse's prior written permission.
+*   **Verifications**: Verse retains the right to verify Consultant's credentials and can withhold payment or terminate for non-compliance.
+*   **Bribes, Gifts, Entertainment, Favors and Payments**: Strict prohibitions against offering undue influence to Verse personnel.
+*   **Payment**: If commission-based, payment *only after* Verse receives corresponding payment from client, calculated on "Net Collections". Requires prior approval by Verse SPOC/Senior Manager for a "Qualified Deal".
+
+**IP OWNERSHIP EXCEPTION — Commission-Based BD / Referral Consultancy Agreements:**
+If the consultant's scope is strictly limited to business development, client introduction, lead generation, or referral activities (i.e., the consultant does NOT create, produce, or deliver any creative, technical, or custom work product for Verse), then an IP Ownership clause is NOT required and its absence must NOT trigger REVIEW NEEDED. In such agreements, the consultant introduces clients and earns a commission — no deliverables are created that would need IP assignment. Add a suggestion to include an IP clause for future-proofing, but mark the document VALID on IP grounds. Indicators of a pure BD/referral engagement: scope limited to "identify, introduce, onboard" clients or advertisers; payment is commission-only on net collections; no mention of content creation, software development, design, reports, or custom deliverables.
+
+#### B3. SOW/SOF/PO/IO/RO / Addendum / Annexure / Exhibit
+*   **Reference to Master Agreement**: Must explicitly state it is governed by a preceding MSA/Service Agreement.
+*   **Detailed Description of Services/Goods**: Specifics of what is being provided.
+*   **Key Deliverables & Timelines**: Clear milestones and deadlines.
+*   **Fees/Pricing**: Specific charges, calculation methodology.
+*   **Payment Schedule**: Specific payment milestones or invoicing terms.
+*   **Specific Acceptance Criteria**: How deliverables will be accepted or deemed accepted.
+*   **Term/Duration of SOW**: Start and end dates for the specific engagement.
+*   **Point of Contact**: Specific project manager/contact for the SOW.
+*   **Precedence**: Explicitly states Addendum/SOF/SOW terms prevail over main agreement in case of conflict for specific scope/terms.
+*   **Lock-in Period / Exit Charges**: Specifies minimum term or early termination fees.
+*   **PO specific**: PO Number & Dates, Line Items (HSN/SAC, quantity, unit, unit price, amount), Total Value/Taxes. General Conditions of Purchase Order (acceptance, amendments, delivery, penalties, warranties, IP, jurisdiction, relationship, taxes).
+
+#### B4. NDA / MOU (including MOU & NDA)
+*   **Purpose**: Clearly state the intent of disclosure (e.g., commercial relationship evaluation, pitching creative ideas).
+*   **Confidential Information Definition**: Broad and inclusive (e.g., business plans, technology, financials, IP, personal data, existence/terms of agreement).
+*   **Obligations**: Use solely for purpose, strict confidentiality, limited disclosure (need-to-know, similar obligations), no copying, reverse engineering, or misuse.
+*   **Exclusions**: Standard exclusions (prior knowledge, public domain, independent development, lawful third-party disclosure, legally compelled disclosure with notice).
+*   **AI Usage Clause**: Explicitly prohibit training AI models with confidential information and require zero-retention for approved AI use, especially from external LLM providers.
+*   **Data Protection**: Compliance with `DPDP Act 2023` and other applicable privacy laws.
+*   **Return or Destruction**: Requirement for return or secure destruction upon request or termination.
+*   **Remedies**: Acknowledge irreparable harm and availability of injunctive relief for breaches.
+*   **Idea-Specific (MOU)**: Definition of "Idea" (concepts, scripts, creative contributions), explicit statement of vendor's IP ownership in Ideas, granting only a **limited, non-exclusive license to Verse for pitching**. Vendor retains first right to execute if ideas are commercialized, subject to mutual agreement. Clear "Idea Charges" and non-circumvention clause (e.g., 24 months). Acknowledge that commercial use requires separate agreement/fees.
+*   **LOI Specific**: Explicit "Non-Binding Clause" (except for specific sections like confidentiality). Outlines key commercial principles for a definitive agreement.
+
+#### B5. Digital Marketing Agreement / Partnership Agreement / Referral & Service Partnership Agreement
+*   **Definitions**: Key terms relevant to the service (e.g., `Campaign`, `Media Buying`, `Monthly Spend`, `Personal Data`, `Financial Partners`, `Loan Data`, `Platform`).
+*   **Scope of Work/Services**: Detailed description of services, responsibilities of each party.
+*   **Consideration/Fee Structure**: Clear outline of commissions, fees, or payouts. If revenue share, explicit percentage calculation on "Net Revenue" (after taxes, gateway, refunds).
+*   **Payment**: If commission-based, payment to partner *only after* Service Provider collects from end-client. Explicitly states no upfront fee/minimum guarantee unless agreed.
+*   **Non-Exclusivity**: Explicitly states arrangement is non-exclusive, both parties can engage others.
+*   **Pilot Period**: Defined term for evaluation, no automatic renewal.
+*   **Data Privacy/Security**: Compliance with `Applicable Laws` (DPDP Act, IT Act, RBI/TRAI regulations). Consent requirements for `Personal Data`. Data residency (e.g., India) for sensitive data. Breach notification. AI Data Usage restrictions (no training, zero retention, prior consent for PII/SPI/PCI). Data Fiduciary/Processor roles defined. Partner explicitly has no ownership/right to extract End User Data.
+*   **IP Ownership**: Clear ownership of pre-existing IP. Ownership of new IP/deliverables. Restrictions on brand/logo usage. Data-generated IP on vendor platforms often remains vendor property, with usage rights granted. `Customer Data` (input by Verse) remains Verse's property.
+*   **Audits & Inspections**: Right for Verse/regulators to audit vendor's records and systems, including media spends, access to vendor contracts/billing, and pass-through of discounts/rebates.
+
+#### B6. Production Agreement / Master Content Production Agreement (MCPA)
+*   **Scope**: Detailed description of production services, format, shooting schedules, post-production.
+*   **IP Ownership**: **Verse (as client) is first and exclusive owner of all rights, IP, copyright in the produced content and derivative works**, in perpetuity, worldwide, all modes, media, and formats (current and future). Waiver of moral rights by Producer. Producer procures assignment of all contributor IP to Verse. Provision for source-file escrow.
+*   **Payment**: Fixed "Consideration," inclusive of all taxes (except GST). Payment terms (e.g., 45 days, 30 days of invoice).
+*   **Indemnity**: Producer indemnifies Verse for all content-related claims (IP, defamation, obscenity, third-party claims, AI tools used in production).
+*   **Termination**: Client (Verse) has broad termination rights (convenience, breach, content issues, Force Majeure), often with shorter notice (e.g., 7 days).
+*   **Delivery & Storage**: Requirements for raw footage, delivery materials.
+*   **Moral Rights & Credits**: Vendor ensures Verse receives appropriate on-screen credit.
+
+#### B7. Data License Agreement (DLA)
+*   **Licensed Data**: Precise definition (anonymized, PII-free, sourced from Company's users). Licensor warrants data collected lawfully, with valid consents, anonymized, PII-free.
+*   **Permitted Purpose**: Explicitly defined (training, validating AI models, research).
+*   **Grant of License**: Broad (e.g., exclusive with ROFR for Licensor), revocable, worldwide, transferable, sublicensable, royalty-free license to Licensee (Verse/SAIL) for Permitted Purpose and sublicensing to affiliates (e.g., Frontier AI Labs).
+*   **Lab Confirmation**: Payment triggered by Lab Confirmation.
+*   **Payment Terms**: Revenue share model (e.g., 70/30, then 50/50). Invoice after Lab Confirmation. Payment within specific days (e.g., 30 days) of Licensee receiving payment *or* Lab Confirmation (whichever is earlier).
+*   **Indemnity**: Mutual, but Licensee's indemnity for anonymization is limited (e.g., to tool's failure if used correctly).
+*   **IP Ownership**: Trained models/outputs from Licensed Data belong to Licensee/Frontier AI Lab.
+*   **Affiliates & Assignment**: Explicitly allows Licensee to perform obligations via affiliates; Licensee can assign to affiliates/successors. Licensor requires consent to assign.
+
+#### B8. Leave and License Agreement (LLA) / Rent Agreement (RA) (Verse as Licensee)
+*   **Licensed/Leased Premises**: Precise identification of the property, including full address.
+*   **Use of Premises**: Clearly defined permitted use (e.g., registered address, business correspondence, official purpose only) and explicit prohibitions (e.g., not as primary registered office with ROC/Govt bodies, not for availing credit facilities, no illegal activities). Requirement for client to cease use for registrations within 15 days post-termination.
+*   **Deposit/Retainer**: Terms and conditions for any security deposit or service retainer (e.g., amount, interest-free, conditions for use, refund process).
+*   **Refund Policy**: Clarity on the refundability of license fees or deposits, including conditions.
+*   **Payment of Utilities**: Clear allocation (usually Licensee pays).
+*   **Lock-in Period**: Fixed period during which neither party can terminate (except for material breach).
+*   **Termination After Lock-in**: Notice period for termination post-lock-in.
+*   **Indemnity**: Licensor indemnifies for ownership claims, clear title.
+*   **Ownership**: Clarification that the licensor retains ownership of the premise/services, and no leasehold rights are granted.
+
+#### B9. Declaration / Certification Letter
+*   **Subject Matter**: Clear statement of the purpose of the declaration/certification (e.g., CISA compliance, conviction status, residency, non-blacklisting).
+*   **Issuing Entity/Individual**: Full legal name, designation, and company details of the declaring party.
+*   **Date and Place**: Date of issuance and place of execution.
+*   **Reference to Regulations**: If applicable, explicit reference to relevant laws or regulations (e.g., CICRA Regulations, RBI Guidelines, Income Tax Act).
+*   **Certifying Authority**: If it's a certification (e.g., IT systems security), identification of the certifying body/auditor.
+*   **Compliance**: Content aligns with Verse's expected compliance standards (e.g., "not shared with any third parties under any circumstances" for credit info).
+
+---
+
+## 3. STANDARD TERMS VERSE ACCEPTS
+
+These terms represent Verse Innovation's preferred positions based on recurring patterns in accepted contracts. Deviations should be flagged for review.
+
+*   **Payment Terms:**
+    *   **Net Days**:
+        *   **Ideally Net 30 days** when Verse is the paying party. Acceptable up to Net 60 days.
+        *   For commission/revenue-share models, payment to the consultant/vendor is contingent on Verse's receipt of funds from the end-client ("post-collection").
+    *   **Currency**: **Indian Rupee (INR)** is the standard currency for domestic payments. USD is acceptable for international engagements.
+    *   **Taxes**: All payments are exclusive of direct/indirect taxes (e.g., GST), with responsibility clearly defined per `Applicable Law` (e.g., TDS deductions). Input Tax Credit (ITC) benefits expected to be passed on. Vendor is solely liable for all applicable taxes and must indemnify Verse for losses due to vendor's tax non-compliance.
+    *   **Disputed Invoices**: Verse retains the right to withhold disputed sums without penalty until resolution.
+    *   **Audit Rights (media/marketing)**: Strong audit rights for media spends, including access to records, vendor contracts, and billing systems.
+    *   **Pass-Through Pricing (media/marketing)**: All media space/time billed at actual net cost, with 100% of volume discounts/rebates passed on to Verse.
+*   **Notice Periods:**
+    *   **Termination without cause (by Verse)**: **15 to 30 days** prior written notice. Up to **60-90 days** for complex/regulated services or properties post-lock-in.
+    *   **Termination for cause (material breach)**: **15 to 30 days** notice with a cure period. Immediate termination for severe, non-curable breaches (confidentiality, IP, fraud, gross negligence, willful default, law violation, data breaches).
+    *   **Security Incident Notification**: 4-72 hours.
+    *   **Force Majeure Event Notification**: 7 days.
+*   **Governing Law / Jurisdiction:**
+    *   **Governing Law**: **Laws of India**.
+    *   **Jurisdiction**: **Exclusive jurisdiction of the courts in Bangalore, Karnataka** (when Verse is the Company/Client). Acceptable variations for Indian jurisdiction include Mumbai, New Delhi, Hyderabad, Vapi, Puducherry, Ahmedabad.
+    *   **Dispute Resolution**: Amicable settlement first, followed by arbitration (single arbitrator, English language, specific Indian city as venue). Explicit exclusion of conflicting online terms and conditions.
+*   **Liability Caps:**
+    *   **Exclusion of Indirect/Consequential Damages**: Standard exclusion for both parties.
+    *   **Verse's Liability Cap (as the liable party)**: Typically capped at **one (1) month's fees** paid under the agreement, "yearly financial transaction exchanged," or "total Consideration earned by the Company" (vendor).
+    *   **Uncapped Liability (for Vendor/Consultant)**: **Required for breaches of IP, confidentiality, data security/privacy obligations, fraud, gross negligence, and willful misconduct.**
+    *   **Capped Liability (for Vendor, other breaches)**: Typically capped at the total amount paid or payable by Verse in the preceding 12 months for the services giving rise to the liability, or a fixed amount (e.g., INR 2.5M for NDAs, INR 0.5M for MOUs, INR 0.1M for some SAs).
+*   **IP Ownership Terms:**
+    *   **Work Product/Deliverables (Created for Verse as client)**: IP rights for work product (e.g., digital content, reports, software developed) typically **transfer to and vest solely in Verse** (as "work made for hire" or via full assignment). Vendor/Consultant is prohibited from retaining copies or using such IP for other purposes.
+    *   **Pre-existing IP**: Each party retains ownership of its own `Intellectual Property`.
+    *   **Vendor Software/Platform**: Vendor retains ownership of its core software/platform. Verse receives a limited, non-exclusive license for use.
+    *   **Customizations**: Ownership of custom integrations/features should be clearly defined; often vests in the vendor if incorporated into their core product, or in Verse if developed solely for Verse.
+    *   **Brand/Logo Usage**: Vendor requires **prior written consent** to use Verse's name, logo, or trademarks in any marketing or publicity materials.
+    *   **Data-generated IP**: Data generated on vendor platforms often remains the property of the platform owner, with usage rights granted. `Customer Data` (input by Verse) remains Verse's property.
+    *   **Aggregate/Anonymous Data**: Use of anonymized/aggregated data by vendors for product improvement or benchmarking is acceptable, provided it meets high anonymization standards and doesn't allow re-identification of Verse or its users/customers, and is not shared with social media/advertising platforms for their purposes.
+
+---
+
+## 4. RED FLAGS
+
+These are terms or clauses that diverge from Verse's established preferences, are generally unfavorable, or indicate missing critical protections for Verse. These should trigger immediate review and negotiation.
+
+1.  **IP Ownership Vests in Vendor for Commissioned Work**: If the agreement states that Intellectual Property in deliverables, work product, or content created *for* Verse will belong to the Vendor, or if Verse is required to assign its rights to the Vendor. (Strong contrast to Verse's standard position).
+2.  **AI Model Training/Fine-Tuning with Verse Data (ACTIVE CLAUSE)**: Only a RED FLAG if the agreement contains an active clause explicitly permitting the vendor to use Verse's `Customer Data`, `Personal Data`, or `Confidential Information` to train, fine-tune, or improve their AI or large language models, or for competitive products. NOTE: A simply missing AI prohibition clause is NOT a RED FLAG -- add it to SUGGESTIONS with a recommended fix.
+3.  **Vendor's Liability Cap is too Low or Exempted for Critical Breaches**:
+    *   If the Vendor's liability for direct damages is capped at an unreasonably low amount (e.g., 25% of PO value).
+    *   **If liability for IP infringement, confidentiality breaches, data security/privacy breaches, fraud, gross negligence, or willful misconduct is *capped* for the Vendor, or if indirect/consequential damages are excluded for the Vendor in such cases.**
+4.  **Verse's Liability Cap is too High**: If Verse's liability (as the Company/Client/indemnifying party) for direct damages exceeds its preferred "1 month's fees" without strong commercial justification.
+5.  **Unilateral Amendments by Vendor**: Clauses allowing the vendor to unilaterally amend contract terms (especially via online T&Cs or by simply posting updates) without requiring mutual written consent.
+6.  **Payment Terms Unfavorable to Verse**:
+    *   Requiring Verse to make advance payments without clear and strong refund conditions for non-performance.
+    *   Payment terms to vendor/consultant are not tied to Verse's collection from end-clients in revenue-sharing models.
+    *   Payment terms exceeding **Net 60 days** for Verse as the payer.
+    *   Lack of robust audit rights for media spends or no pass-through of discounts/rebates for marketing/media services.
+    *   No requirement for verifiable Proof of Performance (POP) for media invoices.
+7.  **Subcontracting Actively Permitted Without Consent**: Only a RED FLAG if the agreement contains a clause that actively permits the Vendor/Consultant to subcontract without Verse's prior written consent. NOTE: A simply missing subcontracting restriction clause is NOT a RED FLAG -- add it to SUGGESTIONS with a recommended fix.
+8.  **Exclusivity Demanded by Vendor**: If the Vendor requires Verse to engage them exclusively for certain services, thereby restricting Verse's ability to work with other providers, without clear reciprocal benefit for Verse.
+9.  **Governing Law / Jurisdiction Not Indian Law / Bangalore Courts**: For contracts where Verse is the primary contracting party (Company/Client), any deviation from Indian Law and Bangalore, Karnataka courts as exclusive jurisdiction is a red flag.
+10. **Active Bribery/Corruption Violations**: Only a RED FLAG if the agreement contains terms that actively facilitate or fail to prohibit bribery, corruption, or money laundering in a way that creates direct legal risk. NOTE: A simply missing anti-bribery/AML/export control clause is NOT a RED FLAG -- add it to SUGGESTIONS with a recommended fix.
+11. **Vague or Undefined Scope of Services**: Lack of specific details regarding deliverables, timelines, and acceptance criteria, particularly in SOWs or main agreements.
+12. ~~Removed -- Missing non-solicitation/non-compete clauses are SUGGESTIONS ONLY, never RED FLAG. See Section 4.5.~~
+13. **Vendor Actively Permitted to Use Verse's Name Without Approval**: Only a RED FLAG if the agreement contains a clause that actively grants the vendor permission to use Verse's name, logo, or trademarks without prior written consent. NOTE: A simply missing publicity restriction clause is NOT a RED FLAG -- add it to SUGGESTIONS with a recommended fix.
+14. **Actively Inadequate Data Security (when vendor processes PII)**: Only a RED FLAG if the vendor actively processes Verse's Personal Data / PII / SPI and the agreement has no security measures whatsoever, or actively permits storing data outside India. NOTE: Simply missing clauses on ISO 27001, DPDP Act, breach notification timelines, data residency, or audit rights are NOT RED FLAGS -- add them to SUGGESTIONS with a recommended fix.
+15. **Automatic Renewal Clauses**: Any language suggesting automatic extension or renewal of the agreement term without explicit provision for managing non-renewal or clear notice.
+16. **Broad Data Sharing/Usage Rights for Vendor**: Clauses that allow the vendor to share, sell, or use Verse's data (or end-customer data provided by Verse) for purposes beyond the direct execution of the agreement.
+17. **High or Uncapped Penalties against Verse**: Penalties for Verse (e.g., for late payment) that are excessively high, disproportionate to the contract value, or lack a reasonable cap.
+18. **Unbalanced Disparagement Clauses**: Clauses that prohibit Verse from commenting on vendor services but do not similarly restrict the vendor regarding Verse.
+19. **Provisions Allowing Competitive Development/Reverse Engineering**: Clauses that do not explicitly prohibit the vendor from reverse engineering Verse's platforms or developing competitive products based on information gained through the engagement.
+20. **Unlimited Liability Against Verse (when Verse is the Indemnifying Party/Service Provider)**: Clauses that impose unlimited monetary liability on Verse without reasonable caps or appropriate carve-outs.
+21. **Disputed Payments Forcing Unconditional Payment**: Clauses that mandate Verse to pay disputed invoice amounts without allowing for good-faith withholding pending resolution.
+22. **Missing Critical Annexures/Schedules**: If the main agreement references schedules (e.g., Scope of Work, Data Privacy Addendum) that are not physically attached or clearly incorporated.
+23. **"Principal-Trading" by Media Vendors**: Clauses allowing media vendors to sell their own inventory without prior disclosure and explicit approval.
+24. **Excessively Long Lock-in Periods or Punitive Early Termination Charges**: Long lock-in periods or full remaining contract value as early termination fee.
+
+---
+
+## 4.5 SUGGESTIONS ONLY (NEVER RED FLAG)
+
+The following items must ALWAYS go in the SUGGESTIONS section with a recommended fix. They must NEVER be used to mark a document REVIEW NEEDED or assign a RED FLAG status in the clause-by-clause analysis:
+
+1. **Missing anti-bribery / AML / export control / sanctions clauses** -- Add to SUGGESTIONS with recommended fix.
+2. **Missing non-solicitation / non-compete clauses** -- Add to SUGGESTIONS with recommended fix.
+3. **Missing AI usage prohibition clause** -- Add to SUGGESTIONS. Only RED FLAG if vendor HAS an active clause permitting AI training with Verse data.
+4. **Missing data security specifics** (ISO 27001, DPDP compliance, breach notification timelines, data residency within India, audit rights) -- Add to SUGGESTIONS. Only RED FLAG if vendor actively processes PII and agreement has zero security provisions.
+5. **Missing publicity restriction clause** -- Add to SUGGESTIONS. Only RED FLAG if vendor is actively granted permission to use Verse name.
+6. **Missing assignment / subcontracting restriction** -- Add to SUGGESTIONS. Only RED FLAG if vendor is actively permitted to assign/subcontract freely.
+7. **Missing arbitration / dispute resolution clause** -- Add to SUGGESTIONS.
+8. **Missing waiver clause** -- Add to SUGGESTIONS.
+9. **Missing conflict of interest clause** -- Add to SUGGESTIONS.
+10. **Missing audit and inspection rights clause** -- Add to SUGGESTIONS.
+11. **Missing return / destruction of confidential information clause** -- Add to SUGGESTIONS.
+12. **Unfilled admin fields** (execution date, email addresses, bank details, signatures) -- Add to SUGGESTIONS.
+13. **Missing boilerplate** (severability, notices with missing email, amendment clause) -- Add to SUGGESTIONS.
+14. **Missing force majeure clause** -- Add to SUGGESTIONS.
+15. **Verse liability cap slightly higher than 1 month** (e.g., yearly transaction amount) -- Add to SUGGESTIONS to negotiate lower; not a RED FLAG on its own.
+16. **Missing definitions for optional terms** (e.g., Intellectual Property, Personal Data not defined but used generally) -- Add to SUGGESTIONS.
+
+17. **Missing Data Protection clause in non-PII-processing agreements** (e.g., BD consultant, referral agent, commission agent who does not handle customer PII/SPI) -- Add to SUGGESTIONS only. NOT a RED FLAG or REVIEW NEEDED. Only escalate to REVIEW NEEDED if the vendor actively processes Verse's customer PII and the agreement has zero data protection provisions.
+18. **Missing IP Ownership clause in pure BD/referral/commission-based consultancy agreements** (scope limited to client introduction, no deliverables created) -- Add to SUGGESTIONS only. NOT a RED FLAG or REVIEW NEEDED. See B2 IP Exception above.
+
+CRITICAL RULE: A document should be marked VALID if all required legal substance is present, even if many of the above items are missing. Missing optional/compliance clauses never justify REVIEW NEEDED.
+
+---
+
+
+## 5. VALIDATION CHECKLIST
+
+This step-by-step checklist is to be used for validating any new vendor document, assuming Verse Innovation Private Ltd. is the "Company" or "Client" in the contract.
+
+**Process Flow:**
+
+**Phase 1: Document Intake & Classification**
+
+1.  **Identify Document Type**:
+    *   **Check**: Does the document title or content clearly identify it as one of the `ACCEPTED DOCUMENT TYPES`?
+    *   **Action**: If "Other" or unidentifiable, **FLAG for Human Review (H-1)**.
+2.  **Verify Parties' Legal Names & Addresses**:
+    *   **Check**: Are "Verse Innovation Private Ltd." (or specified Affiliate) and the Vendor clearly named as parties with accurate registered address, CIN/GSTIN (if applicable)?
+    *   **Action**: If discrepancies, **FLAG for Human Review (H-2)**.
+3.  **Check Dates & Signatures**:
+    *   **Check**: Are "Effective Date" and "Execution Date" (if applicable) clearly specified and logical?
+    *   **Action**: If dates or signatures are blank/missing, add to **SUGGESTIONS** with recommended fix. NOT a RED FLAG or Human Review flag. These are admin fields.
+4.  **Recitals/Purpose Review**:
+    *   **Check**: Is the agreement's purpose clearly stated and consistent with Verse's business needs?
+    *   **Action**: If "Needs Clarification", **FLAG for Human Review (H-4)**.
+5.  **Referenced Documents**:
+    *   **Check**: Ensure all referenced Annexures, Schedules, SOWs, POs are present or clearly specified to be provided later.
+    *   **Action**: If a referenced but missing document contains the core scope or pricing, add to **SUGGESTIONS**. Only FLAG for Human Review if the missing annexure is so critical that the agreement cannot be understood without it.
+
+**Phase 2: Core Clause Validation (General - Apply to most Contractual Agreements)**
+
+*(AI Agent to extract clause text and compare against defined patterns/keywords for each point below.)*
+
+1.  **Governing Law & Jurisdiction**:
+    *   **Check**: Is the governing law explicitly stated as **"Laws of India"**?
+    *   **Action**: If "Fail", **RED FLAG (R-9)**.
+    *   **Check**: Is the exclusive jurisdiction for disputes stated as **Bengaluru, Karnataka, India**, or another acceptable major Indian city (e.g., New Delhi, Mumbai, Hyderabad)?
+    *   **Action**: If "Fail" and outside acceptable Indian cities, **RED FLAG (R-9)**.
+2.  **Relationship of Parties** (applies to: MSA, SA, Consultancy, Partnership, Digital Marketing, SaaS — NOT required in PO, NDA, Declaration, LOI):
+    *   **Check**: Explicitly states "independent contractors," "no partnership, joint venture, employer-employee, agency."
+    *   **Action**: If missing in a document type where it applies, add to **SUGGESTIONS**. Only FLAG for Human Review if the clause suggests an employer-employee or agency relationship is being created.
+3.  **Confidentiality** (applies to: MSA, SA, SaaS, Consultancy, NDA, MOU, Partnership, DLA — NOT required as a standalone clause in PO, SOW, IO, Declaration, LOI, Authorization Letter where it is covered by a parent agreement):
+    *   **Check**: Clause for mutual confidentiality with clear definition, non-use/non-disclosure obligations, standard exceptions, and a survival period of at least 1 year post-termination.
+    *   **Action**: If missing in a document type where it applies, add to **SUGGESTIONS**. Only FLAG for Human Review if confidentiality is entirely absent in an NDA or a standalone service agreement that handles sensitive information.
+4.  **Assignment**:
+    *   **Check**: Verse (as Company) can assign rights/obligations.
+    *   **Check**: Vendor requires Verse's prior written consent to assign or subcontract.
+    *   **Action**: If vendor IS ACTIVELY PERMITTED to assign/subcontract freely (explicit clause), **RED FLAG (R-7)**. If restriction is simply missing, add to **SUGGESTIONS** with recommended fix.
+5.  **Force Majeure** (applies to: MSA, SA, SaaS, Consultancy, Partnership, Production — NOT required in PO, NDA, Declaration, LOI, Authorization Letter):
+    *   **Check**: Standard force majeure clause present, including pandemics/epidemics.
+    *   **Action**: If missing in a document type where it applies, add to **SUGGESTIONS** with recommended fix. NOT a RED FLAG.
+6.  **Compliance (Anti-Bribery/AML/Export Control)**:
+    *   **Check**: Presence of clauses addressing Anti-Bribery/Anti-Corruption, Anti-Money Laundering, and Export Control.
+    *   **Action**: If missing, add to **SUGGESTIONS** with recommended fix. NOT a RED FLAG.
+7.  **Amendments**:
+    *   **Check**: Does the clause explicitly require **mutual written agreement and signature from both parties** for any amendments to be effective?
+    *   **Action**: If "Fail" (i.e., unilateral amendment allowed by vendor), **RED FLAG (R-5)**.
+8.  **Entire Agreement / Severability / Waiver / Notices**:
+    *   **Check**: Are these standard boilerplate clauses present and reasonable?
+    *   **Action**: If missing critical boilerplate, **FLAG for Human Review (H-9)**.
+
+**Phase 3: Document-Specific Clause Validation**
+
+#### P3.1. General Commercial Agreements (MSA, SA, SaaS, Consultancy, Partnership, Digital Marketing, Production, DLA)
+
+1.  **Scope of Services / Deliverables** (applies to: MSA, SA, SaaS, Consultancy, Partnership, Digital Marketing, Production, DLA — SOW/PO/IO already are the scope document so this check does not apply to them):
+    *   **Check**: Clear description or reference to an SOW/SOF. Specificity regarding outputs, quality, standards.
+    *   **Action**: If completely absent with no reference to any scope document in a standalone service agreement, **RED FLAG (R-11)**. If present but vague, add to **SUGGESTIONS** to add specificity.
+2.  **Payment Terms (Verse as Client/Payer)**:
+    *   **Check**: Is the payment term **Net 30 days or less** from receipt of valid invoice?
+    *   **Action**: If > 60 days, **RED FLAG (R-6)**.
+    *   **Check**: Currency specified as **INR** for India-based vendors.
+    *   **Action**: If "Fail" and not justified for international engagement, **FLAG for Human Review (H-10)**.
+    *   **Check**: Explicitly states prices are **exclusive of taxes (e.g., GST)**, and confirms Verse's right to **deduct TDS**?
+    *   **Action**: If "Fail", **FLAG for Human Review (H-11)**.
+    *   **Check**: Does the clause **prevent unilateral fee increases by the vendor** for commercial reasons (e.g., inflation, operating costs)? (Allowances for statutory tax changes or *explicitly approved* third-party component pass-throughs are acceptable).
+    *   **Action**: If "Fail", **RED FLAG (R-6)**.
+    *   **Check**: For commission/revenue share, is payment to vendor explicitly **post-Verse's collection** from end-client?
+    *   **Action**: If "Fail", **RED FLAG (R-6)**.
+3.  **Intellectual Property (IP)**:
+    *   **Check**: First determine whether the agreement involves creation of any custom deliverable, work product, content, software, or design for Verse. If the scope is strictly limited to business development, client introduction, referral, or lead generation (commission-based, no deliverables), then IP Ownership is NOT a required clause — skip this check and add a SUGGESTION only.
+    *   **Check**: For agreements where custom deliverables/work ARE created for Verse, does the IP **vest solely with Verse Innovation Private Ltd.** (as "work made for hire" or via full assignment)?
+    *   **Action**: If IP vests with vendor for a deliverables-based engagement, **RED FLAG (R-1)**. If IP clause is missing in a pure BD/referral/commission agreement with no deliverables, add to **SUGGESTIONS** only — NOT REVIEW NEEDED.
+    *   **Check**: Does the agreement actively grant the vendor permission to use Verse's name, logo, or brand assets without prior written consent?
+    *   **Action**: If vendor IS ACTIVELY PERMITTED to use Verse's name/logo without approval, **RED FLAG (R-13)**. If publicity restriction clause is simply missing, add to **SUGGESTIONS** with recommended fix. NOT a RED FLAG.
+4.  **Indemnification**:
+    *   **Check**: Vendor indemnifies Verse for its breaches, IP infringement, content (if applicable), data breaches, and compliance failures.
+    *   **Action**: If indemnity is weak, limited, or missing key aspects, **FLAG for Human Review (H-12)**.
+5.  **Limitation of Liability (LoL)**:
+    *   **Check**: Excludes indirect/consequential damages.
+    *   **Check**: **Uncapped liability for IP infringement, confidentiality breach, data security/privacy breaches, fraud, and willful misconduct.**
+    *   **Check**: Capped liability for other events (e.g., 12-month fees).
+    *   **Action**: If caps apply to "uncapped" categories (IP, confidentiality, fraud, gross negligence) for the vendor, **RED FLAG (R-3)**. If Verse's liability is completely uncapped (no cap at all), **RED FLAG (R-4)**. If Verse's cap is slightly higher than preferred (e.g., yearly transaction vs 1 month), add to **SUGGESTIONS** to negotiate lower — NOT a RED FLAG.
+6.  **Term & Termination**:
+    *   **Check**: Verse has right to terminate for convenience (e.g., 15-30 days notice).
+    *   **Check**: Verse has right to terminate for material breach (with reasonable cure period, 15-30 days).
+    *   **Check**: Survival of IP, Confidentiality, Indemnity, Liability clauses.
+    *   **Action**: If Verse's termination rights are unduly restricted, **FLAG for Human Review (H-13)**.
+    *   **Check**: Are lock-in periods clearly defined and reasonable? Are early termination charges (if any) defined and **not punitive** (e.g., not full remaining contract value)?
+    *   **Action**: If "Fail", **RED FLAG (R-24)**.
+7.  **Data Security & Privacy (Applicable if Personal Data is Processed by Vendor)**:
+    *   **Check**: Does the agreement (or an annexure) require the vendor to implement **appropriate technical and organizational safeguards** and comply with applicable law?
+    *   **Action**: If simply missing, add to **SUGGESTIONS** with recommended fix. RED FLAG only if vendor actively processes PII/SPI and agreement has zero data security provisions.
+    *   **Check**: Is there a clause prohibiting AI training with Verse data?
+    *   **Action**: If simply missing, add to **SUGGESTIONS**. **RED FLAG (R-2)** ONLY if vendor HAS an active clause explicitly permitting AI training with Verse data.
+    *   **Check**: Data residency, breach notification, audit rights.
+    *   **Action**: If simply missing, add all to **SUGGESTIONS** with recommended fix. NOT a RED FLAG.
+
+#### P3.2. Consultancy Agreement (Specifics when Verse is the Company)
+1.  **No Agency / Authority to Bind**:
+    *   **Check**: Explicitly states consultant is NOT an agent and CANNOT bind Verse.
+    *   **Action**: If missing or ambiguous, **FLAG for Human Review (H-14)**.
+2.  **Payment on "Net Collections"**:
+    *   **Check**: Commission explicitly linked to Net Collections received by Verse from end-client.
+    *   **Action**: If payment is due before Verse collects, **RED FLAG (R-6)**.
+3.  **Non-Solicitation & Non-Compete**:
+    *   **Check**: Presence of non-solicitation (employees/clients) and non-compete clauses for a reasonable period (e.g., 6 months to 24 months post-termination) with a penalty clause.
+    *   **Action**: If missing or too short, add to **SUGGESTIONS** with recommended fix. NOT a RED FLAG.
+
+#### P3.3. NDA / MOU (Creative Ideas Specific)
+1.  **IP Ownership of Ideas**:
+    *   **Check**: Clause clarifies "Ideas" (creative concepts) remain the vendor's IP.
+    *   **Check**: Verse receives a *limited, non-exclusive license for pitching only*.
+    *   **Check**: Explicit statement that commercial use/exploitation requires separate written agreement and fees.
+    *   **Action**: If Verse is granted commercial use rights without separate terms, or vendor IP ownership is ambiguous, **FLAG for Human Review (H-15)**.
+2.  **First Right of Execution / Non-Circumvention**:
+    *   **Check**: Presence of clauses granting the original creator a first right of execution for commercialized ideas.
+    *   **Check**: Non-circumvention clause (e.g., 24 months) to prevent Verse from bypassing the vendor.
+    *   **Action**: If missing (for original creator) or too weak, **FLAG for Human Review (H-16)**.
+
+#### P3.4. Leave and License Agreement (LLA) / Rent Agreement (RA) (Verse as Licensee)
+1.  **Use of Premises**:
+    *   **Check**: Clearly defines permitted use and restricts use as primary registered office or for credit facilities.
+    *   **Action**: If vague or absent, **FLAG for Human Review (H-17)**.
+2.  **Refund Policy**:
+    *   **Check**: Is the refund policy for deposit/fees clear and unambiguous regarding conditions and amounts?
+    *   **Action**: If vague, **FLAG for Human Review (H-18)**.
+
+#### P3.5. Letter of Intent (LOI)
+1.  **Non-Binding Nature**:
+    *   **Check**: Explicit statement that the LOI is non-binding, except for specific clauses (e.g., confidentiality, governing law).
+    *   **Action**: If it implies binding obligations, **FLAG for Human Review (H-19)**.
+2.  **Key Commercial Terms**:
+    *   **Check**: All major commercial principles (e.g., revenue share, PII handling, IP) are outlined in line with Verse's preferences for the future definitive agreement.
+    *   **Action**: If missing key commercial aspects or contradicts Verse's preferences, **FLAG for Human Review (H-20)**.
+
+**Phase 4: Final Red Flag Check & Overall Assessment**
+
+1.  **Review for Aggregated Red Flags**:
+    *   **Check**: Has the document triggered any of the `RED FLAGS` from Section 4?
+    *   **Action**: Consolidate all identified red flags and list them.
+2.  **Completeness & Consistency**:
+    *   **Check**: Are there any blank fields or missing information that needs to be filled? Are there inconsistencies between main agreement and annexures?
+    *   **Action**: If "Fail", **FLAG for Human Review (H-21)**.
+
+**Summary of Validation Results:**
+
+*   **Overall Status**: [Pass/Requires Human Review/Negotiation Required/Reject]
+*   **Total Red Flags**: [Number]
+*   **Total Human Review Flags**: [Number]
+*   **List of Specific Flags (with R/# or H/# codes)**:
+    *   [R-X: [Red Flag Description]]
+    *   [H-X: [Human Review Flag Description]]
+    *   ... (Provide specific details for each flagged item)
+
+---
+**Disclaimer:** This runbook provides a comprehensive framework for pre-screening vendor documents. It is not exhaustive and cannot replace the nuanced judgment of a human legal professional. Any document containing critical red flags or complex deviations *must* be reviewed by Verse Innovation's legal team. The AI agent's role is to pre-screen and highlight potential issues, not to make final legal determinations.
+
+---
+
+## INCREMENTAL UPDATE — New Patterns from Recent Valid Docs
+
+NEW / UPDATED CLAUSE PATTERNS:
+- **Payment Terms - Net Collections Definition (Consultancy/Revenue Share)**: When Verse is a revenue recipient, the definition of "Net Collections" explicitly includes deductions for "any credit notes, make-goods, performance adjustments, rate revisions, rebates, refunds, cancellations, or write-offs". This ensures commission is based on actual, final revenue received by Verse.
+- **Payment Terms - Post-Payment Commission Adjustment**: For commission-based agreements, a clause allowing recalculation of commission and requiring refund of excess commission paid to the vendor/consultant if Verse subsequently issues credit notes, refunds, or receives chargebacks related to the underlying deal.
+- **Scope of Services - Government Campaign Compliance**: A clause specifically requiring the vendor/consultant to ensure compliance with government procurement norms, empanelment requirements, and specific documentation/invoicing formats for engagements related to government departments, PSUs, or government-affiliated entities.
+- **Representations & Warranties - Content Compliance (for general service/marketing/consultancy)**: A detailed representation and warranty from the vendor/consultant that any content shared or involved in the services shall comply with Applicable Laws and authority guidelines (e.g., CCPA, ASCI), and specifies prohibited content types (e.g., defamatory, obscene, infringing IP, harmful to child, misleading).
+- **Term - Explicit "No Automatic Renewal" with Anti-Holding-Over Language**: For term-based agreements (especially leases), clear language stating that "any holding over, continued occupation, or acceptance of rent after [specified date] shall not be construed as an automatic renewal", further strengthening the non-automatic renewal principle.

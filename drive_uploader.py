@@ -75,7 +75,7 @@ def upload_to_validated(vendor_name: str, filename: str, file_bytes: bytes) -> d
     return {"file_id": new_file["id"], "filename": final_name}
 
 
-def upload_analysis_txt(vendor_name: str, doc_filename: str, analysis_text: str, dest_folder_id: str = None) -> dict:
+def upload_analysis_txt(vendor_name: str, doc_filename: str, analysis_text: str, dest_folder_id: str | None = None) -> dict:
     service = _get_drive_service()
     folder_id = dest_folder_id if dest_folder_id else DRIVE_INCOMING_FOLDER_ID
     vendor_folder_id = _get_or_create_subfolder(service, folder_id, vendor_name)

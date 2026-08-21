@@ -6,9 +6,9 @@
 |---|---|
 | GCP Project | `gemini-project-n1` |
 | Region | `asia-south1` (Mumbai) |
-| Cloud Run Service | `vendor-doc-intake` |
-| Service URL | `https://vendor-doc-intake-852267154002.asia-south1.run.app` |
-| Cloud Scheduler Job | `vendor-doc-intake-scheduler` |
+| Cloud Run Service | `verse-contracts-explorer` |
+| Service URL | `https://verse-contracts-explorer-852267154002.asia-south1.run.app` |
+| Cloud Scheduler Job | `verse-contracts-explorer-scheduler` |
 | Scheduler Frequency | Every day at 9 AM IST (`0 9 * * *`) |
 | Scheduler Timeout | 60s (returns 202 immediately, processes in background) |
 | Gmail Account | `legal-watcher@verse.in` |
@@ -26,7 +26,16 @@
 | Root (Shared Drive) | `0ABX-6SqT0zlrUk9PVA` |
 | `under-review-docs` | `1vy6VIDz_HWmdTESbm-ve_rf8Y7iBW7X7` |
 | `valid-docs` | `1y6WmPhTZxVkWlaS_4Je0NHOwlmWbFkuP` |
-| `runbook` | `1W1KZT7AF2vj-_2wc9Aj7I0uKd7q66Qv6` |
+| `runbook` (Drive — agent reference) | `1W1KZT7AF2vj-_2wc9Aj7I0uKd7q66Qv6` |
+
+## GCS Bucket
+
+| Resource | Value |
+|---|---|
+| Bucket | `verse-contracts-runbook` |
+| Region | `asia-south1` |
+| File | `validation_runbook.txt` |
+| Purpose | Runbook read/write by Cloud Run pipeline |
 
 ---
 
@@ -51,6 +60,7 @@
 | `DRIVE_RUNBOOK_FOLDER_ID` | `1W1KZT7AF2vj-_2wc9Aj7I0uKd7q66Qv6` |
 | `GCP_PROJECT` | `gemini-project-n1` |
 | `GCP_LOCATION` | `us-central1` |
+| `GCS_RUNBOOK_BUCKET` | `verse-contracts-runbook` |
 | `SERVICE_ACCOUNT_JSON` | From Secret Manager → `drive-service-account-json` |
 
 ---
@@ -92,7 +102,7 @@ Every day at 9 AM IST
 ```bash
 gcloud auth print-identity-token | xargs -I{} curl -X POST \
   -H "Authorization: Bearer {}" \
-  https://vendor-doc-intake-852267154002.asia-south1.run.app/run
+  https://verse-contracts-explorer-852267154002.asia-south1.run.app/run
 ```
 
 ---

@@ -27,7 +27,8 @@ def _to_gemini_part(filename: str, file_bytes: bytes):
         return types.Part.from_bytes(data=file_bytes, mime_type="text/plain")
     return None
 
-from drive_uploader import _get_drive_service, DRIVE_VALIDATED_FOLDER_ID, DRIVE_RUNBOOK_FOLDER_ID
+from google.cloud import storage as gcs
+from drive_uploader import _get_drive_service, DRIVE_VALIDATED_FOLDER_ID
 from gmail_reader import fetch_valid_vendor_email_threads
 
 load_dotenv()
@@ -36,6 +37,7 @@ PROJECT_ID = os.getenv("GCP_PROJECT", "gemini-project-n1")
 LOCATION = os.getenv("GCP_LOCATION", "us-central1")
 MODEL = "gemini-2.5-flash"
 RUNBOOK_FILENAME = "validation_runbook.txt"
+GCS_BUCKET = os.getenv("GCS_RUNBOOK_BUCKET", "verse-contracts-runbook")
 
 GENERATION_PROMPT = """
 You are a legal policy analyst for Verse Innovation Private Ltd.
@@ -98,36 +100,29 @@ def _download_file(service, file_id: str) -> bytes:
     return service.files().get_media(fileId=file_id, supportsAllDrives=True).execute()
 
 
-def _save_runbook_to_drive(service, content: str) -> str:
-    from googleapiclient.http import MediaIoBaseUpload
+def _save_runbook_to_gcs(content: str) -> None:
+    client = gcs.Client(project=PROJECT_ID)
+    bucket = client.bucket(GCS_BUCKET)
+    blob = bucket.blob(RUNBOOK_FILENAME)
+    blob.upload_from_string(content.encode("utf-8"), content_type="text/plain")
 
-    query = f"'{DRIVE_RUNBOOK_FOLDER_ID}' in parents and name = '{RUNBOOK_FILENAME}' and trashed = false"
-    existing = service.files().list(
-        q=query, fields="files(id)", supportsAllDrives=True, includeItemsFromAllDrives=True
-    ).execute().get("files", [])
-    for f in existing:
-        try:
-            service.files().delete(fileId=f["id"], supportsAllDrives=True).execute()
-        except Exception:
-            pass
 
-    media = MediaIoBaseUpload(io.BytesIO(content.encode("utf-8")), mimetype="text/plain", resumable=True)
-    metadata = {"name": RUNBOOK_FILENAME, "parents": [DRIVE_RUNBOOK_FOLDER_ID]}
-    new_file = service.files().create(
-        body=metadata, media_body=media, fields="id", supportsAllDrives=True
-    ).execute()
-    return new_file["id"]
+def _append_to_runbook_gcs(additions: str) -> None:
+    client = gcs.Client(project=PROJECT_ID)
+    bucket = client.bucket(GCS_BUCKET)
+    blob = bucket.blob(RUNBOOK_FILENAME)
+    existing = blob.download_as_text(encoding="utf-8") if blob.exists() else ""
+    updated = existing.rstrip() + f"\n\n---\n\n## INCREMENTAL UPDATE — New Patterns from Recent Valid Docs\n\n{additions}\n"
+    blob.upload_from_string(updated.encode("utf-8"), content_type="text/plain")
 
 
 def fetch_runbook() -> str | None:
-    service = _get_drive_service()
-    query = f"'{DRIVE_RUNBOOK_FOLDER_ID}' in parents and name = '{RUNBOOK_FILENAME}' and trashed = false"
-    existing = service.files().list(
-        q=query, fields="files(id)", supportsAllDrives=True, includeItemsFromAllDrives=True
-    ).execute().get("files", [])
-    if not existing:
+    client = gcs.Client(project=PROJECT_ID)
+    bucket = client.bucket(GCS_BUCKET)
+    blob = bucket.blob(RUNBOOK_FILENAME)
+    if not blob.exists():
         return None
-    return _download_file(service, existing[0]["id"]).decode("utf-8", errors="ignore")
+    return blob.download_as_text(encoding="utf-8")
 
 
 BATCH_SIZE = 20
@@ -149,7 +144,7 @@ The final runbook must include:
 
 
 def _generate_batch_runbook(client, files: list, service) -> str:
-    contents = [GENERATION_PROMPT]
+    contents: list = [GENERATION_PROMPT]
     for f in files:
         try:
             file_bytes = _download_file(service, f["id"])
@@ -190,7 +185,7 @@ def generate_runbook() -> dict:
     email_count = len(threads)
     attachment_count = 0
     if threads:
-        email_contents = [GENERATION_PROMPT, "\n\n--- VALID VENDOR EMAIL THREADS ---\n"]
+        email_contents: list = [GENERATION_PROMPT, "\n\n--- VALID VENDOR EMAIL THREADS ---\n"]
         for thread in threads:
             email_contents.append(thread["text"])
             for filename, file_bytes in thread["attachments"]:
@@ -215,12 +210,13 @@ def generate_runbook() -> dict:
         merge_response = client.models.generate_content(model=MODEL, contents=merge_contents)
         final_runbook = (merge_response.text or "").strip()
 
-    file_id = _save_runbook_to_drive(service, final_runbook)
+    _save_runbook_to_gcs(final_runbook)
 
     return {
         "status": "ok",
         "message": f"Runbook generated from {doc_count} docs across {len(batches)} batches, {email_count} email threads, {attachment_count} email attachments.",
-        "file_id": file_id,
+        "bucket": GCS_BUCKET,
+        "file": RUNBOOK_FILENAME,
     }
 
 
@@ -281,11 +277,10 @@ def update_runbook(new_docs: list) -> dict:
     if not existing_runbook:
         return {"status": "skip", "message": "No existing runbook found. Run /generate-runbook first."}
 
-    service = _get_drive_service()
     client = genai.Client(vertexai=True, project=PROJECT_ID, location=LOCATION)
 
     # Build prompt with existing runbook + new docs
-    contents = [UPDATE_PROMPT.format(existing_runbook=existing_runbook)]
+    contents: list = [UPDATE_PROMPT.format(existing_runbook=existing_runbook)]
     added = 0
     for filename, file_bytes in new_docs:
         part = _to_gemini_part(filename, file_bytes)
@@ -304,12 +299,11 @@ def update_runbook(new_docs: list) -> dict:
     if not additions or "NO NEW PATTERNS FOUND" in additions:
         return {"status": "ok", "message": "Runbook already covers all patterns in new docs. No update needed."}
 
-    # Append new findings to the existing runbook
-    updated_runbook = existing_runbook.rstrip() + f"\n\n---\n\n## INCREMENTAL UPDATE — New Patterns from Recent Valid Docs\n\n{additions}\n"
-    _save_runbook_to_drive(service, updated_runbook)
+    # Append only new findings — never replace existing rules
+    _append_to_runbook_gcs(additions)
 
     return {
         "status": "ok",
-        "message": f"Runbook incrementally updated with patterns from {added} new doc(s).",
+        "message": f"Runbook appended with patterns from {added} new doc(s).",
         "additions": additions,
     }

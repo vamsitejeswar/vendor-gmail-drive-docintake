@@ -49,7 +49,7 @@ def _get_labels(mail, num):
     return ""
 
 
-def fetch_new_vendor_emails(sender_filter: str = None):
+def fetch_new_vendor_emails(sender_filter: str | None = None):
     mail = _connect()
     _ensure_label_exists(mail)
 

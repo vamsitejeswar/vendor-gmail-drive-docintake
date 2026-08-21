@@ -123,7 +123,7 @@ IMPORTANT: Unfilled admin fields (execution date, email, bank details, signature
 """
 
     doc_part = _to_gemini_part(filename, file_bytes)
-    contents = [prompt]
+    contents: list = [prompt]
     if doc_part:
         contents.append(doc_part)
     response = client.models.generate_content(model=MODEL, contents=contents)

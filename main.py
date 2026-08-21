@@ -19,7 +19,7 @@ def vendor_name_from_email(from_address: str) -> str:
     return match.group(0) if match else "unknown-vendor"
 
 
-def run(sender: str = None):
+def run(sender: str | None = None):
     emails = fetch_new_vendor_emails(sender_filter=sender)
     if not emails:
         return
