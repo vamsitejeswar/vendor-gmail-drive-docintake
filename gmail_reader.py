@@ -1,8 +1,11 @@
 import email
 import imaplib
+import logging
 import os
 
 from dotenv import load_dotenv
+
+logger = logging.getLogger(__name__)
 
 load_dotenv()
 
@@ -15,9 +18,13 @@ EXCLUDED_EXTENSIONS = {".ics"}
 
 
 def _connect():
-    mail = imaplib.IMAP4_SSL("imap.gmail.com", 993)
+    logger.info("IMAP: connecting...")
+    mail = imaplib.IMAP4_SSL("imap.gmail.com", 993, timeout=30)
+    logger.info("IMAP: connected, logging in...")
     mail.login(GMAIL_ADDRESS, GMAIL_APP_PASSWORD)
+    logger.info("IMAP: logged in, selecting INBOX...")
     mail.select("INBOX")
+    logger.info("IMAP: INBOX selected")
     return mail
 
 
@@ -54,21 +61,22 @@ def fetch_new_vendor_emails(sender_filter: str | None = None):
     _ensure_label_exists(mail)
 
     if sender_filter:
-        _, message_numbers = mail.search(None, f'FROM "{sender_filter}"')
+        _, all_nums = mail.search(None, f'FROM "{sender_filter}"')
     else:
-        _, message_numbers = mail.search(None, "ALL")
+        _, all_nums = mail.search(None, "ALL")
+
+    _, processed_nums = mail.search(None, 'X-GM-LABELS', f'"{PROCESSED_LABEL}"')
+
+    all_set = set(all_nums[0].split())
+    processed_set = set(processed_nums[0].split())
+    to_process = list(all_set - processed_set)
 
     results = []
-    nums = message_numbers[0].split()
-    if not nums:
+    if not to_process:
         mail.logout()
         return results
 
-    for num in nums:
-        labels = _get_labels(mail, num)
-        if PROCESSED_LABEL in labels:
-            continue
-
+    for num in to_process:
         _, msg_data = mail.fetch(num, "(RFC822)")
         raw = msg_data[0]
         if not isinstance(raw, tuple):

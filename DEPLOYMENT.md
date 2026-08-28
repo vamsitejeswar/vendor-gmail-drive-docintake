@@ -62,6 +62,10 @@
 | `GCP_LOCATION` | `us-central1` |
 | `GCS_RUNBOOK_BUCKET` | `verse-contracts-runbook` |
 | `SERVICE_ACCOUNT_JSON` | From Secret Manager → `drive-service-account-json` |
+| `GROUP_EMAIL` | `test_contract@verse.in` |
+| `GROUP_MEMBER_EMAIL` | `temp_wohlig.praveen@verse.in` |
+| `GROUP_MEMBER_APP_PASSWORD` | Gmail App Password for the member account |
+| `DRIVE_GROUP_EMAILS_FOLDER_ID` | `0AOHQl782zGzxUk9PVA` |
 
 ---
 

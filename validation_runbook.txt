@@ -10,7 +10,8 @@
 
 **OVERRIDING RULE — VALID vs REVIEW NEEDED:**
 - Mark VALID if the core legal substance is present and appropriate for the document type, even if many optional or compliance clauses are missing.
-- Mark REVIEW NEEDED ONLY IF: governing law is not Indian law, vendor explicitly retains IP for deliverables created for Verse, a critical legal placeholder is blank (e.g., party name is [blank], jurisdiction is [blank]), or a truly critical clause for that document type is missing (e.g., no scope of services in a service agreement, no payment terms in a commercial agreement).
+- Mark REVIEW NEEDED ONLY IF: vendor explicitly retains IP for deliverables created for Verse, a critical legal placeholder is blank (e.g., party name is [blank], jurisdiction is [blank]), or a truly critical clause for that document type is missing (e.g., no scope of services in a service agreement, no payment terms in a commercial agreement).
+- Non-Indian governing law or non-Indian jurisdiction (e.g. British Law, London courts) does NOT trigger REVIEW NEEDED. Mark the document VALID and place the governing law issue in SUGGESTIONS only with a recommended fix to change to Indian law and Bengaluru, Karnataka courts.
 - Missing optional clauses (anti-bribery, non-solicitation, AI prohibition, data security specifics, audit rights, arbitration) → SUGGESTIONS ONLY, NEVER REVIEW NEEDED.
 
 ---
@@ -263,7 +264,7 @@ These are terms or clauses that diverge from Verse's established preferences, ar
     *   No requirement for verifiable Proof of Performance (POP) for media invoices.
 7.  **Subcontracting Actively Permitted Without Consent**: Only a RED FLAG if the agreement contains a clause that actively permits the Vendor/Consultant to subcontract without Verse's prior written consent. NOTE: A simply missing subcontracting restriction clause is NOT a RED FLAG -- add it to SUGGESTIONS with a recommended fix.
 8.  **Exclusivity Demanded by Vendor**: If the Vendor requires Verse to engage them exclusively for certain services, thereby restricting Verse's ability to work with other providers, without clear reciprocal benefit for Verse.
-9.  **Governing Law / Jurisdiction Not Indian Law / Bangalore Courts**: For contracts where Verse is the primary contracting party (Company/Client), any deviation from Indian Law and Bangalore, Karnataka courts as exclusive jurisdiction is a red flag.
+9.  **Governing Law / Jurisdiction Not Indian Law / Bangalore Courts**: Non-Indian governing law (e.g. British Law, English Law) or non-Indian jurisdiction (e.g. London courts) is NOT a red flag and does NOT trigger REVIEW NEEDED. Add to SUGGESTIONS only with recommended fix to change to Indian law and Bengaluru, Karnataka courts. Indian law with a non-Bengaluru Indian city (Mumbai, Delhi, Hyderabad) is VALID — add to SUGGESTIONS as an advisory note recommending Bengaluru, Karnataka as Verse's preferred seat.
 10. **Active Bribery/Corruption Violations**: Only a RED FLAG if the agreement contains terms that actively facilitate or fail to prohibit bribery, corruption, or money laundering in a way that creates direct legal risk. NOTE: A simply missing anti-bribery/AML/export control clause is NOT a RED FLAG -- add it to SUGGESTIONS with a recommended fix.
 11. **Vague or Undefined Scope of Services**: Lack of specific details regarding deliverables, timelines, and acceptance criteria, particularly in SOWs or main agreements.
 12. ~~Removed -- Missing non-solicitation/non-compete clauses are SUGGESTIONS ONLY, never RED FLAG. See Section 4.5.~~
@@ -340,10 +341,9 @@ This step-by-step checklist is to be used for validating any new vendor document
 *(AI Agent to extract clause text and compare against defined patterns/keywords for each point below.)*
 
 1.  **Governing Law & Jurisdiction**:
-    *   **Check**: Is the governing law explicitly stated as **"Laws of India"**?
-    *   **Action**: If "Fail", **RED FLAG (R-9)**.
-    *   **Check**: Is the exclusive jurisdiction for disputes stated as **Bengaluru, Karnataka, India**, or another acceptable major Indian city (e.g., New Delhi, Mumbai, Hyderabad)?
-    *   **Action**: If "Fail" and outside acceptable Indian cities, **RED FLAG (R-9)**.
+    *   **Check**: Is the governing law Indian law and jurisdiction an Indian city?
+    *   **Action**: If Indian law but non-Bengaluru city (Mumbai, Delhi, Hyderabad) → VALID, add to SUGGESTIONS recommending Bengaluru, Karnataka as preferred seat.
+    *   **Action**: If non-Indian governing law or non-Indian jurisdiction (e.g. British Law, London) → VALID, add to SUGGESTIONS with recommended fix to change to Indian law and Bengaluru, Karnataka courts. Do NOT mark REVIEW NEEDED.
 2.  **Relationship of Parties** (applies to: MSA, SA, Consultancy, Partnership, Digital Marketing, SaaS — NOT required in PO, NDA, Declaration, LOI):
     *   **Check**: Explicitly states "independent contractors," "no partnership, joint venture, employer-employee, agency."
     *   **Action**: If missing in a document type where it applies, add to **SUGGESTIONS**. Only FLAG for Human Review if the clause suggests an employer-employee or agency relationship is being created.
