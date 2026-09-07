@@ -1,10 +1,14 @@
 import io
 import json
+import logging
 import os
 import re
 
 from dotenv import load_dotenv
+
+logger = logging.getLogger(__name__)
 from google.oauth2 import service_account
+from google.auth.transport.requests import AuthorizedSession
 from googleapiclient.discovery import build
 from googleapiclient.http import MediaIoBaseUpload
 
@@ -12,6 +16,27 @@ load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), ".env"))
 
 GROUP_EMAILS_FOLDER_ID = os.getenv("DRIVE_GROUP_EMAILS_FOLDER_ID", "")
 SCOPES = ["https://www.googleapis.com/auth/drive"]
+
+
+class _RequestsHttp:
+    """Wraps google.auth.transport.requests.AuthorizedSession as an httplib2-compatible object.
+    This replaces httplib2 entirely so Drive API calls go through requests, which resolves
+    DNS correctly in macOS nohup background processes."""
+
+    def __init__(self, authed_session):
+        self._session = authed_session
+
+    def request(self, url, method="GET", body=None, headers=None, **kwargs):
+        resp = self._session.request(method, url, data=body, headers=headers or {})
+
+        class _Resp:
+            status = resp.status_code
+            reason = resp.reason
+            def __getitem__(self, k): return resp.headers.get(k, "")
+            def __contains__(self, k): return k.lower() in resp.headers
+            def get(self, k, default=None): return resp.headers.get(k, default)
+
+        return _Resp(), resp.content
 
 
 def _get_drive_service():
@@ -22,7 +47,9 @@ def _get_drive_service():
         sa_file = os.getenv("SERVICE_ACCOUNT_FILE", "service_account.json")
         sa_path = os.path.join(os.path.dirname(__file__), sa_file)
         creds = service_account.Credentials.from_service_account_file(sa_path, scopes=SCOPES)
-    return build("drive", "v3", credentials=creds)
+
+    http = _RequestsHttp(AuthorizedSession(creds))
+    return build("drive", "v3", http=http, cache_discovery=False, static_discovery=True)
 
 
 def _get_or_create_subfolder(service, parent_id: str, name: str) -> str:
@@ -99,6 +126,51 @@ def _upload_file(service, folder_id: str, filename: str, content_bytes: bytes, m
     metadata = {"name": final_name, "parents": [folder_id]}
     f = service.files().create(body=metadata, media_body=media, fields="id", supportsAllDrives=True).execute()
     return f["id"]
+
+
+def build_existing_threads_index(service=None) -> set:
+    """
+    Build a set of 'vendor_name/thread_folder_name' strings for all folders
+    already in Drive. Call once at the start of a bulk run — O(vendors + threads)
+    API calls instead of 2 calls per thread.
+    """
+    if service is None:
+        service = _get_drive_service()
+
+    existing = set()
+    vendor_folders = service.files().list(
+        q=(
+            f"'{GROUP_EMAILS_FOLDER_ID}' in parents and "
+            f"mimeType = 'application/vnd.google-apps.folder' and "
+            f"trashed = false"
+        ),
+        fields="files(id, name)",
+        supportsAllDrives=True,
+        includeItemsFromAllDrives=True,
+    ).execute().get("files", [])
+
+    for vf in vendor_folders:
+        thread_folders = service.files().list(
+            q=(
+                f"'{vf['id']}' in parents and "
+                f"mimeType = 'application/vnd.google-apps.folder' and "
+                f"trashed = false"
+            ),
+            fields="files(id, name)",
+            supportsAllDrives=True,
+            includeItemsFromAllDrives=True,
+        ).execute().get("files", [])
+        for tf in thread_folders:
+            existing.add(f"{vf['name']}/{tf['name']}")
+
+    logger.info(f"Drive index: {len(existing)} existing thread folders across {len(vendor_folders)} vendors")
+    return existing
+
+
+def thread_key(thread: dict) -> str:
+    """The lookup key used in the Drive index."""
+    folder_name = _sanitize(thread["subject"] + "_" + thread["date"])
+    return _sanitize(thread["vendor"]) + "/" + folder_name
 
 
 def upload_thread_to_drive(thread: dict) -> dict:

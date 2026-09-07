@@ -1,0 +1,400 @@
+**Consolidating Runbooks**
+**Integrating Vendor Documentation**
+**Structuring Procurement Framework**
+**Synthesizing Runbook Data**
+**Refining Operational Guidelines**
+**Categorizing Agreement Types**
+**Defining Agreement Types**
+**Organizing Document Types**
+**Structuring Document Types**
+**Structuring Core Contractual Elements**
+**Detailing Specific Clauses**
+**Categorizing Transactional Documents**
+**Defining Red Flags**
+**Identifying Contractual Pitfalls**
+**Refining Risk Mitigation**
+**Updating Red Flag List**
+# Vendor Procurement Runbook for Verse Innovation Private Ltd.
+
+**Purpose:**  
+This Vendor Procurement Runbook establishes the definitive, comprehensive operational and legal review framework for evaluating, negotiating, validating, and administering all vendor agreements, statements of work, insertion orders, licensing pacts, purchase orders, and commercial instruments across **VerSe Innovation Private Limited** and its operating subsidiaries and affiliates (including *Greynium Information Technologies Pvt. Ltd.*, *One.in Digitech Media Pvt. Ltd.*, *Quark Media Tech Pvt. Ltd.*, *BMEG Private Limited*, *BMEG ME FZ LLC*, *Magzter Inc.*, *Magzter Digital Pvt. Ltd.*, *Valueleaf Services India Pvt. Ltd.*, and *Eterno Infotech Pvt. Ltd.*). It serves as the institutional standard for procurement analysts, legal counsels, contract managers, and commercial category leads operating via `contracts@verse.in` and the Microsoft Dynamics 365 (D365) ERP ecosystem. This runbook ensures commercial optimization, protects corporate intellectual property and platform assets (*Dailyhunt*, *Josh*, *Public Vibe*, *OneIndia*, *Dailyrank.ai*, *Nexverse.ai*), enforces statutory and regulatory compliance (under the Indian Companies Act 2013, Income Tax Act 1961/2025, Digital Personal Data Protection Act 2023, Information Technology Act 2000, and RBI/FEMA regulations), and accelerates turnaround times while eliminating unmitigated risk exposure.
+
+**KEY PRINCIPLE — Validate Proportionately:**  
+Contractual scrutiny must be calibrated strictly according to the document's legal classification, commercial weight, operational dependency, and risk profile. Full-form master contracts (such as Master Services Agreements, SaaS/Software Licenses, Managed Co-Working Leases, and Enterprise Collaboration Agreements) demand exhaustive clause-by-clause validation across all liability, IP, indemnification, data privacy, and governance provisions. In contrast, transaction-level execution instruments (such as Statements of Work, Insertion Orders, Order Forms, and Addenda) require focused verification of scope, milestone acceptance, fee calculations, tax allocations, and alignment with governing master agreements. Non-disclosure agreements (NDAs) are validated strictly on confidentiality duration, definition carve-outs, and return/destruction protocols without imposing operational service burdens. Financial and pre-contractual records (Quotations, Invoices, KYC packs, Affidavits) require operational and statutory verification against purchase orders and ERP records. For novel, hybrid, or unclassified document types, analysts must treat the instrument as supplementary, apply General Baseline Clauses, and route it to the Legal Department for formal classification without stalling commercial velocity.
+
+**OVERRIDING RULE — VALID vs. REVIEW NEEDED:**  
+*   **Mark as VALID (or VALID with Suggestions):** When all mandatory clauses for the specific document type are present, terms conform to VerSe's approved baseline positions (or acceptable negotiation boundaries), and any identified gaps represent non-critical omissions, administrative placeholders, or standard protective enhancements categorized under Section 4.5 (**Suggestions Only**).
+*   **Mark as REVIEW NEEDED:** Whenever a contract contains one or more active substantive violations, severe risk imbalances, or unapproved commercial exposures categorized under Section 4 (**Red Flags**), such as vendor retention of commissioned IP, unauthorized AI model training on VerSe data, uncapped VerSe liability, unilateral vendor amendment/price escalation rights, advance payments $>50\%$ without milestone security, broad reverse indemnities, or unhedged regulatory liabilities.
+*   **What NEVER Triggers REVIEW NEEDED:** The mere absence of non-mandatory boilerplate (such as severability, waiver, counterpart execution, or general force majeure language), missing anti-bribery declarations where no active corruption exists, absent employee non-solicitation covenants, absence of an explicit arbitration clause where competent Indian civil courts retain jurisdiction, non-Indian governing law in cross-border tech vendor agreements where neutral dispute resolution exists, or unpopulated bracketed administrative placeholders in preliminary drafts. These items must **NEVER** trigger a "REVIEW NEEDED" status on their own and must be logged strictly as **Suggestions**.
+
+---
+
+## 1. ACCEPTED DOCUMENT TYPES
+
+Across all commercial operations, media monetization channels, ad-account management workflows, vendor procurements, and legal transactions managed via `contracts@verse.in`, the accepted document types are classified into three operational categories:
+
+### A. Core Transactional Agreements
+
+| # | Document Type | Functional Description & Operational Scope |
+|---|---|---|
+| 1 | **Master Service Agreement (MSA) / Intercompany MSA (IC-MSA)** | Overarching bilateral framework governing long-term multi-project vendor relationships, tech infrastructure, platform operations, and intercompany service allocation across group subsidiaries. |
+| 2 | **Non-Disclosure Agreement (NDA / MNDA / Creative Production NDA)** | Standalone bilateral or mutual agreement securing proprietary business information, source code, data flows, creative scripts, and AI assets (prompts, seeds, model weights) prior to formal contracting. |
+| 3 | **Statement of Work (SOW) / Scope of Work Schedule** | Transaction-specific schedule executed under an MSA defining granular deliverables, technical specifications, staffing allocations, milestones, acceptance criteria, and fee structures. |
+| 4 | **Consulting / Professional Services Agreement** | Contractual engagement of specialized independent consultants, domain experts, advisory firms, or legal counsels for strategic, tax, technical, or marketing services. |
+| 5 | **Software / SaaS License Agreement** | Subscription or perpetual software licensing contract governing enterprise cloud applications, developer tools, AI moderation APIs, and platform access tiers. |
+| 6 | **White-Label Solution / Licensing & Distribution Agreement** | Master framework where a vendor supplies core engine/backend technology rebranded, hosted, and commercialized under VerSe’s proprietary brand (e.g., *Dailyrank.ai*). |
+| 7 | **Maintenance & Support Agreement / Service Level Agreement (SLA)** | Post-deployment technical contract establishing platform uptime (≥ 99.5%), bug remediation, response/resolution turnaround matrices, and service credit formulas. |
+| 8 | **Programmatic Ad Tech / RTB / DSP & SSP Agreement** | Master agreement governing real-time bidding (RTB), supply/demand ad inventory integration, header-bidding adapters, impression counting, and invalid traffic (IVT) thresholds. |
+| 9 | **Agency Incentive Agreement (AIA) / Volume Discount (VD) Agreement** | Commercial agreement governing media agency performance incentives, gross/net revenue rebate slabs, and release order (RO) mechanics across VerSe platforms (*Dailyhunt*, *Josh*). |
+| 10 | **Content License Agreement (CLA) / Content Syndication Agreement** | Licensing framework governing digital media, RSS/API feeds, sound recordings, video libraries, and publisher content ingestion across digital properties. |
+| 11 | **Master Content Production Agreement (MCPA)** | Media production contract governing end-to-end audiovisual creation, live-action/AI production, post-production editing, sound mastering, and source-file archiving. |
+| 12 | **Talent Agency & Creator Management / Artiste Engagement Agreement** | Performance and content creation contract for artists, influencers, and talent agencies (e.g., *Josh / DreamCall*) defining shoot briefs, live session hours, and revenue sharing. |
+| 13 | **Commercial Lease / Co-Working Managed Office Space Agreement** | Comprehensive facility agreement governing dedicated enterprise workstations, building infrastructure, utilities, DG power backup, and premises maintenance (e.g., *Urban Vault*). |
+| 14 | **Payment Processing / FinTech Merchant Agreement** | Commercial terms governing payment gateways, nodal accounts, UPI routing, credit facilities, and financial transaction processing. |
+| 15 | **Mobile Application Distribution Agreement (MADA) / OEM Preload Agreement** | Contract governing OEM device preloading (e.g., pre-installing Dailyhunt and Josh on Vivo/Samsung devices) on a Cost Per Preload (CPP) basis. |
+| 16 | **Independent Contractor / Freelancer Agreement** | Direct service contract for individual freelancers, retained specialists, language localization experts, or staff augmentation personnel. |
+
+---
+
+### B. Supplementary / Specific Agreements
+
+| # | Document Type | Functional Description & Operational Scope |
+|---|---|---|
+| 1 | **Amendment / Contract Addendum** | Formal legal instrument modifying specific clauses, extending operational terms, revising rate cards, or updating entity schedules of an active base contract. |
+| 2 | **Order Form / Service Order Form (SOF) / Work Order** | Transactional authorization document issued under an active MSA or SaaS agreement defining seat counts, product tiers, committed bandwidth, and billing schedules. |
+| 3 | **Insertion Order (IO) / Release Order (RO)** | Campaign-level booking document detailing flight dates, targeted domains, ad units, gross value, and CPM/vRPM floor rates under an overarching media framework. |
+| 4 | **Data Processing Agreement (DPA) / Privacy Addendum** | Mandatory statutory schedule defining data controller-processor obligations, security safeguards, sub-processor controls, and breach protocols under DPDPA 2023 / GDPR. |
+| 5 | **IP Assignment Agreement / Proprietary Rights Transfer Deed** | Formal instrument legally conveying complete worldwide title, copyright, patentable inventions, and code ownership from an external creator/contractor to VerSe. |
+| 6 | **Source Code / Asset Escrow Agreement** | Tripartite agreement governing source code, build environments, or financial deposits with a neutral escrow agent against vendor insolvency or default. |
+| 7 | **Reseller / Channel Partner Agreement** | Commercial authorization empowering third parties or subsidiaries to market, bundle, distribute, or resell digital assets, cloud products, or ad inventory. |
+| 8 | **Settlement & Debt Netting Agreement / Legal Release Deed** | Binding instrument resolving disputed balances, commercial claims, and overdue accounts on a full-and-final basis with covenants not to sue. |
+| 9 | **Letter of Intent (LoI) / Term Sheet / Memorandum of Terms (MOT)** | Preliminary commercial summary recording high-level consensus, distinguishing binding confidentiality/exclusivity from non-binding commercial terms. |
+| 10 | **Content Syndication & Revenue Share MOU** | Commercial framework governing content feed integration (API/RSS), co-branding, ad inventory placement, and advertising revenue sharing. |
+| 11 | **No-Objection Certificate (NOC) / Performer Clearance Deed** | Clearance documentation waiving objections for specific artist/content usage, corporate restructuring, or fast-track amalgamation schemes. |
+
+---
+
+### C. Pre-Contractual / Supporting Documents
+
+| # | Document Type | Functional Description & Operational Scope |
+|---|---|---|
+| 1 | **Commercial Proposal / Quotation / Rate Card / Deal Sheet** | Vendor's commercial offer specifying unit costs, scope summaries, milestone timelines, and rate locks (non-binding until referenced in an executed SOW or PO). |
+| 2 | **Purchase Order (PO) / Purchase Requisition (PR)** | VerSe's formal accounting authorization generated via Microsoft Dynamics 365 (D365) confirming approved item master codes, budget caps, and billing entities. |
+| 3 | **Commercial Tax Invoice / Credit Note / Debit Note** | Statutory payment demand detailing GSTIN, SAC/HSN codes, PAN, IRN/e-invoice hashes, and banking coordinates matching approved deliverables. |
+| 4 | **Service Receipt Note (SRN) / Milestone Sign-Off / FAD** | Internal operational confirmation certifying that services, deliverables, or software milestones have been satisfactorily received and accepted. |
+| 5 | **Capability Deck / Corporate Profile** | Informational vendor marketing material and technical architecture overviews (non-binding). |
+| 6 | **Compliance Certificate / Statutory Proof** | Official regulatory filings including GST Registration (Form GST REG-06), PAN, MSME Udyam certificates, and ISO/SOC certifications. |
+| 7 | **Vendor Registration Form (VRF) & Bank KYC Pack** | Verified banking credentials (cancelled cheques, bank mandate letters, IFSC/SWIFT details) and director KYC for ERP master data creation. |
+| 8 | **Foreign Vendor Tax Compliance Pack** | Statutory filings for overseas entities including Tax Residency Certificates (TRC), Form 10F, and No-PE declarations for Double Taxation Avoidance. |
+| 9 | **Notarized Affidavit / Tender Undertaking / Stamp Paper Instrument** | State-specific stamped legal undertakings (e.g., ₹100/₹500 non-judicial e-stamps) required for government tenders or public billing submissions. |
+| 10 | **Legal Notice / Takedown Request / Regulatory Subpoena** | Formal pre-litigation correspondence, court orders, or statutory notices (IT Act Section 79 takedowns, Section 138 NI Act bounce notices). |
+| 11 | **Other / Unknown Document Type** | Unclassified supplementary documents; evaluated under General Clauses and routed to the Legal Department for classification. |
+
+---
+
+## 2. REQUIRED CLAUSES (by document type)
+
+### APPLICABILITY GUIDE
+
+| Document Classification Tier | Applicable Clause Group | Review Rigor & Validation Depth |
+|---|---|---|
+| **Tier 1: Comprehensive Master Frameworks** (MSA, SaaS, White-Label, MCPA, Managed Office, DMA) | Full Clause Set (General Clauses 1–31 + Specific B-Schedules) | Full-spectrum audit across liability, IP, indemnities, data privacy, termination, and governance. |
+| **Tier 2: Transactional & Milestone Schedules** (SOW, Work Orders, Order Forms, Retainers) | Lightweight Commercial Set (Scope, Milestones, Acceptance, Payment, Taxes, MSA Precedence) | Operational, commercial, and deliverable verification against master agreement parameters. |
+| **Tier 3: Confidentiality & Pre-Contract** (NDAs, MNDAs, LOIs, Term Sheets) | Confidentiality Focus Set (Definitions, Purpose, Exclusions, Return/Purge, Survival, Injunction) | Protection of proprietary data, unreleased media assets, source code, and non-circumvention. |
+| **Tier 4: AdTech & Programmatic Media** (IOs, ROs, Header Bidding, Publisher Agreements) | Traffic & Monetization Set (IVT Caps, Measurement Authority, Clawbacks, Slabs, Disqualifications) | Reconciliations, MRC-accredited measurement, revenue share splits, and platform policy compliance. |
+| **Tier 5: Financial & Administrative** (POs, Invoices, KYC, Affidavits, Settlement Deeds) | Statutory & Verification Set (Tax Compliance, GST/TDS, Entity Matching, Debt Discharge) | Operational matching against ERP records, statutory tax rules, and binding release terms. |
+
+---
+
+### A. General Clauses (Applicable to most Contractual Agreements)
+
+| # | Clause Name | VerSe Standard Expectation | Acceptable Variations | Red Flag Trigger |
+|---|---|---|---|---|
+| 1 | **Parties Identification** | Full statutory corporate names, Corporate Identity Numbers (CIN/LLPIN), registered office addresses, and authorized signatory details for all parties. | Corporate operating branches or group subsidiaries (*VerSe Innovation*, *Greynium*, *Quark*, *BMEG*, *Magzter*, *Valueleaf*, *Eterno*) defined via an explicit schedule. | Unregistered trade names, shell entities without physical addresses, or mismatched contracting entities. |
+| 2 | **Effective Date & Term** | Explicit commencement date, clear operational duration (e.g., 12, 24, 36 months), and specific calendar expiration dates. | Deemed effective from operational start date if ratified in writing; execution date serving as effective date. | Indefinite/perpetual term without exit rights (**R-11**); blank or TBD date fields on executed copies. |
+| 3 | **Definitions & Interpretation** | Clear, unambiguous definitions for Deliverables, Work Product, Confidential Information, Net Revenue, Applicable Law, and Services. | Standard industry definitions adapted to specialized technical or commercial sectors. | Asymmetric definitions assigning VerSe data or proprietary assets to vendor ownership. |
+| 4 | **Scope of Services / Deliverables** | Precise technical specifications, deliverable descriptions, milestone schedules, volume quotas, and acceptance criteria. | Scope outlined in attached SOWs, Schedules, or mutually signed Release Orders. | Vague, open-ended, or undefined scope creating unlimited delivery obligations on VerSe (**R-10**). |
+| 5 | **Payment Terms & Consideration** | Net-30 or Net-45 days following receipt of undisputed tax invoice; milestone-based disbursements; INR currency for domestic vendors. | Net-60 days for international programmatic ad networks; foreign currency (USD) for cross-border vendors; post-collection commission models. | Advance payment $>50\%$ without milestone security (**R-6**); Net $<15$ days; paid-when-paid clauses imposed on VerSe (**R-21**). |
+| 6 | **Taxes (GST, TDS, Withholding)** | Fees exclusive of GST; mandatory statutory TDS deduction under Indian Income Tax Act; vendor indemnifies for GSTR-1 filing defaults. | Gross-up clauses permitted strictly for cross-border international remittances subject to DTAA tax treaty certificates. | Vendor disallowing statutory TDS deduction; shifting vendor's corporate income tax liabilities onto VerSe (**R-23**). |
+| 7 | **Confidentiality Obligations** | Mutual confidentiality; protection standard $\ge$ reasonable care; duration: contract term plus 3 to 5 years (trade secrets in perpetuity). | Minimum 2-year survival for standard commercial engagements; standard carve-outs (public domain, prior knowledge, legal compulsion). | Unilateral confidentiality favoring vendor only; omission of standard compelled legal disclosure carve-outs. |
+| 8 | **Intellectual Property Rights (IPR)** | 100% exclusive ownership of all commissioned deliverables, custom code, and creative assets vests in VerSe upon creation/payment. | Vendor retains pre-existing tools/background IP, granting VerSe a perpetual, irrevocable, royalty-free, worldwide license. | Vendor retains title to commissioned deliverables paid for by VerSe (**R-1**); vendor IP liens on deliverables (**R-15**). |
+| 9 | **Representations & Warranties** | Professional workmanship, non-infringement of third-party IP, possession of required statutory licenses, full corporate authority. | 90-day defect correction warranty on software deliverables; standard industry performance warranties. | Complete disclaimer of all warranties, including title, merchantability, or non-infringement on custom builds. |
+| 10 | **Indemnification** | Vendor indemnifies VerSe against third-party IP infringement, data breaches, regulatory violations, gross negligence, and willful misconduct. | Mutual indemnity for material breach of contract representations and confidentiality obligations. | Broad reverse indemnity requiring VerSe to indemnify vendor for vendor's own negligence or defects (**R-14**). |
+| 11 | **Limitation of Liability** | VerSe liability capped at 1× to 3× annual fees paid (or total contract value); mutual waiver of indirect/consequential damages. | Cap set at fees paid in preceding 6–12 months; total contract value cap for fixed-fee SOWs. | Vendor liability capped below 1× annual fees (**R-3**); VerSe exposed to uncapped liability (**R-4**). |
+| 12 | **Termination for Cause & Convenience** | Termination for convenience upon 15–30 days written notice; termination for cause upon 15-day cure period; immediate for insolvency/breach. | 60–90 days notice for convenience in enterprise infrastructure; immediate termination for regulatory prohibition. | Lock-in agreements barring VerSe from terminating, or excessive exit penalties exceeding 3 months' fees (**R-12**). |
+| 13 | **Effects of Termination & Exit** | Immediate cessation of work, delivery of completed/in-progress work, return/destruction of data within 15 days, pro-rata settlement. | 30-day transition wind-down period at agreed pro-rata rate cards. | Vendor retaining VerSe data or imposing unearned full-contract acceleration penalties (**R-12**, **R-16**). |
+| 14 | **Relationship of Parties** | Independent contractor relationship; principal-to-principal; no agency, partnership, joint venture, or employment created. | Standard independent contractor boilerplate language. | Terms creating deemed employment, co-employment liabilities, or agency authority to bind VerSe. |
+| 15 | **Governing Law & Jurisdiction** | Laws of India; exclusive jurisdiction of competent courts in Bengaluru, Mumbai, or New Delhi. | Foreign law (Singapore, UAE, English law) acceptable for international vendors with arbitration fallback. | Foreign court jurisdiction for domestic Indian vendor agreements without arbitration fallback. |
+| 16 | **Dispute Resolution & Arbitration** | 30-day good-faith negotiation, executive escalation, followed by binding arbitration under Indian Arbitration Act 1996 in Bengaluru/Mumbai. | Fast-track sole arbitrator for disputes < ₹1 Crore; three arbitrators for disputes ≥ ₹1 Crore; English language. | Mandatory foreign litigation forums for domestic Indian contracts without negotiation stages. |
+| 17 | **Force Majeure** | Defined acts of God, war, pandemic, government embargo; obligations suspended; exit right if event persists > 30–60 days. | Notice within 5 business days; does not excuse payment obligations for services already rendered. | Force majeure excusing vendor non-performance indefinitely while obligating VerSe to continue payments. |
+| 18 | **Assignment & Subcontracting** | Prior written consent required for assignment or subcontracting; vendor remains 100% liable for subcontractors; VerSe free to assign to affiliates. | Assignment permitted upon 30 days prior written notice pursuant to corporate restructuring or merger. | Vendor freely permitted to assign contract or subcontract core deliverables without VerSe consent (**R-7**). |
+| 19 | **Notices** | Formal written notices delivered via registered post, courier, or official corporate email (`contracts@verse.in`, `legal@verse.in`). | Email notice deemed effective upon transmission confirmation. | Verbal notice provisions or delivery to unmonitored generic addresses without confirmation. |
+| 20 | **Entire Agreement & Amendments** | Supersedes all prior discussions, proposals, and oral understandings; amendments valid only in writing signed by authorized signatories. | Standard commercial integration clauses with express order-of-precedence rules. | Unilateral amendment clauses permitting vendor to alter terms, SLAs, or pricing via website updates (**R-5**). |
+| 21 | **Acceptance Testing Criteria** | Defined evaluation period (10–15 business days) with right to inspect, reject non-conforming deliverables, and demand remediation. | Deemed acceptance after reasonable review window if VerSe fails to raise written objections. | Immediate deemed acceptance upon electronic delivery without inspection or testing rights. |
+| 22 | **Key Personnel & Staffing** | Named critical personnel assigned to project; vendor prohibited from replacing key resources without VerSe prior written approval. | Vendor provides replacement with personnel of equal or superior qualifications upon 14 days notice. | Vendor unilaterally rotating key personnel without notice on critical bespoke implementations. |
+| 23 | **Change Request Process** | Formal written Change Request (CR) documenting scope modification, timeline impact, and cost adjustments prior to commencement. | Written email agreement between designated Senior Project Managers for minor operational adjustments. | Vendor unilaterally expanding scope and billing additional fees without approved change orders. |
+| 24 | **Exit Management & Transition** | Mandatory knowledge transfer, handover of source files/credentials, and data migration support for 30–60 days upon contract end. | Transition services provided at agreed standard hourly/daily rate cards. | Vendor refusing transition support, charging exorbitant export fees, or holding assets hostage (**R-15**, **R-16**). |
+| 25 | **Liquidated Damages & Penalties** | Pre-agreed percentage deductions (0.5%–1% per week of delay capped at 5%–10% of contract value) for unexcused milestone delays or SLA breaches. | Service credits applied against future invoices as non-exclusive commercial remedies. | Liquidated damages structured as sole and exclusive remedy, barring VerSe from claiming actual damages. |
+| 26 | **Business Continuity & DRP** | Vendor maintains verified Business Continuity Plans (BCP) and Disaster Recovery (DR) protocols (RTO < 4 hrs, RPO < 1 hr). | Annual submission of third-party SOC 2 Type II or ISO 22301 compliance certifications. | Complete absence of disaster recovery or backup commitments for mission-critical cloud hosting. |
+| 27 | **Regulatory Compliance** | Strict compliance with Indian statutes, RBI directives, SEBI, NPCI, IT Act 2000, and DPDPA 2023. | Sector-specific compliance representations (e.g., ASCI guidelines, PCI-DSS for payment gateways). | Vendor operating unlicensed services or disclaiming statutory regulatory compliance responsibilities. |
+| 28 | **Source Code Escrow** | Escrow required for proprietary bespoke on-premise software with release triggers on vendor insolvency or maintenance abandonment. | Standard commercial SaaS exempt if automated daily data export APIs and high availability exist. | Refusal of escrow on custom mission-critical software where vendor maintains exclusive code access. |
+| 29 | **Anti-Bribery & Code of Conduct** | Strict adherence to Indian Prevention of Corruption Act 1988, US FCPA, UK Bribery Act; zero tolerance for kickbacks or gifts. | Vendor execution of VerSe Supplier Code of Conduct or equivalent audited global ethics policy. | Vendor soliciting facilitation payments, kickbacks, or failing to disclose conflicts of interest (**R-9**). |
+| 30 | **Publicity Restrictions** | Vendor strictly prohibited from using VerSe, Dailyhunt, or Josh trademarks, logos, or case studies without prior written approval. | Listing VerSe as a client in a generic, unformatted customer list in private credentials. | Vendor claiming unilateral rights to issue press releases, public announcements, or marketing endorsements. |
+| 31 | **Survival Clause** | Express survival of Confidentiality, IP Rights, Indemnification, Liability Limitations, Dispute Resolution, and Taxes post-termination. | Survival of all clauses that by their nature are intended to survive expiration or termination. | Premature lapse of confidentiality (< 2 years) or IP warranties upon contract termination. |
+
+---
+
+### B. Specific Clauses (by Document Type)
+
+#### B1. Master Services Agreement (MSA) & Framework Contracts
+*   **Order of Precedence:** Explicit hierarchy establishing that MSA terms override conflicting terms in SOWs, POs, or invoices unless an SOW explicitly cites the specific MSA clause it supersedes.
+*   **Affiliate Participation:** Framework enabling VerSe subsidiaries (*Greynium*, *Quark Media*, *BMEG*, *Magzter*) to execute SOWs under the master terms, binding only the executing entity.
+*   **Audit Rights:** VerSe retains the right to audit vendor performance records, security logs, and billing documentation covering at least 12–36 months on 10 business days' advance notice.
+
+#### B2. Non-Disclosure Agreement (NDA / MNDA & Creative Production NDA)
+*   **Definition of Sensitive Assets:** Confidential Information explicitly includes source code, AI prompts, negative prompts, model weights, character seeds, RAW renders, VFX plates, screenplay adaptations, customer data, and commercial terms.
+*   **Secure Cloud Workspace Mandate:** For creative AI workflows, production work must be executed strictly within VerSe-managed secure cloud environments; zero local copying to personal devices.
+*   **Non-Circumvention:** Service providers are strictly barred from directly pitching, soliciting, or contracting with VerSe clients or introduced partners for 12 to 24 months post-termination.
+*   **Survival & Injunctive Relief:** Confidentiality survives 3 to 5 years (perpetual for trade secrets and unreleased media scripts); mutual right to immediate injunctive relief without posting bond.
+
+#### B3. Software-as-a-Service (SaaS), Whitelabel & Cloud Reseller Agreements
+*   **Whitelabel Asset Ownership:** VerSe exclusively owns the whitelabel brand name (e.g., *Dailyrank.ai*), domain, user data, customer contracts, and marketing goodwill; vendor is strictly barred from disclosing underlying white-label status.
+*   **AI Model Training Prohibition:** Explicit contractual bar preventing the vendor from ingesting, scraping, or utilizing VerSe data, user interactions, or content to train or fine-tune public or proprietary AI/ML models (**R-2**).
+*   **Service Level Agreements (SLAs):** Minimum 99.5% monthly availability commitment; severity response times (P1: < 1 hr response, < 4 hr resolution); tiered service credits for downtime; right to exit for chronic failures (3+ breaches in 6 months).
+*   **Data Portability on Exit:** Vendor must provide complete raw data export in standard formats (JSON, CSV, SQL dump) within 30 days of contract termination at zero additional extraction cost (**R-16**).
+*   **Back-to-Back Reseller Alignment:** For resold cloud infrastructure (Akamai, Google Cloud, AWS), downstream reseller terms must mirror upstream OEM warranties, SLAs, and forex pass-through terms without gap liabilities.
+
+#### B4. Programmatic Ad Tech, RTB & Ad Monetization Agreements (DSP / SSP / IO)
+*   **Platform Role Alignment:** Clear contractual demarcation ensuring VerSe is correctly positioned as Demand Partner (buyer) or Supply Partner (publisher) to prevent inverted liability.
+*   **Invalid Traffic (IVT) & Measurement:** IVT filtering must be supported by Media Rating Council (MRC) accredited measurement vendors (e.g., *HUMAN*, *Pixalate*, *DoubleVerify*, *IAS*); discrepancies $< 5\%$ resolved by good faith or VerSe data; **IVT $> 13\%$ entitles VerSe to withhold or deduct up to 100% revenue**.
+*   **Discrepancy Resolution:** Billing reconciliation window for variances $> 5\%$; 50/50 split on unresolvable non-IVT reporting differences.
+*   **Advertiser Clawbacks:** Express right to adjust advertiser refunds/clawbacks from current or future vendor payables, with a strict 90-day time-bar on retroactive clawback adjustments.
+*   **Strict Invoicing Cutoff:** Invoices submitted within 30–60 days; invoices delayed beyond 180 days post-campaign are deemed permanently waived and time-barred.
+
+#### B5. Agency Incentive / Volume Discount (VD) Agreements
+*   **Net Revenue Slabs:** Tiered volume discount structures (e.g., ₹0–2.5 Cr @ 5%, ₹2.5–4 Cr @ 7.5%, ₹4–6 Cr @ 10%, > ₹6 Cr @ 12%) calculated strictly on Net Collections (Gross RO revenue less third-party ad serving costs, taxes, and standard agency discounts).
+*   **Platform Exclusions:** Incentive payouts restricted strictly to VerSe proprietary platforms (*Dailyhunt*, *Josh*, *Public Vibe*); third-party network spends (Meta Ads, Google Ads) governed by separate management fees.
+*   **Overdue Invoice Disqualification:** Client invoices remaining unpaid by the agency beyond 90 days are permanently disqualified from annual rebate/commission calculations.
+*   **Consolidated Billing Timeline:** Agency submits a single consolidated commission invoice within 30 days of fiscal year-end or full receipt of client funds, payable by VerSe within 60 days.
+
+#### B6. Master Content Production Agreement (MCPA) & Talent Engagement
+*   **Exploitation Rights & Media Scope:** Worldwide, perpetual assignment across all media formats (broadcast, theatrical, OTT, digital streaming, social platforms, and future unknown technologies).
+*   **Source-File Escrow & Delivery:** Mandatory 5-day deposit of project files, timelines, raw footage, and audio stems into escrow, releasable upon vendor breach, insolvency, or termination.
+*   **Artist Moral Hazard & Takedown:** Immediate termination right with 24 hours notice if talent/creator is convicted of criminal offenses (under IPC/BNS) prejudicial to VerSe reputation; unearned advances refunded within 48 hours.
+*   **Music & Contributor Clearances:** Vendor must obtain written IP assignments and moral rights waivers from all cast, writers, composers, and crew prior to deliverable submission.
+
+#### B7. Consulting & Professional Services Agreements
+*   **Pay-When-Paid Proviso:** Commission payouts for sales/business development consultants are payable **strictly post-collection** of cleared funds by VerSe from the client.
+*   **Named Resource Allocation:** Critical named consultants cannot be substituted without VerSe prior written approval; time commitments strictly defined (e.g., 3 hours/day, 5 days/week).
+*   **Non-Compete & Non-Solicitation:** 6 to 12-month post-termination restriction on soliciting employees or competing for active pipeline accounts, backed by fee forfeiture.
+*   **Equipment Return:** Mandatory immediate return of company-provided laptops, access badges, and system credentials within 7 days of contract end.
+
+#### B8. Managed Office Space & Commercial Co-Working Agreements
+*   **Premises & Inventory Schedule:** Precise premises address, workstation seat capacity, dedicated bandwidth (1 Gbps), utilities, HVAC climate control (22–24°C), and 99.5% power uptime with DG backup.
+*   **Security Deposit (IFSD) Refund:** Interest-Free Security Deposit refunded within 15–30 days of vacating; deductions restricted to physical damages assessed jointly in writing; **Normal Wear and Tear explicitly excluded**.
+*   **Lock-in & Break Rights:** Defined lock-in duration (e.g., 24 months) with 3-month exit notice post lock-in; lock-in suspended during ongoing Force Majeure preventing premises access.
+*   **Rent Escalation Cap:** Annual rent indexation capped at standard CPI or $\le 5\%\text{--}6\%$ annually.
+
+#### B9. Settlement, Netting & Debt Recovery Agreements
+*   **Transaction Ledger Reconciliation:** Granular invoice-by-invoice breakdown of mutual receivables and payables (inclusive and exclusive of GST).
+*   **Full & Final Discharge:** Unconditional extinguishment of all past claims, arbitrations, and disputes effective strictly upon actual clearance of 100% of agreed settlement funds.
+*   **Default Acceleration & NI Act Remedies:** Failure to honor any post-dated cheque (PDC) or milestone immediately voids settlement, reinstating full original debt plus 18% p.a. default interest, preserving Section 138 Negotiable Instruments Act remedies.
+
+#### B10. Purchase Orders (PO), Invoices & ERP (D365) Workflows
+*   **Mandatory PO Linkage:** All vendor invoices must reference an active, approved VerSe PO (e.g., `VINN/25-26/PO/1336`) generated via Microsoft Dynamics 365.
+*   **Service Receipt Note (SRN) Clearance:** Invoices will not be processed for payment until the internal business owner records formal SRN milestone sign-off in D365.
+*   **Statutory Tax Matching:** Three-way match between PO value, vendor invoice, and GSTR-2B tax reflection; 10% TDS deduction on technical/professional services (Section 194J) and 2% on SaaS software subscriptions.
+
+---
+
+## 3. STANDARD TERMS VERSE ACCEPTS
+
+| Domain / Parameter | VerSe Preferred Standard Position | Acceptable Negotiation Boundary | Flag / Escalation Trigger (R-# / S-#) |
+|---|---|---|---|
+| **Payment Terms** | Net-30 or Net-45 days post-invoice in INR; payment via NEFT/RTGS; milestone-linked payouts. | Net-60 days for ad exchanges; Net-15 days for staffing payroll; USD for cross-border contracts. | Advance $>50\%$ without milestone security (**R-6**); Net $<15$ days; non-INR for domestic vendors without basis. |
+| **Notice Periods** | Convenience exit: 30 days; Breach cure: 15 days cure + 7 days termination notice; Incident notice: 24h. | Convenience exit: 15–60 days; Breach cure: 10–30 days; SLA breach notice: 48 hours. | Total lock-in with zero convenience exit; breach cure $<7$ days; immediate unilateral vendor cancellation (**R-11**). |
+| **Governing Law / Venue** | Indian Law; exclusive jurisdiction of courts in Bengaluru or Mumbai. | Courts of New Delhi or other Indian metros; Singapore / UAE law for international entities with arbitration fallback. | Hostile foreign jurisdictions with foreign court litigation and no arbitration fallback (**S-16**). |
+| **Liability Caps** | VerSe aggregate liability capped at 1× to 3× fees paid in prior 12 months (or contract value). | Mutual cap equal to 100% of contract value or fees in preceding 6–12 months. | Vendor cap $<1\times$ annual fees (**R-3**); VerSe exposed to uncapped liability (**R-4**); fraud/IP capped. |
+| **IP Ownership Terms** | 100% of commissioned work product, source code, and custom deliverables vest in VerSe upon payment. | Vendor retains background tools/pre-existing IP under perpetual, royalty-free, worldwide license to VerSe. | Vendor retains title to commissioned custom deliverables (**R-1**); vendor IP liens on deliverables (**R-15**). |
+| **Confidentiality Terms** | Mutual obligations; protection standard $\ge$ reasonable care; duration: Term + 3 to 5 years (trade secrets perpetual). | 2 years survival post-termination; standard carve-outs (public, prior knowledge, legal compulsion). | Unilateral confidentiality favoring vendor; survival $<1$ year; vendor rights to commercialize VerSe data. |
+| **Data Protection & AI** | Full DPDPA 2023 / GDPR compliance; 24h breach notice; absolute ban on using VerSe data for AI/ML training. | Security safeguards aligned with ISO 27001 / SOC 2; prompt data return within 30 days of exit. | Vendor actively authorized to use VerSe data for AI/ML model training (**R-2**); zero data privacy terms (**R-18**). |
+| **Warranties & Reps** | Workmanlike performance; 90-day defect warranty; non-infringement of third-party IP; valid corporate authority. | Standard industry software performance warranties; 30 to 60-day bug-fix warranty. | Total disclaimer of all express/implied warranties on custom deliverables; refusal of non-infringement warranty. |
+| **Indemnification** | Vendor indemnifies VerSe for IP infringement, data breaches, regulatory violations, and gross negligence. | Mutual indemnification for material contract breach, gross negligence, and confidentiality breach. | Reverse indemnity requiring VerSe to indemnify vendor for vendor's own negligence or system failures (**R-14**). |
+| **Audit Rights** | VerSe right to audit vendor performance, infosec logs, and billing records for 12 months upon 10 days notice. | Annual audit frequency; audit costs borne by VerSe unless material discrepancy ($>5\%$) is identified. | Vendor completely denies audit or compliance verification rights on cost-plus or revenue-share contracts. |
+| **Non-Solicitation** | Mutual non-solicitation of direct project personnel for contract term plus 12 months. | 6 months duration post-termination; carve-out for general non-targeted public recruitment advertisements. | Unilateral non-solicitation binding only VerSe; non-compete covenants restricting VerSe product lines (**R-19**). |
+| **Dispute Resolution** | 30-day amicable negotiation, senior escalation, followed by arbitration under Indian Arbitration Act 1996 in Bengaluru. | Fast-track arbitration (SIAC / DIAC) for cross-border contracts; direct commercial court litigation in Bengaluru. | Mandatory foreign litigation forums for domestic contracts; unequal arbitrator appointment mechanisms. |
+| **Assignment & Control** | Prior written consent required for assignment; permitted assignment to intra-group affiliates upon notice. | Assignment permitted in connection with a corporate merger, acquisition, or restructuring upon 30 days notice. | Vendor freely permitted to assign contract or subcontract core deliverables without VerSe consent (**R-7**). |
+| **Subcontracting** | Subcontracting of core deliverables prohibited without VerSe prior written approval; vendor 100% liable. | Pre-approved subcontractor list annexed to SOW schedule; vendor fully liable for subcontractor defaults. | Vendor freely permitted to subcontract core services without notice or liability pass-through (**R-7**). |
+| **Insurance** | Vendor maintains Professional Indemnity (E&O), Commercial General Liability, and Cyber Risk Insurance. | Certificates of insurance furnished upon written request within 15 days; self-insurance for major tech firms. | Vendor refusing to maintain basic commercial liability insurance on high-risk on-premise or data operations. |
+| **Term & Renewal** | Defined initial term (e.g., 12 months); auto-renewal acceptable only with mandatory 30–60 days opt-out notice. | Fixed-term extensions via formal bilateral addenda; renewal fee increases capped at CPI / $\le 5\text{--}10\%$. | Perpetual evergreen auto-renewal without opt-out windows, or excessive price escalations on rollover (**R-11**, **R-13**). |
+| **SLA & Uptime** | Minimum 99.5% monthly uptime for SaaS/cloud platforms; tiered response times; service credits for downtime. | Scheduled maintenance windows excluded with at least 48 hours advance written notice. | Uptime $<99.0\%$; vendor disclaiming all uptime commitments; SLA credits as sole and exclusive remedy. |
+| **Publicity & Branding** | Strict restriction: vendor prohibited from using VerSe trademarks, logos, or issuing press releases without consent. | Vendor permitted to name VerSe as a client in a generic, unformatted customer list. | Vendor granted unrestricted rights to publish press releases, case studies, or commercial endorsements. |
+| **Anti-Bribery & Ethics** | Full compliance with Prevention of Corruption Act 1988, FCPA, UKBA; zero tolerance for kickbacks or gifts. | Adoption of vendor's equivalent global ethics policy; immediate contract termination for cause on breach. | Solicitation or facilitation of kickbacks, unrecorded commissions, or refusal of anti-corruption clauses (**R-9**). |
+| **Force Majeure** | Defined unforeseen catastrophic events; notice within 5 days; suspension of duties; exit if $>30\text{--}60$ days. | Epidemics and general telecommunication failures included; payments for delivered work remain payable. | Force majeure excusing vendor non-performance indefinitely while obligating VerSe to continue payments. |
+
+---
+
+## 4. RED FLAGS (MANDATORY REVIEW NEEDED)
+
+When any of the following active contractual risks are detected, the document status must be marked **REVIEW NEEDED** and escalated to Legal:
+
+| Code | Red Flag Title | Description & Active Trigger Condition | Permissible Context (What Does NOT Trigger Flag) |
+|---|---|---|---|
+| **R-01** | **IP Ownership Vests in Vendor for Commissioned Work** | Contract stipulates that custom software, source code, designs, or deliverables commissioned and paid for by VerSe remain vendor property. | Vendor retaining pre-existing background tools/libraries under a perpetual, royalty-free license to VerSe. |
+| **R-02** | **Active AI Model Training with VerSe Data** | Contract or DPA explicitly permits vendor to ingest, aggregate, or process VerSe proprietary data, prompts, or user content to train or fine-tune AI/ML models. | Missing explicit AI restriction clause (which is handled under Suggestion **S-03**). |
+| **R-03** | **Vendor Liability Cap Unreasonably Low or Hollowed Out** | Vendor caps aggregate liability below 1× annual contract value, or excludes liability for gross negligence, willful misconduct, IP infringement, confidentiality, or data breaches. | Mutual liability cap equal to 1× to 3× annual fees paid with standard carve-outs. |
+| **R-04** | **VerSe Liability Cap Disproportionately High / Uncapped** | VerSe is exposed to uncapped liability, open-ended operational indemnities, or liability ceilings exceeding 3× annual contract value. | VerSe remaining liable for undisputed, accrued service fees properly incurred and invoiced. |
+| **R-05** | **Unilateral Amendments by Vendor** | Vendor reserves the right to modify commercial terms, service specifications, pricing, or contract clauses unilaterally via online portal updates without VerSe written consent. | Minor procedural updates (e.g., vendor ticketing portal URL changes) that do not alter commercial terms. |
+| **R-06** | **Unfavorable Payment Terms & Excessive Advance Demands** | Advance payment demanded $>50\%$ without milestone delivery triggers; payment credit period $<15$ days; or non-INR billing for domestic Indian entities without justification. | Milestone-based progress payments (e.g., 20/40/40) or pre-approved creator booking advances $\le 50\%$. |
+| **R-07** | **Unrestricted Subcontracting or Assignment Without Consent** | Vendor is contractually permitted to assign the contract or delegate core deliverables/data processing to unvetted third parties without VerSe's prior written approval. | Vendor utilizing standard tier-1 cloud hosting providers (AWS, GCP, Azure) where vendor remains 100% liable. |
+| **R-08** | **Exclusivity Imposed on VerSe Operations** | Contract restricts VerSe from procuring similar software, media, inventory, or consulting services from competing vendors in the marketplace. | Standard non-exclusive appointments or single-source campaign insertion orders. |
+| **R-09** | **Active Bribery, Corruption, or Sanctions Violations** | Contract contains clauses permitting facilitation payments, kickbacks, or involves entities on OFAC/Sanctions lists. | Absence of an explicit anti-bribery clause (which is handled under Suggestion **S-01**). |
+| **R-10** | **Vague or Undefined Scope of Services** | Deliverables, technical requirements, project milestones, or acceptance criteria are missing or drafted ambiguously, exposing VerSe to unbounded payment obligations. | Broad umbrella MSA scope when specific tasks are explicitly deferred to subsequent SOW schedules. |
+| **R-11** | **Perpetual Auto-Renewal Without Exit Rights** | Contract renews automatically for multi-year terms without a reasonable opt-out notification window ($30\text{--}60$ days), or eliminates VerSe's right to terminate for convenience. | Auto-renewal requiring 30–60 days advance written notice to opt out. |
+| **R-12** | **Excessive Early Termination Penalties** | Contract imposes punitive cancellation fees or liquidated damages exceeding 3 months of recurring fees upon VerSe exercising termination for convenience. | Obligation to pay for services actually rendered and unrecoverable direct third-party pass-through costs. |
+| **R-13** | **Unilateral Price Escalation Without Cap** | Vendor reserves the right to increase subscription fees or hourly rates at will during the term or upon renewal without a contractual ceiling (max 10%) or VerSe approval. | Price adjustments requiring mutual written consent or capped strictly at CPI/WPI ($\le 5\text{--}10\%$ annually). |
+| **R-14** | **Broad Reverse Indemnification Imposed on VerSe** | VerSe is required to indemnify, defend, and hold harmless the vendor for claims arising out of the vendor’s own software defects, operational negligence, or third-party claims. | VerSe indemnifying vendor solely for third-party claims arising directly from VerSe-provided brand assets or content. |
+| **R-15** | **Vendor IP Lien or Delivery Withholding on Completed Work** | Vendor contractually asserts the right to withhold deliverable source code, data files, or project handover during ongoing invoice disputes. | Staggered delivery schedules where completed milestone deliverables are released against milestone invoices. |
+| **R-16** | **Data Portability Restrictions & Vendor Lock-In** | Vendor restricts, delays, or charges exorbitant extraction fees for returning VerSe data, campaign analytics, or audience logs upon contract termination. | Standard administrative lead times (up to 30 days) required to format and transfer large-scale database exports. |
+| **R-17** | **Third-Party Beneficiary Rights to Vendor Affiliates** | Vendor affiliates or subcontractors gain direct contractual enforcement rights against VerSe without VerSe's express consent. | Standard indemnity protections extending to company directors, officers, and corporate group affiliates. |
+| **R-18** | **Total Absence of Data Protection Terms in Data Engagements** | Vendor processes personal data (PII) or customer records but disclaims all data privacy responsibilities, breach notifications, or DPDPA 2023 compliance. | Commercial agreements involving zero processing of personal or employee data. |
+| **R-19** | **Non-Compete Covenants Imposed on VerSe** | Contract restricts VerSe or its operating subsidiaries from developing competing software platforms, media channels, or entering specific commercial markets. | Standard mutual employee non-solicitation covenants covering project personnel for 12 months. |
+| **R-20** | **Paid-When-Paid Clauses Imposed on VerSe as Primary Obligor** | Vendor attempts to shift credit risk to VerSe, requiring VerSe to pay third-party publisher/media costs regardless of downstream client collection in pass-through agency models. | Direct advertiser agreements where VerSe is the direct consumer of ad inventory. |
+| **R-21** | **Direct Engagement with Sanctioned Entities or AML Non-Compliance** | Contracting entity, directors, or ultimate beneficial owners (UBO) are located in OFAC-sanctioned jurisdictions (e.g., Russia, Iran) or fail PMLA beneficial ownership audits. | International vendors complying with standard international trade sanction clearances. |
+| **R-22** | **Disallowance of Statutory Tax Withholdings (TDS / GST Credit Pass-Through)** | Contract terms prohibit VerSe from deducting statutory TDS under Indian Income Tax Act or disclaim vendor responsibility for GSTR-1 filings. | Cross-border gross-up arrangements supported by valid DTAA tax residency certificates and Form 10F. |
+| **R-23** | **Unlinked Invoicing or Contracting Entity Mismatch Across PO/Contract** | Invoicing entity name, GSTIN, or bank coordinates do not match contracting corporate entity, creating tax credit loss and audit failure. | Holding-subsidiary billing arrangements where formal intercompany master agreements or tripartite deeds exist. |
+
+---
+
+## 4.5 SUGGESTIONS ONLY (NEVER RED FLAG)
+
+The following items represent non-critical drafting improvements, template completions, or standard protective enhancements. They must **ALWAYS** be logged under **Suggestions (S-#)** and must **NEVER** trigger a **REVIEW NEEDED** status on their own:
+
+| Code | Item / Gap Description | Recommended Contractual Fix | Rationale (Why Suggestion Only) |
+|---|---|---|---|
+| **S-01** | **Missing Anti-Bribery Clause** | Insert VerSe standard Anti-Corruption & Bribery clause citing the Prevention of Corruption Act 1988 and FCPA. | Absence of text is an omission, not an active violation; statutory criminal anti-bribery laws apply automatically. |
+| **S-02** | **Missing Non-Solicitation Clause** | Insert mutual 12-month post-termination restriction on direct solicitation of project personnel. | Non-solicitation is a protective commercial add-on; its absence does not create direct legal liability. |
+| **S-03** | **Missing AI Prohibition Clause** | Insert explicit covenant: *"Vendor shall not use VerSe data, content, or deliverables to train, tune, or improve AI/ML models."* | Omission is a protective improvement; only active contractual rights to train AI trigger **R-02**. |
+| **S-04** | **Generic Data Security Specifics** | Specify industry-standard security safeguards (ISO 27001, SOC 2 Type II, TLS 1.3 encryption, 24h breach notification). | Baseline statutory data protection rules (IT Act / DPDPA) apply by law even if specific standards are omitted. |
+| **S-05** | **Missing Publicity / Branding Restriction** | Add standard clause prohibiting vendor from using VerSe, Dailyhunt, or Josh trademarks or issuing press releases without consent. | Low operational risk prior to any unauthorized publication; enforceable via trademark protections. |
+| **S-06** | **Missing Assignment Restriction** | Insert requirement that neither party may assign rights or obligations without prior written consent (except to group affiliates). | Common law and statutory contract principles restrict unauthorized delegation of personal service contracts. |
+| **S-07** | **Missing Arbitration Clause** | Insert dispute resolution clause specifying arbitration under Indian Arbitration and Conciliation Act 1996 in Bengaluru. | Civil courts retain statutory jurisdiction in the absence of an arbitration clause. |
+| **S-08** | **Unfilled Administrative Draft Fields** | Request commercial/operations team to complete bracketed template text, dates, GSTIN, and signatory details. | Routine administrative completion in pre-execution workflow; does not represent a legal breach. |
+| **S-09** | **Missing Standard Boilerplate** | Insert standard severability, waiver, counterpart execution, and entire agreement boilerplate provisions. | Standard statutory rules of contractual interpretation apply under the Indian Contract Act 1872. |
+| **S-10** | **Missing Force Majeure Clause** | Add standard mutual Force Majeure provision with a 5-day notice requirement and 60-day termination trigger. | Common law doctrine of frustration (Section 56, Indian Contract Act) provides legal relief. |
+| **S-11** | **Missing Insurance Schedule** | Request vendor to attach Certificate of Insurance (COI) for Professional Indemnity / Cyber Risk in high-value SOW. | Operational risk control; low-risk commodity procurement does not mandate commercial insurance underwriting. |
+| **S-12** | **Missing SLA / Service Level Metrics** | Define 99.5% uptime target, severity response tiers (P1/P2/P3), and service credit deduction mechanisms in SOW. | Non-service contracts do not require SLAs; software SaaS contracts can operate on standard operational baselines. |
+| **S-13** | **Missing Acceptance Testing Timelines** | Insert standard 10–15 business day acceptance testing window with written milestone sign-off prior to invoice release. | Deliverable contracts are still governed by delivery confirmation; explicit criteria is a best practice. |
+| **S-14** | **Missing Exit Transition Assistance** | Add 30-day knowledge transfer, data handover, and transition SLA obligations at pre-agreed rate cards. | Operational wind-down aid; not a legal breach unless vendor explicitly refuses data return. |
+| **S-15** | **Missing Key Personnel Clause** | Suggest naming key technical leads and requiring VerSe approval prior to personnel replacement. | Project governance control; not required for routine or commodity services. |
+| **S-16** | **Non-Indian Governing Law (Foreign Vendors)** | Recommend adding Indian governing law or inserting an Indian/Singapore arbitration fallback clause (SIAC). | Overseas vendors routinely insist on home jurisdiction; **NEVER** a red flag on its own for international deals. |
+| **S-17** | **Missing Survival Clause** | Insert clause explicitly enumerating survival of IP, Confidentiality, Indemnities, Taxes, and Dispute Resolution. | Core rights regarding IP ownership, accrued payment liabilities, and confidentiality survive under law. |
+| **S-18** | **Missing Source Code Escrow** | Suggest tripartite software escrow arrangement for business-critical proprietary on-premise software. | Advanced contingency safeguard; not required for standard multi-tenant cloud SaaS platforms. |
+
+---
+
+## 5. VALIDATION CHECKLIST
+
+```
+========================================================================================
+                          FOUR-PHASE VALIDATION PIPELINE
+========================================================================================
+  [Phase 1: Intake & Classification] 
+        -> Group A/B/C Tagging -> Entity/CIN/GSTIN Audit -> Term/Date Verification
+  [Phase 2: Core Clause Audit]
+        -> Audit 18 Core Parameters (Scope, Payment, IP, Privacy, Liability, Exit)
+  [Phase 3: Document-Specific Checks]
+        -> Execute Deep-Dive on MSA, SOW, SaaS, DPA, AIA, RTB, or PO Schedules
+  [Phase 4: Synthesis & Risk Triage]
+        -> ANY Red Flag (R-01 to R-23) Present?  ===> OVERALL STATUS: REVIEW NEEDED
+        -> ONLY Suggestions (S-01 to S-18) Present? => OVERALL STATUS: VALID (with Suggestions)
+========================================================================================
+```
+
+### Phase 1: Document Intake & Classification
+1. **Classify Document:** Identify document category and assign to Section 1 Group (**A: Core Transactional**, **B: Supplementary**, or **C: Pre-Contractual/Supporting**).
+2. **Entity Verification:** Verify exact statutory legal entity names (*VerSe Innovation Private Limited*, *Greynium Information Technologies Pvt. Ltd.*, *BMEG ME FZ LLC*, *Quark Media Tech Pvt. Ltd.*), registered office addresses, CIN, PAN, and GSTIN against official registration records.
+3. **Term & Dates Check:** Verify explicit effective date, execution date, and termination/milestone end dates (flag unpopulated bracketed placeholders `[___]` under **S-08**).
+4. **Execution Authority:** Check authorized signatory details (Name, Designation, Email) and digital signature certificates (Zoho Sign / DocuSign audit trails). If pre-execution draft, check redline markup tracking.
+5. **Cross-Document Reconciliation:** Verify PO numbers, SOW line items, rate cards, and invoice figures match underlying master agreements exactly.
+6. **Unknown Documents:** If unclassified, assign to Section 1-C "Other", evaluate against General Clauses only, and route for legal classification.
+
+---
+
+### Phase 2: Core Clause Validation
+
+| Step | Clause Being Inspected | Validation Standard | Action if Missing / Weak | Action if Violating / Hazardous |
+|---|---|---|---|---|
+| **2.1** | **Scope of Work** | Granular deliverables, milestones, and technical specs clearly defined? | Suggest **S-13** | Apply **R-10** (**REVIEW NEEDED**) |
+| **2.2** | **Payment Terms** | Net $\ge$ 30–45 days, INR currency, advance $\le$ 50% tied to milestones? | Suggest **S-08** | Apply **R-06** / **R-20** (**REVIEW NEEDED**) |
+| **2.3** | **IP Ownership** | 100% custom deliverables and code vest in VerSe upon payment? | Suggest **S-17** | Apply **R-01** / **R-15** (**REVIEW NEEDED**) |
+| **2.4** | **Confidentiality** | Mutual obligations, standard carve-outs, survival $\ge$ 2–3 years? | Suggest **S-09** | Apply **R-04** / **R-18** (**REVIEW NEEDED**) |
+| **2.5** | **Data Protection & AI** | DPDPA 2023 compliance, 24h breach notice, zero AI model training? | Suggest **S-03** / **S-04** | Apply **R-02** / **R-18** (**REVIEW NEEDED**) |
+| **2.6** | **Liability Caps** | VerSe liability $\le$ 3× annual fees; vendor uncapped for IP/data/fraud? | Suggest **S-09** | Apply **R-03** / **R-04** (**REVIEW NEEDED**) |
+| **2.7** | **Termination Rights** | VerSe has convenience exit (30–60d) and material breach cure (15d)? | Suggest **S-09** | Apply **R-11** / **R-12** (**REVIEW NEEDED**) |
+| **2.8** | **Governing Law & Seat** | Indian law / Bengaluru or Mumbai courts; arbitration fallback? | Suggest **S-16** | Apply **S-16** (NEVER a Red Flag) |
+| **2.9** | **Dispute Resolution** | Amicable negotiation followed by binding arbitration? | Suggest **S-07** | Mark **S-07** (Court litigation default) |
+| **2.10** | **Subcontracting** | Prior written consent required; vendor retains 100% liability? | Suggest **S-06** | Apply **R-07** (**REVIEW NEEDED**) |
+| **2.11** | **Exclusivity** | Is VerSe unrestricted from engaging competitors or building tech? | Pass (Default) | Apply **R-08** / **R-19** (**REVIEW NEEDED**) |
+| **2.12** | **Anti-Bribery** | Standard anti-corruption & code of conduct covenants present? | Suggest **S-01** | Apply **R-09** (**REVIEW NEEDED**) |
+| **2.13** | **Price Stability** | Fixed rate card or renewal escalation capped $\le$ 5–10% annually? | Suggest **S-09** | Apply **R-13** (**REVIEW NEEDED**) |
+| **2.14** | **Indemnification** | Mutual indemnity; vendor covers IP/data; no broad reverse indemnity? | Suggest **S-09** | Apply **R-14** (**REVIEW NEEDED**) |
+| **2.15** | **Data Portability** | VerSe entitled to export, retrieve, or migrate raw data on exit? | Suggest **S-14** | Apply **R-16** (**REVIEW NEEDED**) |
+
+---
+
+### Phase 3: Document-Specific Clause Validation
+* **Master Service Agreements (MSA):** Validate order of precedence (MSA overrides SOW/PO), affiliate execution rights, and 12-to-36 month audit rights.
+* **Statements of Work (SOW):** Validate milestone deliverables, deliverable review windows (10–15 days), hypercare support (2–4 weeks), and Change Order mechanisms.
+* **Non-Disclosure Agreements (NDA):** Verify bilateral obligations, 3–5 year survival, strict definition of proprietary assets (including AI weights/prompts), and 15-day return/destruction covenants.
+* **SaaS / Cloud / Whitelabel Agreements:** Validate 99.5% uptime SLA, service credit schedules, complete whitelabeling (no vendor branding), data portability on exit (**R-16**), and explicit AI model training bans (**R-02**).
+* **AdTech / Programmatic Insertion Orders (IO):** Validate MRC-accredited IVT measurement thresholds (5% and 13%), advertiser clawback limits (90 days), and 180-day invoice cutoff.
+* **Agency Incentive Agreements (AIA / VD):** Verify Net Revenue definitions, turnover slabs, 90-day unpaid invoice disqualification, and consolidated annual invoicing.
+* **Master Content Production Agreements (MCPA):** Validate worldwide perpetual media exploitation rights across all platforms, 5-day source file escrow deposits, and music/talent clearances.
+* **Consulting & Retainer Agreements:** Ensure payment is strictly contingent upon realization of client collections ("pay-when-paid"), verify designated key resources, and enforce 12-month non-solicitation.
+* **Managed Office Space Agreements:** Confirm premises square footage, IFSD refund within 15–30 days, normal wear and tear exclusions, DG backup/HVAC SLAs, and 6% rent escalation caps.
+* **Settlement Deeds & Legal Notices:** Confirm full and final release language, PDC installment schedules, Section 138 NI Act default acceleration, and without-prejudice reservation of rights.
+
+---
+
+### Phase 4: Final Red Flag Check & Overall Assessment
+1. **Consolidate Red Flags:** Aggregate all active **R-#** violations identified during Phases 2 and 3.
+2. **Consolidate Suggestions:** Aggregate all recommended **S-#** drafting enhancements identified during Phases 2 and 3.
+3. **Evaluate Cumulative Risk:** Assess whether multiple minor issues combine to create an unmanageable operational or legal exposure.
+4. **Apply Overriding Status Rule:**
+   * If **ANY R-#** is identified $\longrightarrow$ **Overall Status = REVIEW NEEDED** (Execution blocked pending legal redline/remediation).
+   * If **ONLY S-#** are identified (or zero flags/suggestions) $\longrightarrow$ **Overall Status = VALID** (Approved for execution with advisory recommendations).
+5. **Populate Summary Report:** Complete the standardized validation report below.
+
+---
+
+### Summary of Validation Results Template
+
+```
+========================================================================================
+                         DOCUMENT VALIDATION AUDIT REPORT
+========================================================================================
+Document Title / Reference : [Insert Document Title & Version]
+Vendor / Counterparty Name : [Insert Vendor Legal Entity Name]
+VerSe Contracting Entity   : [VerSe Innovation Pvt. Ltd. / Greynium / BMEG / Quark]
+Document Classification    : [Classify per Section 1: A-1 to C-8]
+
+OVERALL STATUS             : [ VALID  |  REVIEW NEEDED ]
+
+TOTAL RED FLAGS (R-#)      : [Count: 0 or higher]
+TOTAL SUGGESTIONS (S-#)    : [Count: 0 or higher]
+----------------------------------------------------------------------------------------
+ACTIVE RED FLAGS (Mandatory Remediation Required Before Execution):
+  • [R-# Code] - [Title]: [Specific contractual finding, clause reference, and required fix]
+
+PROCUREMENT SUGGESTIONS (Advisory Drafting Improvements - Non-Blocking):
+  • [S-# Code] - [Title]: [Recommended drafting enhancement, standard text, and rationale]
+========================================================================================
+```
+
+---
+
+**Disclaimer:**  
+*This Vendor Procurement Runbook is an internal operational and commercial risk-management guideline prepared for VerSe Innovation Private Limited and its operating subsidiaries. It establishes standardized commercial thresholds and risk-scoring frameworks. It does not constitute formal legal advice and does not replace dedicated review by the VerSe Legal Department (`contracts@verse.in` / `legal@verse.in`) for complex, high-exposure, or contentious contractual transactions.*
+
+---

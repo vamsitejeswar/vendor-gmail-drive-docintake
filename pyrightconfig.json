@@ -1,0 +1,5 @@
+{
+  "extraPaths": [
+    "group_email_poller"
+  ]
+}

@@ -1,136 +1,137 @@
 import io
 import os
-from google import genai
-from google.genai import types
-from dotenv import load_dotenv
+import logging
 
+from dotenv import load_dotenv
 load_dotenv()
 
-PROJECT_ID = os.getenv("GCP_PROJECT", "gemini-project-n1")
-LOCATION = os.getenv("GCP_LOCATION", "us-central1")
-MODEL = "gemini-2.5-flash"
+from google.cloud import discoveryengine_v1beta as discoveryengine
+
+logger = logging.getLogger(__name__)
+
+ENGINE_ID    = os.getenv("DISCOVERY_ENGINE_ID", "gemini-enterprise-legal-app")
+ASSISTANT_ID = os.getenv("DISCOVERY_ASSISTANT_ID", "default_assistant")
+AGENT_ID     = "2431253715885581897"  # Legal Watcher Contracts Analysis Agent
+PROJECT_NUM  = "852267154002"
+
+AGENT_INSTRUCTIONS_PATH = os.path.join(os.path.dirname(__file__), "agent_instructions.md")
 
 
-def _to_gemini_part(filename: str, file_bytes: bytes):
-    if not file_bytes:
-        return None
+# ── Text extraction ────────────────────────────────────────────────────────────
+
+def _extract_text(filename: str, file_bytes: bytes) -> str:
     ext = os.path.splitext(filename)[1].lower()
     if ext == ".pdf":
-        return types.Part.from_bytes(data=file_bytes, mime_type="application/pdf")
+        try:
+            from pypdf import PdfReader
+            reader = PdfReader(io.BytesIO(file_bytes))
+            return "\n".join(page.extract_text() or "" for page in reader.pages).strip()
+        except Exception as e:
+            logger.warning(f"PDF extraction failed: {e}")
+            return ""
     elif ext in (".doc", ".docx"):
         try:
             import docx
             doc = docx.Document(io.BytesIO(file_bytes))
-            text = "\n".join(p.text for p in doc.paragraphs if p.text.strip())
-            if not text.strip():
-                return None
-            return types.Part.from_bytes(data=text.encode("utf-8"), mime_type="text/plain")
-        except Exception:
-            return None
-    elif ext == ".txt":
-        if not file_bytes.strip():
-            return None
-        return types.Part.from_bytes(data=file_bytes, mime_type="text/plain")
-    return None
+            return "\n".join(p.text for p in doc.paragraphs if p.text.strip())
+        except Exception as e:
+            logger.warning(f"DOCX extraction failed: {e}")
+            return ""
+    elif ext in (".txt", ".md"):
+        return file_bytes.decode("utf-8", errors="ignore").strip()
+    return ""
 
 
-def validate_document(filename: str, file_bytes: bytes, runbook_text: str) -> dict:
-    client = genai.Client(vertexai=True, project=PROJECT_ID, location=LOCATION)
+def _strip_surrogates(text: str) -> str:
+    return text.encode("utf-8", errors="replace").decode("utf-8")
 
-    prompt = f"""
-You are a legal document validator for Verse Innovation Private Ltd.
 
-Below is the validation runbook — policies, required clauses, and standard terms extracted from all previously accepted vendor contracts at Verse:
+# ── StreamAssist ───────────────────────────────────────────────────────────────
 
---- RUNBOOK START ---
-{runbook_text}
---- RUNBOOK END ---
+def _assistant_name() -> str:
+    return (
+        f"projects/{PROJECT_NUM}/locations/global"
+        f"/collections/default_collection"
+        f"/engines/{ENGINE_ID}/assistants/{ASSISTANT_ID}"
+    )
 
-Analyze the attached vendor document against this runbook.
-Respond in clean plain text only — NO markdown, NO asterisks, NO pipe tables, NO symbols.
-Use the exact structure below:
 
-================================================
-VENDOR DOCUMENT VALIDATION REPORT
-================================================
+def _stream_assist(prompt: str) -> str:
+    client = discoveryengine.AssistantServiceClient()
+    request = discoveryengine.StreamAssistRequest(
+        name=_assistant_name(),
+        query=discoveryengine.Query(text=prompt),
+    )
+    full_text = ""
+    for chunk in client.stream_assist(request=request):
+        try:
+            for reply in chunk.answer.replies:
+                text = reply.grounded_content.content.text
+                if text:
+                    full_text += text
+        except Exception as e:
+            logger.debug(f"Chunk parse skip: {e}")
+    return full_text.strip()
 
-DOCUMENT TYPE   : <NDA / MSA / SOW / Purchase Order / Service Agreement / Other>
-RESULT          : VALID / REVIEW NEEDED
-FILENAME        : {filename}
 
-------------------------------------------------
-DOCUMENT OVERVIEW
-------------------------------------------------
-IMPORTANT: This section is REQUIRED. Do not skip it.
-Write a clear, detailed paragraph that anyone can read and immediately understand
-what this document is about -- even with no prior context. Cover all of the following:
+# ── Prompt builder ─────────────────────────────────────────────────────────────
 
-- Who are the parties? (full names, roles -- who is Verse, who is the vendor)
-- What is this agreement for? (purpose of the engagement in plain language)
-- What exactly will the vendor do? (specific services or deliverables)
-- How long is the agreement? (start date, end date, renewal terms)
-- How does payment work? (amount or structure, when paid, conditions, currency)
-- What are the key obligations on each side?
-- Any important restrictions, conditions, or context a reader should know about
+def _load_agent_instructions() -> str:
+    if os.path.exists(AGENT_INSTRUCTIONS_PATH):
+        with open(AGENT_INSTRUCTIONS_PATH, encoding="utf-8") as f:
+            return f.read()
+    return (
+        "You are a legal document validator for Verse Innovation Private Ltd. "
+        "Read validation_runbook.txt from the connected GCS data store and produce "
+        "the full Verse Innovation Vendor Contract Analysis Report."
+    )
 
-------------------------------------------------
-SUMMARY
-------------------------------------------------
-<2-3 sentences on overall assessment against Verse standards>
 
-------------------------------------------------
-CLAUSE-BY-CLAUSE ANALYSIS
-------------------------------------------------
-For each key clause write a block like this:
+def _build_prompt(filename: str, doc_text: str) -> str:
+    instructions = _load_agent_instructions()
+    doc_text = _strip_surrogates(doc_text)
+    return f"""{instructions}
 
-CLAUSE          : <clause name>
-VERSE STANDARD  : <what Verse expects>
-THIS DOCUMENT   : <what this doc says>
-STATUS          : VALID / REVIEW NEEDED / RED FLAG
+---
 
-(Repeat for each clause: Payment Terms, IP Ownership, Governing Law, Liability Cap,
-Indemnification, Confidentiality, Termination, Compliance, Signatures, etc.)
+## Document to Validate
 
-------------------------------------------------
-MISSING CLAUSES
-------------------------------------------------
-List each missing clause and why it matters to Verse.
-If none, write: None
+**Filename:** {filename}
 
-------------------------------------------------
-NON-STANDARD / RISKY CLAUSES
-------------------------------------------------
-List each risky clause and what Verse normally expects instead.
-If none, write: None
+{doc_text}
 
-------------------------------------------------
-SUGGESTIONS
-------------------------------------------------
-For each issue, write:
+---
 
-ISSUE           : <clause name>
-VERSE FOLLOWS   : <Verse standard>
-THIS DOC SAYS   : <what this doc has>
-RECOMMENDED FIX : <exact change needed>
-
-================================================
-
-Rules:
-- VALID: All required legal clauses are present. Unfilled admin fields (execution date, email, bank details, signatures) and missing optional clauses (non-solicitation, arbitration, anti-bribery) do NOT make a document REVIEW NEEDED -- always add them to the SUGGESTIONS section with a recommended fix.
-- REVIEW NEEDED: One or more of the following -- missing critical legal clause (termination right, scope of services, governing law, indemnification), vendor explicitly retains IP for deliverables created for Verse, governing law is not Indian law, legal clause placeholders left blank (e.g., jurisdiction is [blank], liability cap is [blank], party name is [blank]).
-
-IMPORTANT: Unfilled admin fields (execution date, email, bank details, signatures) and missing optional clauses MUST appear in SUGGESTIONS with a recommended fix -- never use them to justify REVIEW NEEDED.
+Produce the complete Verse Innovation Vendor Contract Analysis Report now in the exact format defined above.
+Reference validation_runbook.txt from the Legal Contract Analysis Runbook data store for all R-# and S-# codes.
 """
 
-    doc_part = _to_gemini_part(filename, file_bytes)
-    contents: list = [prompt]
-    if doc_part:
-        contents.append(doc_part)
-    response = client.models.generate_content(model=MODEL, contents=contents)
-    text = (response.text or "").strip()
 
-    status = "REVIEW NEEDED"
-    if "RESULT          : VALID" in text:
+# ── Public API (same signature as before) ─────────────────────────────────────
+
+def validate_document(filename: str, file_bytes: bytes, _runbook_text: str = "") -> dict:
+    """Validate a vendor contract via StreamAssist (Legal engine).
+
+    _runbook_text is accepted for backwards compatibility but ignored —
+    the engine already has validation_runbook.txt grounded via the GCS data store.
+    """
+    doc_text = _extract_text(filename, file_bytes)
+    if not doc_text:
+        return {
+            "status": "ERROR",
+            "details": f"Could not extract text from {filename}. Supported formats: PDF, DOCX, TXT.",
+        }
+
+    prompt = _build_prompt(filename, doc_text)
+    result = _stream_assist(prompt)
+
+    if not result:
+        return {"status": "ERROR", "details": "StreamAssist returned an empty response."}
+
+    # Detect outcome from the report header table
+    if "REVIEW NEEDED" in result:
+        status = "REVIEW NEEDED"
+    else:
         status = "VALID"
 
-    return {"status": status, "details": text}
+    return {"status": status, "details": result}

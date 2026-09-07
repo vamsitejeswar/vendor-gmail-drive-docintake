@@ -2,17 +2,17 @@
 
 **Purpose:** This runbook guides AI-assisted validation of all incoming vendor documents. It defines what clauses Verse expects, what is acceptable, what should be flagged as a suggestion, and what is a genuine red flag requiring legal review.
 
-**KEY PRINCIPLE — Validate Proportionately:**
-- Not every clause applies to every document type. A Purchase Order does not need a confidentiality clause. An NDA does not need payment terms. A Declaration does not need termination rights. Always validate based on what is RELEVANT to the specific document type — do not penalize a document for missing clauses that simply do not apply to that type.
-- If a clause is missing but irrelevant to the document type → IGNORE IT.
-- If a clause is missing but would normally apply → add to SUGGESTIONS only (unless it is a critical red flag listed in Section 4).
-- If a document type is unknown or unusual → validate only what is present; flag nothing as REVIEW NEEDED solely because of missing optional clauses.
+**KEY PRINCIPLE â€” Validate Proportionately:**
+- Not every clause applies to every document type. A Purchase Order does not need a confidentiality clause. An NDA does not need payment terms. A Declaration does not need termination rights. Always validate based on what is RELEVANT to the specific document type â€” do not penalize a document for missing clauses that simply do not apply to that type.
+- If a clause is missing but irrelevant to the document type â†’ IGNORE IT.
+- If a clause is missing but would normally apply â†’ add to SUGGESTIONS only (unless it is a critical red flag listed in Section 4).
+- If a document type is unknown or unusual â†’ validate only what is present; flag nothing as REVIEW NEEDED solely because of missing optional clauses.
 
-**OVERRIDING RULE — VALID vs REVIEW NEEDED:**
+**OVERRIDING RULE â€” VALID vs REVIEW NEEDED:**
 - Mark VALID if the core legal substance is present and appropriate for the document type, even if many optional or compliance clauses are missing.
 - Mark REVIEW NEEDED ONLY IF: vendor explicitly retains IP for deliverables created for Verse, a critical legal placeholder is blank (e.g., party name is [blank], jurisdiction is [blank]), or a truly critical clause for that document type is missing (e.g., no scope of services in a service agreement, no payment terms in a commercial agreement).
 - Non-Indian governing law or non-Indian jurisdiction (e.g. British Law, London courts) does NOT trigger REVIEW NEEDED. Mark the document VALID and place the governing law issue in SUGGESTIONS only with a recommended fix to change to Indian law and Bengaluru, Karnataka courts.
-- Missing optional clauses (anti-bribery, non-solicitation, AI prohibition, data security specifics, audit rights, arbitration) → SUGGESTIONS ONLY, NEVER REVIEW NEEDED.
+- Missing optional clauses (anti-bribery, non-solicitation, AI prohibition, data security specifics, audit rights, arbitration) â†’ SUGGESTIONS ONLY, NEVER REVIEW NEEDED.
 
 ---
 
@@ -50,12 +50,12 @@ The following document types are recognized and routinely processed in Verse's v
 
 This section lists essential clauses for various document types, highlighting Verse's preferences and acceptable variations.
 
-**APPLICABILITY GUIDE — which clauses apply to which document types:**
+**APPLICABILITY GUIDE â€” which clauses apply to which document types:**
 - **Full clause set (Section A + relevant Section B)**: MSA, Service Agreement, SaaS, Consultancy, Partnership, Digital Marketing, Production, DLA
-- **Lightweight validation** (only scope, payment, parties, governing law): SOW, PO, IO, SOF, RO, Addendum, Annexure — these reference a master agreement so standalone clauses like confidentiality, termination, IP assignment are typically not repeated
-- **Confidentiality focus only**: NDA, MNDA, MOU — do NOT expect payment terms, IP assignment for deliverables, or termination-for-convenience clauses
-- **Document-specific content only**: Declaration, Certification Letter, Authorization Letter, LOI — validate only the document's stated purpose; missing standard contract clauses are irrelevant
-- **Property-specific**: LLA, Rent Agreement — use Section B8 only; do not apply general commercial clause requirements
+- **Lightweight validation** (only scope, payment, parties, governing law): SOW, PO, IO, SOF, RO, Addendum, Annexure â€” these reference a master agreement so standalone clauses like confidentiality, termination, IP assignment are typically not repeated
+- **Confidentiality focus only**: NDA, MNDA, MOU â€” do NOT expect payment terms, IP assignment for deliverables, or termination-for-convenience clauses
+- **Document-specific content only**: Declaration, Certification Letter, Authorization Letter, LOI â€” validate only the document's stated purpose; missing standard contract clauses are irrelevant
+- **Property-specific**: LLA, Rent Agreement â€” use Section B8 only; do not apply general commercial clause requirements
 
 ### A. General Clauses (Applicable to most Contractual Agreements)
 
@@ -128,8 +128,8 @@ The following clauses should be present in most transactional agreements (MSA, S
 *   **Bribes, Gifts, Entertainment, Favors and Payments**: Strict prohibitions against offering undue influence to Verse personnel.
 *   **Payment**: If commission-based, payment *only after* Verse receives corresponding payment from client, calculated on "Net Collections". Requires prior approval by Verse SPOC/Senior Manager for a "Qualified Deal".
 
-**IP OWNERSHIP EXCEPTION — Commission-Based BD / Referral Consultancy Agreements:**
-If the consultant's scope is strictly limited to business development, client introduction, lead generation, or referral activities (i.e., the consultant does NOT create, produce, or deliver any creative, technical, or custom work product for Verse), then an IP Ownership clause is NOT required and its absence must NOT trigger REVIEW NEEDED. In such agreements, the consultant introduces clients and earns a commission — no deliverables are created that would need IP assignment. Add a suggestion to include an IP clause for future-proofing, but mark the document VALID on IP grounds. Indicators of a pure BD/referral engagement: scope limited to "identify, introduce, onboard" clients or advertisers; payment is commission-only on net collections; no mention of content creation, software development, design, reports, or custom deliverables.
+**IP OWNERSHIP EXCEPTION â€” Commission-Based BD / Referral Consultancy Agreements:**
+If the consultant's scope is strictly limited to business development, client introduction, lead generation, or referral activities (i.e., the consultant does NOT create, produce, or deliver any creative, technical, or custom work product for Verse), then an IP Ownership clause is NOT required and its absence must NOT trigger REVIEW NEEDED. In such agreements, the consultant introduces clients and earns a commission â€” no deliverables are created that would need IP assignment. Add a suggestion to include an IP clause for future-proofing, but mark the document VALID on IP grounds. Indicators of a pure BD/referral engagement: scope limited to "identify, introduce, onboard" clients or advertisers; payment is commission-only on net collections; no mention of content creation, software development, design, reports, or custom deliverables.
 
 #### B3. SOW/SOF/PO/IO/RO / Addendum / Annexure / Exhibit
 *   **Reference to Master Agreement**: Must explicitly state it is governed by a preceding MSA/Service Agreement.
@@ -264,7 +264,7 @@ These are terms or clauses that diverge from Verse's established preferences, ar
     *   No requirement for verifiable Proof of Performance (POP) for media invoices.
 7.  **Subcontracting Actively Permitted Without Consent**: Only a RED FLAG if the agreement contains a clause that actively permits the Vendor/Consultant to subcontract without Verse's prior written consent. NOTE: A simply missing subcontracting restriction clause is NOT a RED FLAG -- add it to SUGGESTIONS with a recommended fix.
 8.  **Exclusivity Demanded by Vendor**: If the Vendor requires Verse to engage them exclusively for certain services, thereby restricting Verse's ability to work with other providers, without clear reciprocal benefit for Verse.
-9.  **Governing Law / Jurisdiction Not Indian Law / Bangalore Courts**: Non-Indian governing law (e.g. British Law, English Law) or non-Indian jurisdiction (e.g. London courts) is NOT a red flag and does NOT trigger REVIEW NEEDED. Add to SUGGESTIONS only with recommended fix to change to Indian law and Bengaluru, Karnataka courts. Indian law with a non-Bengaluru Indian city (Mumbai, Delhi, Hyderabad) is VALID — add to SUGGESTIONS as an advisory note recommending Bengaluru, Karnataka as Verse's preferred seat.
+9.  **Governing Law / Jurisdiction Not Indian Law / Bangalore Courts**: Non-Indian governing law (e.g. British Law, English Law) or non-Indian jurisdiction (e.g. London courts) is NOT a red flag and does NOT trigger REVIEW NEEDED. Add to SUGGESTIONS only with recommended fix to change to Indian law and Bengaluru, Karnataka courts. Indian law with a non-Bengaluru Indian city (Mumbai, Delhi, Hyderabad) is VALID â€” add to SUGGESTIONS as an advisory note recommending Bengaluru, Karnataka as Verse's preferred seat.
 10. **Active Bribery/Corruption Violations**: Only a RED FLAG if the agreement contains terms that actively facilitate or fail to prohibit bribery, corruption, or money laundering in a way that creates direct legal risk. NOTE: A simply missing anti-bribery/AML/export control clause is NOT a RED FLAG -- add it to SUGGESTIONS with a recommended fix.
 11. **Vague or Undefined Scope of Services**: Lack of specific details regarding deliverables, timelines, and acceptance criteria, particularly in SOWs or main agreements.
 12. ~~Removed -- Missing non-solicitation/non-compete clauses are SUGGESTIONS ONLY, never RED FLAG. See Section 4.5.~~
@@ -342,19 +342,19 @@ This step-by-step checklist is to be used for validating any new vendor document
 
 1.  **Governing Law & Jurisdiction**:
     *   **Check**: Is the governing law Indian law and jurisdiction an Indian city?
-    *   **Action**: If Indian law but non-Bengaluru city (Mumbai, Delhi, Hyderabad) → VALID, add to SUGGESTIONS recommending Bengaluru, Karnataka as preferred seat.
-    *   **Action**: If non-Indian governing law or non-Indian jurisdiction (e.g. British Law, London) → VALID, add to SUGGESTIONS with recommended fix to change to Indian law and Bengaluru, Karnataka courts. Do NOT mark REVIEW NEEDED.
-2.  **Relationship of Parties** (applies to: MSA, SA, Consultancy, Partnership, Digital Marketing, SaaS — NOT required in PO, NDA, Declaration, LOI):
+    *   **Action**: If Indian law but non-Bengaluru city (Mumbai, Delhi, Hyderabad) â†’ VALID, add to SUGGESTIONS recommending Bengaluru, Karnataka as preferred seat.
+    *   **Action**: If non-Indian governing law or non-Indian jurisdiction (e.g. British Law, London) â†’ VALID, add to SUGGESTIONS with recommended fix to change to Indian law and Bengaluru, Karnataka courts. Do NOT mark REVIEW NEEDED.
+2.  **Relationship of Parties** (applies to: MSA, SA, Consultancy, Partnership, Digital Marketing, SaaS â€” NOT required in PO, NDA, Declaration, LOI):
     *   **Check**: Explicitly states "independent contractors," "no partnership, joint venture, employer-employee, agency."
     *   **Action**: If missing in a document type where it applies, add to **SUGGESTIONS**. Only FLAG for Human Review if the clause suggests an employer-employee or agency relationship is being created.
-3.  **Confidentiality** (applies to: MSA, SA, SaaS, Consultancy, NDA, MOU, Partnership, DLA — NOT required as a standalone clause in PO, SOW, IO, Declaration, LOI, Authorization Letter where it is covered by a parent agreement):
+3.  **Confidentiality** (applies to: MSA, SA, SaaS, Consultancy, NDA, MOU, Partnership, DLA â€” NOT required as a standalone clause in PO, SOW, IO, Declaration, LOI, Authorization Letter where it is covered by a parent agreement):
     *   **Check**: Clause for mutual confidentiality with clear definition, non-use/non-disclosure obligations, standard exceptions, and a survival period of at least 1 year post-termination.
     *   **Action**: If missing in a document type where it applies, add to **SUGGESTIONS**. Only FLAG for Human Review if confidentiality is entirely absent in an NDA or a standalone service agreement that handles sensitive information.
 4.  **Assignment**:
     *   **Check**: Verse (as Company) can assign rights/obligations.
     *   **Check**: Vendor requires Verse's prior written consent to assign or subcontract.
     *   **Action**: If vendor IS ACTIVELY PERMITTED to assign/subcontract freely (explicit clause), **RED FLAG (R-7)**. If restriction is simply missing, add to **SUGGESTIONS** with recommended fix.
-5.  **Force Majeure** (applies to: MSA, SA, SaaS, Consultancy, Partnership, Production — NOT required in PO, NDA, Declaration, LOI, Authorization Letter):
+5.  **Force Majeure** (applies to: MSA, SA, SaaS, Consultancy, Partnership, Production â€” NOT required in PO, NDA, Declaration, LOI, Authorization Letter):
     *   **Check**: Standard force majeure clause present, including pandemics/epidemics.
     *   **Action**: If missing in a document type where it applies, add to **SUGGESTIONS** with recommended fix. NOT a RED FLAG.
 6.  **Compliance (Anti-Bribery/AML/Export Control)**:
@@ -371,7 +371,7 @@ This step-by-step checklist is to be used for validating any new vendor document
 
 #### P3.1. General Commercial Agreements (MSA, SA, SaaS, Consultancy, Partnership, Digital Marketing, Production, DLA)
 
-1.  **Scope of Services / Deliverables** (applies to: MSA, SA, SaaS, Consultancy, Partnership, Digital Marketing, Production, DLA — SOW/PO/IO already are the scope document so this check does not apply to them):
+1.  **Scope of Services / Deliverables** (applies to: MSA, SA, SaaS, Consultancy, Partnership, Digital Marketing, Production, DLA â€” SOW/PO/IO already are the scope document so this check does not apply to them):
     *   **Check**: Clear description or reference to an SOW/SOF. Specificity regarding outputs, quality, standards.
     *   **Action**: If completely absent with no reference to any scope document in a standalone service agreement, **RED FLAG (R-11)**. If present but vague, add to **SUGGESTIONS** to add specificity.
 2.  **Payment Terms (Verse as Client/Payer)**:
@@ -386,9 +386,9 @@ This step-by-step checklist is to be used for validating any new vendor document
     *   **Check**: For commission/revenue share, is payment to vendor explicitly **post-Verse's collection** from end-client?
     *   **Action**: If "Fail", **RED FLAG (R-6)**.
 3.  **Intellectual Property (IP)**:
-    *   **Check**: First determine whether the agreement involves creation of any custom deliverable, work product, content, software, or design for Verse. If the scope is strictly limited to business development, client introduction, referral, or lead generation (commission-based, no deliverables), then IP Ownership is NOT a required clause — skip this check and add a SUGGESTION only.
+    *   **Check**: First determine whether the agreement involves creation of any custom deliverable, work product, content, software, or design for Verse. If the scope is strictly limited to business development, client introduction, referral, or lead generation (commission-based, no deliverables), then IP Ownership is NOT a required clause â€” skip this check and add a SUGGESTION only.
     *   **Check**: For agreements where custom deliverables/work ARE created for Verse, does the IP **vest solely with Verse Innovation Private Ltd.** (as "work made for hire" or via full assignment)?
-    *   **Action**: If IP vests with vendor for a deliverables-based engagement, **RED FLAG (R-1)**. If IP clause is missing in a pure BD/referral/commission agreement with no deliverables, add to **SUGGESTIONS** only — NOT REVIEW NEEDED.
+    *   **Action**: If IP vests with vendor for a deliverables-based engagement, **RED FLAG (R-1)**. If IP clause is missing in a pure BD/referral/commission agreement with no deliverables, add to **SUGGESTIONS** only â€” NOT REVIEW NEEDED.
     *   **Check**: Does the agreement actively grant the vendor permission to use Verse's name, logo, or brand assets without prior written consent?
     *   **Action**: If vendor IS ACTIVELY PERMITTED to use Verse's name/logo without approval, **RED FLAG (R-13)**. If publicity restriction clause is simply missing, add to **SUGGESTIONS** with recommended fix. NOT a RED FLAG.
 4.  **Indemnification**:
@@ -398,7 +398,7 @@ This step-by-step checklist is to be used for validating any new vendor document
     *   **Check**: Excludes indirect/consequential damages.
     *   **Check**: **Uncapped liability for IP infringement, confidentiality breach, data security/privacy breaches, fraud, and willful misconduct.**
     *   **Check**: Capped liability for other events (e.g., 12-month fees).
-    *   **Action**: If caps apply to "uncapped" categories (IP, confidentiality, fraud, gross negligence) for the vendor, **RED FLAG (R-3)**. If Verse's liability is completely uncapped (no cap at all), **RED FLAG (R-4)**. If Verse's cap is slightly higher than preferred (e.g., yearly transaction vs 1 month), add to **SUGGESTIONS** to negotiate lower — NOT a RED FLAG.
+    *   **Action**: If caps apply to "uncapped" categories (IP, confidentiality, fraud, gross negligence) for the vendor, **RED FLAG (R-3)**. If Verse's liability is completely uncapped (no cap at all), **RED FLAG (R-4)**. If Verse's cap is slightly higher than preferred (e.g., yearly transaction vs 1 month), add to **SUGGESTIONS** to negotiate lower â€” NOT a RED FLAG.
 6.  **Term & Termination**:
     *   **Check**: Verse has right to terminate for convenience (e.g., 15-30 days notice).
     *   **Check**: Verse has right to terminate for material breach (with reasonable cure period, 15-30 days).
@@ -476,7 +476,7 @@ This step-by-step checklist is to be used for validating any new vendor document
 
 ---
 
-## INCREMENTAL UPDATE — New Patterns from Recent Valid Docs
+## INCREMENTAL UPDATE â€” New Patterns from Recent Valid Docs
 
 NEW / UPDATED CLAUSE PATTERNS:
 - **Payment Terms - Net Collections Definition (Consultancy/Revenue Share)**: When Verse is a revenue recipient, the definition of "Net Collections" explicitly includes deductions for "any credit notes, make-goods, performance adjustments, rate revisions, rebates, refunds, cancellations, or write-offs". This ensures commission is based on actual, final revenue received by Verse.
@@ -484,3 +484,71 @@ NEW / UPDATED CLAUSE PATTERNS:
 - **Scope of Services - Government Campaign Compliance**: A clause specifically requiring the vendor/consultant to ensure compliance with government procurement norms, empanelment requirements, and specific documentation/invoicing formats for engagements related to government departments, PSUs, or government-affiliated entities.
 - **Representations & Warranties - Content Compliance (for general service/marketing/consultancy)**: A detailed representation and warranty from the vendor/consultant that any content shared or involved in the services shall comply with Applicable Laws and authority guidelines (e.g., CCPA, ASCI), and specifies prohibited content types (e.g., defamatory, obscene, infringing IP, harmful to child, misleading).
 - **Term - Explicit "No Automatic Renewal" with Anti-Holding-Over Language**: For term-based agreements (especially leases), clear language stating that "any holding over, continued occupation, or acceptance of rent after [specified date] shall not be construed as an automatic renewal", further strengthening the non-automatic renewal principle.
+
+---
+
+## INCREMENTAL UPDATE â€” New Patterns from Recent Valid Docs
+
+NEW DOCUMENT TYPES:
+- Settlement Agreement: A formal agreement to resolve disputes and claims between parties, often following a prior master agreement and legal notices, establishing full and final settlement of specific matters.
+
+NEW / UPDATED CLAUSE PATTERNS:
+- **Consultant Residency & Tax Status (in Addendum/Consultancy Agreements)**: A clause where a consultant confirms their current residency (e.g., in India) for tax purposes and undertakes to notify the Company of any change in residential or tax residency status that may affect withholding tax or other compliance obligations under applicable law.
+- **Settlement of Dues (in Settlement Agreements)**: Clause explicitly stating that specified claims are settled on a "No Dues" basis, with no amount payable or receivable by either side, and that execution of the agreement constitutes full and final settlement.
+- **Withdrawal of Proceedings (in Settlement Agreements)**: Clause where parties agree to withdraw, discontinue, and permanently close all present and future proceedings, complaints, claims, or counterclaims if raised before any authority, forum, platform, or jurisdiction, regarding the settled matter.
+- **No Further Claims (in Settlement Agreements)**: Clause where parties expressly waive and relinquish the right to raise or pursue any additional claims of any nature whatsoever in relation to the settled matters.
+- **No Admission (in Settlement Agreements)**: Clause clarifying that the settlement agreement is entered into in connection with the compromise of disputed matters and shall not be construed as an admission of liability or wrongdoing on the part of any party.
+- **Mutual Indemnification for Released Claims (in Settlement Agreements)**: Clause providing for mutual indemnification against all costs and damages incurred in future actions, claims, or proceedings in respect of any of the specific claims that have been released and settled by the agreement.
+
+NEW STANDARD TERMS:
+- None
+
+NEW RED FLAGS:
+- None
+
+---
+
+## INCREMENTAL UPDATE â€” New Patterns from Recent Valid Docs
+
+NEW DOCUMENT TYPES:
+- None (The document is an "Application Form for Vendors / Service Provider / Channel Partners" which falls under the existing category of "Declaration / Certification Letter / Acceptance Form / Supporting Declarations").
+
+NEW / UPDATED CLAUSE PATTERNS:
+- **Vendor Declarations on Internal Controls**: Specific declarations within a vendor supporting document detailing the vendor's internal audit processes (frequency, scope, external audits, remediation), record maintenance policy (system/audit logs, retention, access), data confidentiality and monitoring processes (access controls, encryption, monitoring/logging), information security policy review mechanisms, and Business Continuity Plan (BCP)/Disaster Recovery Policy (framework, testing).
+- **Vendor Declarations on Regulatory and Compliance Status**: Specific declarations within a vendor supporting document clarifying if the vendor is subject to regulatory/statutory supervision, that all applicable licenses/registrations are held and maintained, that the vendor has not been blacklisted/debarred, and that no regulatory, civil, or criminal proceedings are pending against them.
+
+NEW STANDARD TERMS:
+- None
+
+NEW RED FLAGS:
+- None
+
+---
+
+## INCREMENTAL UPDATE â€” New Patterns from Recent Valid Docs
+
+NEW DOCUMENT TYPES:
+- None (Account Statement is considered a Supporting Declaration / Other Unknown Document Type; Corporate Resolution is an existing type; NDA is an existing type.)
+
+NEW / UPDATED CLAUSE PATTERNS:
+- **Confidentiality - Explicit "No Personal Data" Declaration (in NDAs or other relevant agreements)**: An explicit statement in the agreement that "there is no usage or processing or disclosure of any personal data as per Digital Personal Data Protection Act, 2023 and the Digital Personal Data Protection Rules, 2025, the Information Technology Act, 2000, the Information Technology (The Indian Computer Emergency Response Team and Manner of performing functions and duties) (â€œCERT-INâ€) Rules, 2013, the Information Technology (Reasonable Security Practices and Procedures and Sensitive Personal Data or Information) Rules, 2011, and any other applicable law." This proactively declares that personal data is not involved in the agreement's scope.
+- **Legal Privilege Clause (in NDAs)**: A clause clarifying that the sharing of information between parties with a commonality of interest, including material subject to attorney-client privilege or work product doctrine, is not intended to waive or diminish such privilege or protection.
+- **Electronic Signature Acceptance**: A clause explicitly stating that parties consent to execution via digital/electronic signatures, which shall be considered original and have the same force and effect as an original signature.
+
+NEW STANDARD TERMS:
+- None
+
+NEW RED FLAGS:
+- None
+
+---
+
+## INCREMENTAL UPDATE â€” New Patterns from Recent Valid Docs
+
+NEW DOCUMENT TYPES:
+- Legal Pleading / Arbitration Response / Affidavit: A formal legal submission in the context of an arbitration or court proceeding, typically containing arguments, responses to claims, and sworn statements.
+
+NEW / UPDATED CLAUSE PATTERNS:
+- **Affirmation of Factual Truth and Legal Belief (in Affidavits)**: Specific language within an affidavit detailing the basis of the deponent's knowledge for factual statements (e.g., "true and correct to the best of my knowledge and the information derived from the official records of the Respondent Company maintained in the ordinary course of business") and for legal submissions (e.g., "the legal submissions are believed to be true being as per advice of counsel").
+- **References to Procedural Laws and Evidence Requirements (in Legal Pleadings)**: Explicit mentions of specific procedural legal acts and sections governing evidence or dispute timelines, such as Section 19 of the Arbitration and Conciliation Act, 1996, Section 151 of the Code of Civil Procedure, 1908, or evidentiary requirements like Section 63 of the Bharatiya Sakshya Adhiniyam, 2023 for electronic records.
+- **Structure of Legal Pleadings**: Recognition of distinct sections within a legal document, such as "Preliminary Objections," "Para-wise Reply," and "Prayer," which denote a formal response or submission in a dispute resolution process.
