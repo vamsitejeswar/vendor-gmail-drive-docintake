@@ -65,6 +65,19 @@ def _next_versioned_filename(service, folder_id: str, filename: str) -> str:
 
 
 
+def _share_with_domain(service, file_id: str, domain: str = "verse.in") -> None:
+    """Share a file with the entire domain so Drive search finds it."""
+    try:
+        service.permissions().create(
+            fileId=file_id,
+            body={"type": "domain", "role": "reader", "domain": domain},
+            supportsAllDrives=True,
+        ).execute()
+    except Exception as e:
+        import logging
+        logging.getLogger(__name__).warning(f"share_with_domain failed for {file_id}: {e}")
+
+
 def upload_to_validated(vendor_name: str, filename: str, file_bytes: bytes) -> dict:
     service = _get_drive_service()
     vendor_folder_id = _get_or_create_subfolder(service, DRIVE_VALIDATED_FOLDER_ID, vendor_name)
@@ -72,6 +85,7 @@ def upload_to_validated(vendor_name: str, filename: str, file_bytes: bytes) -> d
     media = MediaIoBaseUpload(io.BytesIO(file_bytes), mimetype="application/octet-stream", resumable=True)
     metadata = {"name": final_name, "parents": [vendor_folder_id]}
     new_file = service.files().create(body=metadata, media_body=media, fields="id", supportsAllDrives=True).execute()
+    _share_with_domain(service, new_file["id"])
     return {"file_id": new_file["id"], "filename": final_name}
 
 
@@ -86,7 +100,23 @@ def upload_analysis_txt(vendor_name: str, doc_filename: str, analysis_text: str,
     media = MediaIoBaseUpload(io.BytesIO(content_bytes), mimetype="text/plain", resumable=True)
     metadata = {"name": txt_filename, "parents": [analysis_folder_id]}
     new_file = service.files().create(body=metadata, media_body=media, fields="id", supportsAllDrives=True).execute()
+    _share_with_domain(service, new_file["id"])
     return {"file_id": new_file["id"], "filename": txt_filename}
+
+
+def upload_redlined_docx(vendor_name: str, filename: str, file_bytes: bytes, dest_folder_id: str | None = None) -> dict:
+    service = _get_drive_service()
+    folder_id = dest_folder_id if dest_folder_id else DRIVE_INCOMING_FOLDER_ID
+    vendor_folder_id = _get_or_create_subfolder(service, folder_id, vendor_name)
+    analysis_folder_id = _get_or_create_subfolder(service, vendor_folder_id, "analysis")
+    stem = os.path.splitext(filename)[0]
+    redlined_name = _next_versioned_filename(service, analysis_folder_id, f"{stem}_redlined.docx")
+    mime = "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+    media = MediaIoBaseUpload(io.BytesIO(file_bytes), mimetype=mime, resumable=True)
+    metadata = {"name": redlined_name, "parents": [analysis_folder_id]}
+    new_file = service.files().create(body=metadata, media_body=media, fields="id", supportsAllDrives=True).execute()
+    _share_with_domain(service, new_file["id"])
+    return {"file_id": new_file["id"], "filename": redlined_name}
 
 
 def upload_vendor_attachment(vendor_name: str, filename: str, file_bytes: bytes) -> dict:
@@ -97,4 +127,5 @@ def upload_vendor_attachment(vendor_name: str, filename: str, file_bytes: bytes)
     media = MediaIoBaseUpload(io.BytesIO(file_bytes), mimetype="application/octet-stream", resumable=True)
     metadata = {"name": final_name, "parents": [vendor_folder_id]}
     new_file = service.files().create(body=metadata, media_body=media, fields="id", supportsAllDrives=True).execute()
+    _share_with_domain(service, new_file["id"])
     return {"action": action, "file_id": new_file["id"], "filename": final_name}

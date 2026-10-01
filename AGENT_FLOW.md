@@ -163,3 +163,47 @@ curl -X POST http://localhost:8080/run
 ## Deployment
 
 See [DEPLOYMENT.md](DEPLOYMENT.md) for Cloud Run + Cloud Scheduler setup.
+
+
+The GE agent is a text-only chat interface. No matter what the instructions say, it:
+- Cannot edit or modify binary files (DOCX)
+
+Even if you write very explicit instructions like "edit the DOCX and return it as a download", it has no capability to execute that — it will just describe the changes in text.
+
+
+Every day at 9 AM (Cloud Scheduler triggers /run)
+
+For each unprocessed email with attachments:
+
+  1. Fetch attachment (DOCX/PDF/TXT)
+
+  2. validate_document()
+       → Extract text from file
+       → Call StreamAssist (Legal engine)
+       → Get validation report (VALID / REVIEW NEEDED)
+
+  3. generate_redlined_docx()  ← NEW
+       → Parse report for Sections 4, 5, 6
+          (missing clauses, risky clauses, suggestions)
+       → Open original DOCX
+       → Insert colored annotation blocks inline
+          below each matching paragraph
+       → Return annotated DOCX bytes
+
+  4. Upload to Drive:
+
+     If VALID:
+       valid-docs/<vendor>/
+         ├── contract.docx           (original)
+         ├── analysis/
+         │   ├── contract_analysis.txt     (full report)
+         │   └── contract_redlined.docx   ← NEW
+
+     If REVIEW NEEDED:
+       under-review-docs/<vendor>/
+         ├── contract.docx           (original)
+         ├── analysis/
+         │   ├── contract_analysis.txt     (full report)
+         │   └── contract_redlined.docx   ← NEW
+
+  5. Mark email with Gmail label

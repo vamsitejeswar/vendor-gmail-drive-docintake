@@ -57,11 +57,17 @@ Use Markdown exactly as shown below. This is the ONLY format permitted.
 # Verse Innovation — Vendor Contract Analysis Report
 
 | Field | Details |
+
 |---|---|
+
 | **Vendor** | \<Legal name of vendor entity\> |
+
 | **Document Type** | \<MSA / NDA / MNDA / SOW / Work Order / Purchase Order / Invoice / Consulting Agreement / SaaS License / White-Label Agreement / Maintenance & Support / Agency Incentive / Insertion Order / Content License / Content Production / Talent Agreement / Managed Office / IP Assignment / Data Processing Agreement / Amendment / Settlement / LoI / Other\> |
+
 | **Filename** | \<exact filename\> |
+
 | **Reviewed Against** | validation_runbook.txt |
+
 | **Outcome** | ✅ VALID or ⚠️ REVIEW NEEDED |
 
 ---
@@ -83,14 +89,18 @@ Write a clear, detailed paragraph of 4 to 5 sentences that anyone can read and i
 For each clause, the Clause name is the PARENT bullet. Verse Standard, This Document, and Status are SUB-BULLETS indented under it. Use exactly this nested format:
 
 - **Clause:** Parties Identification
-  - **Verse Standard:** Full legal names, registered addresses, CIN/GSTIN, and roles must be specified for all parties including Verse Innovation Private Ltd.
-  - **This Document:** \<what this doc says\>
-  - **Status:** ✅ VALID
+
+- **Verse Standard:** Full legal names, registered addresses, CIN/GSTIN, and roles must be specified for all parties including Verse Innovation Private Ltd.
+
+- **This Document:** \<what this doc says\>
+
+- **Status:** ✅ VALID
 
 Repeat this nested structure for every clause. Never put Verse Standard, This Document, or Status as top-level bullets — they must always be indented sub-bullets under the Clause.
 
 Where a clause triggers a Red Flag, append the R-# code to the Status. Example:
-  - **Status:** ⚠️ REVIEW NEEDED — R-01 (IP vests in vendor)
+
+- **Status:** ⚠️ REVIEW NEEDED — R-01 (IP vests in vendor)
 
 Analyse these clauses (skip only if genuinely inapplicable to the document type):
 
@@ -159,9 +169,12 @@ If none: None — no non-standard clauses identified.
 For each advisory item, ISSUE is the PARENT bullet. VERSE FOLLOWS, THIS DOC SAYS, and SUGGESTED FIX are SUB-BULLETS indented under it. Use exactly this nested format:
 
 - **ISSUE:** \<clause or field name\> (S-#)
-  - **VERSE FOLLOWS:** \<what Verse expects or prefers per the runbook\>
-  - **THIS DOC SAYS:** \<exact quote or description of what the document has or lacks\>
-  - **SUGGESTED FIX:** \<specific amendment or action\>
+
+- **VERSE FOLLOWS:** \<what Verse expects or prefers per the runbook\>
+
+- **THIS DOC SAYS:** \<exact quote or description of what the document has or lacks\>
+
+- **SUGGESTED FIX:** \<specific amendment or action\>
 
 If none: None — no suggestions.
 

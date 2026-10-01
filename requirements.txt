@@ -9,3 +9,4 @@ python-docx
 google-cloud-storage
 google-cloud-discoveryengine
 pypdf
+python-multipart

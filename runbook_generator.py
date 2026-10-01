@@ -1,5 +1,6 @@
 import io
 import os
+import re
 from google import genai
 from google.genai import types
 from dotenv import load_dotenv
@@ -37,7 +38,7 @@ PROJECT_ID = os.getenv("GCP_PROJECT", "gemini-project-n1")
 LOCATION = os.getenv("GCP_LOCATION", "us-central1")
 MODEL = "gemini-2.5-flash"
 RUNBOOK_FILENAME = "validation_runbook.txt"
-GCS_BUCKET = os.getenv("GCS_RUNBOOK_BUCKET", "verse-contracts-runbook")
+GCS_BUCKET = os.getenv("GCS_RUNBOOK_BUCKET", "verse-contracts-runbook-us")
 
 GENERATION_PROMPT = """
 You are a legal policy analyst for Verse Innovation Private Ltd.
@@ -123,6 +124,60 @@ def fetch_runbook() -> str | None:
     if not blob.exists():
         return None
     return blob.download_as_text(encoding="utf-8")
+
+
+def refresh_redlined_index() -> None:
+    """Rebuild redlined_index.txt in GCS from all _redlined files in Drive."""
+    import logging
+    logger = logging.getLogger(__name__)
+    try:
+        service = _get_drive_service()
+        results = service.files().list(
+            q="name contains '_redlined' and trashed = false",
+            fields="files(id, name, modifiedTime, webViewLink)",
+            supportsAllDrives=True,
+            includeItemsFromAllDrives=True,
+            orderBy="modifiedTime desc",
+            pageSize=200,
+        ).execute()
+        files = results.get("files", [])
+        lines = [
+            "REDLINED CONTRACT DOCUMENTS",
+            "This file lists the redlined (edited) version of each Verse Innovation vendor contract, with the Google Docs link to open it.",
+            "",
+        ]
+        for f in files:
+            name = re.sub(r"\.docx?$", "", f["name"])
+            name = re.sub(r"_redlined$", "", name)
+            name = re.sub(r"^Redlined\s*(\([^)]*\)\s*)?", "", name)
+            name = re.sub(r"\s+", " ", name.replace("_", " ")).strip()
+            link = re.sub(r"ouid=[^&]*&?", "", f["webViewLink"].replace("usp=drivesdk&", "")).rstrip("?&")
+            lines.append(f"Redlined contract: {name}")
+            lines.append(f"The redlined version of the contract {name} is available at this link: {link}")
+            lines.append("")
+        client = gcs.Client(project=PROJECT_ID)
+        bucket = client.bucket(GCS_BUCKET)
+        bucket.blob("redlined_index.txt").upload_from_string("\n".join(lines).encode("utf-8"), content_type="text/plain")
+
+        keep = set()
+        for f in files:
+            name = re.sub(r"\.docx?$", "", f["name"])
+            name = re.sub(r"_redlined$", "", name)
+            name = re.sub(r"^Redlined\s*(\([^)]*\)\s*)?", "", name)
+            name = re.sub(r"\s+", " ", name.replace("_", " ")).strip()
+            link = re.sub(r"ouid=[^&]*&?", "", f["webViewLink"].replace("usp=drivesdk&", "")).rstrip("?&")
+            path = f"redlined/{name}.txt"
+            if path in keep:
+                path = f"redlined/{name} [{f['id'][:5]}].txt"
+            keep.add(path)
+            body = f"Redlined contract: {name}\nThe redlined version of the contract {name} is available at this link: {link}\n"
+            bucket.blob(path).upload_from_string(body.encode("utf-8"), content_type="text/plain")
+        for b in client.list_blobs(GCS_BUCKET, prefix="redlined/"):
+            if b.name not in keep:
+                b.delete()
+        logger.info(f"redlined_index.txt updated in GCS: {len(files)} entries")
+    except Exception as e:
+        logger.warning(f"refresh_redlined_index failed: {e}")
 
 
 BATCH_SIZE = 20
