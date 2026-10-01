@@ -159,22 +159,6 @@ def refresh_redlined_index() -> None:
         bucket = client.bucket(GCS_BUCKET)
         bucket.blob("redlined_index.txt").upload_from_string("\n".join(lines).encode("utf-8"), content_type="text/plain")
 
-        keep = set()
-        for f in files:
-            name = re.sub(r"\.docx?$", "", f["name"])
-            name = re.sub(r"_redlined$", "", name)
-            name = re.sub(r"^Redlined\s*(\([^)]*\)\s*)?", "", name)
-            name = re.sub(r"\s+", " ", name.replace("_", " ")).strip()
-            link = re.sub(r"ouid=[^&]*&?", "", f["webViewLink"].replace("usp=drivesdk&", "")).rstrip("?&")
-            path = f"redlined/{name}.txt"
-            if path in keep:
-                path = f"redlined/{name} [{f['id'][:5]}].txt"
-            keep.add(path)
-            body = f"Redlined contract: {name}\nThe redlined version of the contract {name} is available at this link: {link}\n"
-            bucket.blob(path).upload_from_string(body.encode("utf-8"), content_type="text/plain")
-        for b in client.list_blobs(GCS_BUCKET, prefix="redlined/"):
-            if b.name not in keep:
-                b.delete()
         logger.info(f"redlined_index.txt updated in GCS: {len(files)} entries")
     except Exception as e:
         logger.warning(f"refresh_redlined_index failed: {e}")

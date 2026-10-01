@@ -155,8 +155,31 @@ Verse Legal Contracts Explorer (Shared Drive)
 
 | File | Purpose |
 |---|---|
-| `poller.py` | IMAP connection, fetch emails, parse body + attachments |
-| `drive_writer.py` | Upload email text and attachments to Drive under `group-emails/` |
+| `main.py` | FastAPI app — `POST /poll-group-emails` (runs in the background, returns 202) and `GET /health` |
+| `poller.py` | IMAP connection, fetch emails, parse body + attachments, group into threads. Only `.pdf`, `.doc`, `.docx` and `.txt` attachments are kept |
+| `drive_writer.py` | Upload email text and attachments to Drive under `group-emails/`; duplicate filenames get a version suffix |
+| `runbook_generator.py` | Builds the group-email runbook from the threads already stored in Drive, using Gemini 2.5 Flash on Vertex AI |
+| `direct_runbook.py` | Builds the same runbook straight from IMAP with Gemini Enterprise StreamAssist, skipping the Drive upload step |
+| `group_email_runbook.txt` | Output runbook (local copy of what is saved to Drive) |
+| `direct_runbook_checkpoints/` | Per-batch results written by `direct_runbook.py` so an interrupted run can resume |
+
+---
+
+## Group Email Runbook
+
+A procurement-style runbook is generated from the vendor threads, attachments and quotations in the group mailbox. It is saved as `group_email_runbook.txt` in the `_runbook` folder under `group-emails/` in Drive.
+
+| Script | How it gets the emails | LLM | Resume |
+|---|---|---|---|
+| `runbook_generator.py` | Reads the thread files already uploaded to Drive, in batches of 50 | Gemini 2.5 Flash (Vertex AI) | No checkpoints — a re-run starts over; `update_runbook()` adds patterns from new docs |
+| `direct_runbook.py` | Reads IMAP directly, in batches | Gemini Enterprise StreamAssist | Re-run; finished batches are loaded from `direct_runbook_checkpoints/` |
+
+Run `direct_runbook.py` from the repo root:
+```bash
+source venv/bin/activate
+python group_email_poller/direct_runbook.py              # all batches
+python group_email_poller/direct_runbook.py --max-batches 3   # limit batches
+```
 
 ---
 
@@ -171,6 +194,9 @@ Stored in `group_email_poller/.env`:
 | `GROUP_MEMBER_APP_PASSWORD` | Gmail App Password for the member account |
 | `DRIVE_GROUP_EMAILS_FOLDER_ID` | `0AOHQl782zGzxUk9PVA` |
 | `SERVICE_ACCOUNT_FILE` | `../service_account.json` |
+| `GCP_PROJECT` / `GCP_LOCATION` | `gemini-project-n1` / `us-central1` (runbook generation) |
+| `DISCOVERY_ENGINE_ID` / `DISCOVERY_ASSISTANT_ID` | Gemini Enterprise engine and assistant used by `direct_runbook.py` (assistant defaults to `default_assistant`) |
+| `EXCLUDED_EMAILS` / `EXCLUDED_DOMAINS` | Optional, comma-separated senders or domains the poller skips |
 
 ---
 
